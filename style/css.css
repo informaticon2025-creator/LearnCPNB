@@ -1,7 +1,7 @@
 :root {
   --bg-color: #f0f2f5;
   --card-bg: #ffffff;
-  --accent-color: #1877f2;
+  --accent-color: #0010a0;
   --accent-hover: #166fe5;
   --text-main: #1c1e21;
   --text-muted: #65676b;
@@ -426,17 +426,17 @@ header {
 }
 
 .pinned-card-button {
-  border-color: #eab308;
+  border-color: #000c77;
   background: #fefce8;
 }
 
 .pinned-card-button .option-icon,
 .pinned-card-button .option-title {
-  color: #ca8a04;
+  color: #000c77;
 }
 
 .pinned-card-button:hover {
-  border-color: #ca8a04;
+  border-color: #0010a0;
 }
 
 .site-footer {
