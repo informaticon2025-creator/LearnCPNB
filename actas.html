@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscador del protocolo de actas policiales</title>
+  <link rel="stylesheet" href="style/css.css">
+  <script src="interaction/actas.js" defer></script>
+</head>
+<body>
+  <main class="article-page">
+    <header class="site-header article-page-header">
+      <a class="article-back-link" href="index.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="m15 18-6-6 6-6M9 12h11"></path>
+        </svg>
+        <span>Volver</span>
+      </a>
+      <h1>Protocolo de redacción de actas policiales</h1>
+    </header>
+
+    <section class="article-search-panel" aria-label="Buscar en el protocolo de actas policiales">
+      <label for="actasSearch">Escribe un tema, título o palabra del protocolo</label>
+      <div class="article-search-box">
+        <svg class="icon article-search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="10.8" cy="10.8" r="6.8"></circle>
+          <path d="m16 16 4.5 4.5"></path>
+        </svg>
+        <input id="actasSearch" type="search" placeholder="Ej.: aprehensión, víctima, firma o acta policial" autocomplete="off">
+      </div>
+      <p class="article-search-help">Busca contenido del PDF Protocolo de Redacción de Actas Policiales.</p>
+      <p class="article-search-status" id="actasSearchStatus" role="status" aria-live="polite">Cargando protocolo...</p>
+    </section>
+
+    <a class="download-compendium" href="file/COMPENDIO-DE-PROTOCOLOS-INVESTIGACION-PENAL-6DIC22.pdf" download>
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"></path>
+      </svg>
+      <span>Descargar libro completo en PDF (compendio)</span>
+    </a>
+
+    <section class="article-results" id="actasResults" aria-label="Resultados del protocolo" aria-live="polite"></section>
+  </main>
+</body>
+</html>
