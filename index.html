@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -13,6 +13,24 @@
   <title>Claves y protocolos policiales | CPNB</title>
   <link rel="stylesheet" href="style/css.css">
   <link rel="icon" type="image/png" href="icon.png">
+  <!-- SEO Básico -->
+  <meta name="description" content="Consulta claves policiales, artículos del COPP y el protocolo de redacción de actas desde una sola herramienta de la CPNB.">
+  <meta name="theme-color" content="#0b1f4b">
+
+  <!-- Open Graph / Redes Sociales (WhatsApp, Facebook, Telegram, LinkedIn) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://informaticon2025-creator.github.io/LearnCPNB/"> <!-- Reemplaza con tu URL real -->
+  <meta property="og:title" content="Claves y protocolos policiales | CPNB">
+  <meta property="og:description" content="Herramienta de consulta rápida de claves policiales, artículos del COPP y protocolos de redacción de actas.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/informaticon2025-creator/LearnCPNB/refs/heads/main/icon.png"> <!-- URL ABSOLUTA obligatoria de tu imagen -->
+  <meta property="og:locale" content="es_VE">
+
+  <!-- Twitter Cards (Twitter / X) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://informaticon2025-creator.github.io/LearnCPNB/"> <!-- Reemplaza con tu URL real -->
+  <meta name="twitter:title" content="Claves y protocolos policiales | CPNB">
+  <meta name="twitter:description" content="Herramienta de consulta rápida de claves policiales, artículos del COPP y protocolos de redacción de actas.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/informaticon2025-creator/LearnCPNB/refs/heads/main/icon.png"> <!-- URL ABSOLUTA obligatoria de tu imagen -->
 </head>
 <body>
 
@@ -146,6 +164,16 @@
       <span class="option-title">ACTAS</span>
       <span class="option-description">Guía para la redacción de actas policiales en desarrollo de investigación.</span>
     </a>
+
+    <!-- Botón de Fijados entre ACTAS y Minuta SMS -->
+    <button type="button" class="option-card pinned-card-button" id="openPinnedButton">
+      <svg class="icon option-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5v6l1 1 1-1v-6h5v-2l-2-2z"></path>
+      </svg>
+      <span class="option-title">Guardados</span>
+      <span class="option-description">Visualiza tus artículos, actas y claves fijadas</span>
+    </button>
+
     <a class="option-card minuta-card" href="https://create-minut-github-io.vercel.app/" target="_blank" rel="noopener noreferrer">
       <svg class="icon option-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M7 3h10l3 3v15H4V3h3Zm0 0v5h10V3M8 13h8M8 17h5"></path>
@@ -174,8 +202,17 @@
   <dialog class="info-dialog" id="infoDialog" aria-labelledby="infoDialogTitle">
     <div class="info-dialog-content">
       <h2 id="infoDialogTitle"></h2>
-      <p id="infoDialogMessage"></p>
+      <div id="infoDialogMessage"></div>
       <button class="info-dialog-close" id="infoDialogClose" type="button">Cerrar</button>
+    </div>
+  </dialog>
+
+  <!-- Ventana Flotante de Elementos Fijados -->
+  <dialog class="info-dialog" id="pinnedDialog" aria-labelledby="pinnedDialogTitle">
+    <div class="info-dialog-content">
+      <h2 id="pinnedDialogTitle">Elementos Fijados</h2>
+      <div class="pinned-list-container" id="pinnedListContainer"></div>
+      <button class="info-dialog-close" id="pinnedDialogClose" type="button">Cerrar</button>
     </div>
   </dialog>
 
