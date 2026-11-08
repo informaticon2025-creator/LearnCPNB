@@ -1,0 +1,258 @@
+{
+  "tipo": "actas",
+  "num": "01",
+  "titulo": "Protocolo de Actuación para la Redacción de Actas Policiales en la Investigación Penal",
+  "descripcion": "Guía breve sobre la naturaleza, los criterios de redacción y los principales tipos de actas policiales.",
+  "categoria": [
+    {
+      "nombre": "ACTA POLICIAL",
+      "subcategorias": [
+        {
+          "nombre": "Definición y finalidad",
+          "articulos": [
+            {
+              "numART": "1",
+              "tituloART": "¿Qué es un acta policial?",
+              "parrafoART": "Es un documento oficial mediante el cual la funcionaria o el funcionario deja constancia escrita de una actuación policial y de las circunstancias relevantes del procedimiento. Es el registro inicial del que pueden derivarse diligencias de investigación: una radiografía escrita del proceder policial."
+            },
+            {
+              "numART": "2",
+              "tituloART": "Finalidad",
+              "parrafoART": "Dejar constancia clara de los hechos y diligencias realizadas para que sirvan al Ministerio Público en la investigación, sin menoscabar el derecho a la defensa de las personas involucradas."
+            }
+          ]
+        },
+        {
+          "nombre": "Reglas esenciales de redacción",
+          "articulos": [
+            {
+              "numART": "3",
+              "tituloART": "Cómo redactarla",
+              "parrafoART": "Redactar con claridad, precisión y concisión; narrar los hechos en el orden cronológico en que ocurrieron; indicar lugar y fecha (día, mes y año); identificar con precisión a las personas intervinientes; y describir los lugares, objetos y evidencias de interés para la investigación. Usar lenguaje simple, correcto, genérico y legal."
+            },
+            {
+              "numART": "4",
+              "tituloART": "Criterios básicos",
+              "parrafoART": "Registrar hechos y actuaciones de forma objetiva, coherente y ordenada. Distinguir lo observado directamente de la información aportada por otras personas, e incluir únicamente datos pertinentes, sin añadir opiniones ni alterar lo ocurrido."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "TIPOS DE ACTAS POLICIALES",
+      "subcategorias": [
+        {
+          "nombre": "Actas principales",
+          "articulos": [
+            {
+              "numART": "5",
+              "tituloART": "Acta Policial de Aprehensión",
+              "parrafoART": "Deja constancia de una aprehensión y de sus circunstancias de modo, tiempo y lugar. La diapositiva señala como fundamentos la flagrancia (artículo 234 del COPP) y el artículo 44 de la CRBV."
+            },
+            {
+              "numART": "6",
+              "tituloART": "Acta de Investigación Penal",
+              "parrafoART": "Documenta diligencias realizadas por funcionarias o funcionarios que cumplen labores de investigación criminal, bajo la dirección del Ministerio Público y dentro de sus atribuciones. La diapositiva señala los artículos 113, 114 y 115 del COPP. Se utiliza, entre otros fines, para dejar constancia de requerimientos, pedimentos y experticias solicitados por el Ministerio Público mediante una orden de inicio de investigación penal."
+            },
+            {
+              "numART": "7",
+              "tituloART": "Acta Policial Genérica o de Trámite Administrativo",
+              "parrafoART": "Deja constancia de diligencias policiales distintas del acta de aprehensión o del acta de investigación penal. La diapositiva señala como fundamento el artículo 55 de la CRBV."
+            }
+          ]
+        },
+        {
+          "nombre": "Otros tipos de actas",
+          "articulos": [
+            {
+              "numART": "8",
+              "tituloART": "Actas complementarias",
+              "parrafoART": "Entre otros tipos se encuentran: acta de denuncia formal; transcripción de novedad; inspección técnica; levantamiento de cadáver; allanamiento; planilla única de cadena de resguardo de evidencias físicas; notificación de derechos de la persona imputada; registro; y entrevista."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "NATURALEZA Y CARACTERÍSTICAS DEL ACTA POLICIAL",
+      "subcategorias": [
+        {
+          "nombre": "Naturaleza del acta",
+          "articulos": [
+            {
+              "numART": "9",
+              "tituloART": "Naturaleza del acta policial",
+              "parrafoART": "El acta policial tiene carácter de documento administrativo y da fe de un acto realizado por la funcionaria o el funcionario policial, o realizado en su presencia. Para evitar espacios en blanco, se cierran los espacios no utilizados; los errores no se borran y se deja constancia de su corrección al final."
+            }
+          ]
+        },
+        {
+          "nombre": "Características generales",
+          "articulos": [
+            {
+              "numART": "10",
+              "tituloART": "Características del acta policial",
+              "parrafoART": "El acta policial debe ser completa, descriptiva, exacta, coherente, ordenada, precisa, sistemática e imparcial; tener sustento legal; emplear lenguaje técnico; y estar redactada correctamente."
+            }
+          ]
+        },
+        {
+          "nombre": "Completitud y descripción",
+          "articulos": [
+            {
+              "numART": "11",
+              "tituloART": "Completa",
+              "parrafoART": "Registrar todos los hechos y datos pertinentes, útiles y necesarios para la investigación. Identificar a las personas involucradas —autores, víctimas y testigos— y describir objetos, evidencias, vehículos y vestimenta. Indicar la hora, el lugar y la fecha del hecho y de la actuación policial."
+            },
+            {
+              "numART": "12",
+              "tituloART": "Descriptiva",
+              "parrafoART": "Describir lo observado en forma objetiva y como una narración de lo ocurrido, sin argumentar, expresar sentimientos o emociones ni emitir opiniones personales. Utilizar una descripción denotativa, ajustada a los hechos."
+            }
+          ]
+        },
+        {
+          "nombre": "Exactitud, coherencia, orden y precisión",
+          "articulos": [
+            {
+              "numART": "13",
+              "tituloART": "Exacta y coherente",
+              "parrafoART": "Apegarse a la verdad: relatar los hechos como se conocieron, sin agregar ni quitar información. Cuando el conocimiento provenga de otra persona, indicar quién informó, cuándo y por qué medio; identificar a las personas y describir los datos verificables de interés. Mantener una relación sucinta, comprensible y conectada entre lo observado, lo realizado y lo descrito."
+            },
+            {
+              "numART": "14",
+              "tituloART": "Ordenada",
+              "parrafoART": "Redactar en continuidad y seguir la secuencia cronológica de las diligencias o investigaciones realizadas. Registrar los datos que permitan establecer el orden y la fecha de los hechos y de las actuaciones."
+            },
+            {
+              "numART": "15",
+              "tituloART": "Precisa",
+              "parrafoART": "Ser sucinta, concisa y sobria: explicar lo necesario con pocas palabras, evitar comentarios innecesarios y eliminar información superflua. Expresar de forma explícita los datos que realmente sean de interés para la investigación."
+            }
+          ]
+        },
+        {
+          "nombre": "Sistematicidad, imparcialidad y legalidad",
+          "articulos": [
+            {
+              "numART": "16",
+              "tituloART": "Sistemática",
+              "parrafoART": "Organizar la estructura y el contenido de manera racional, conforme a las reglas y principios aplicables, y enlazar la información de forma lógica."
+            },
+            {
+              "numART": "17",
+              "tituloART": "Imparcial",
+              "parrafoART": "Dar cuenta de los hechos sin ocultar información ni resaltar u omitir datos para desviar la investigación o favorecer o perjudicar a una persona."
+            },
+            {
+              "numART": "18",
+              "tituloART": "Con sustento legal",
+              "parrafoART": "Fundamentar la actuación en las normas aplicables. La diapositiva menciona los artículos 113, 114, 115 y 153 del Código Orgánico Procesal Penal (COPP); verificar el texto legal vigente y la pertinencia de cada disposición para el caso concreto."
+            }
+          ]
+        },
+        {
+          "nombre": "Lenguaje técnico y forma",
+          "articulos": [
+            {
+              "numART": "19",
+              "tituloART": "Lenguaje técnico",
+              "parrafoART": "Utilizar palabras correctas, sencillas y adecuadas al vocabulario legal y a la terminología jurídica, criminalística y balística. Evitar la jerga delincuencial y los términos que no correspondan a la legislación vigente; describir con precisión las armas, evidencias y demás elementos."
+            },
+            {
+              "numART": "20",
+              "tituloART": "Forma correcta",
+              "parrafoART": "Cuidar la ortografía, los márgenes, las sangrías, el uso de mayúsculas, los signos de puntuación y el subrayado, de manera que los datos relevantes queden expresados con claridad."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "CONTENIDO Y REVISIÓN",
+      "subcategorias": [
+        {
+          "nombre": "Temas fundamentales",
+          "articulos": [
+            {
+              "numART": "21",
+              "tituloART": "Contenido que debe dominarse",
+              "parrafoART": "El protocolo aborda: tipos y naturaleza del acta policial; estructura; bases constitucionales y legales; vicios; reglas de redacción; lenguaje simple, correcto, genérico y legal; importancia y valor probatorio; actuación del juez frente al acta y a las evidencias de interés criminalístico; errores comunes; y recomendaciones."
+            },
+            {
+              "numART": "22",
+              "tituloART": "Importancia y valor probatorio",
+              "parrafoART": "El acta documenta las actuaciones y puede ser relevante para la investigación y la valoración de los elementos presentados. Su contenido debe permitir comprender qué ocurrió y qué diligencias se realizaron; corresponde a las autoridades competentes valorar el acta y las evidencias conforme a la ley."
+            },
+            {
+              "numART": "23",
+              "tituloART": "Revisión antes de cerrar",
+              "parrafoART": "Comprobar que la narración sea cronológica, clara y concisa; que fecha, lugar, personas y diligencias estén identificados; que los lugares y objetos relevantes estén descritos; que el lenguaje sea correcto y objetivo; y que no haya omisiones, contradicciones, opiniones ni conclusiones ajenas a los hechos documentados."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "BASES LEGALES Y PROCEDIMIENTOS",
+      "subcategorias": [
+        {
+          "nombre": "Fundamentos legales señalados en el material",
+          "articulos": [
+            {
+              "numART": "24",
+              "tituloART": "Normas citadas para la actuación policial",
+              "parrafoART": "Las láminas citan los artículos 113 (órganos de investigación), 114 (facultades), 115 (investigación policial) y 153 (contenido del acta) del Código Orgánico Procesal Penal (COPP); el artículo 14 de la Ley del Cuerpo de Investigaciones Científicas, Penales y Criminalísticas; y el artículo 34 de la Ley Orgánica del Servicio de Policía y del Cuerpo de Policía Nacional Bolivariana. Son referencias del material: verificar texto vigente, numeración y aplicabilidad antes de emplearlas."
+            },
+            {
+              "numART": "25",
+              "tituloART": "Actuaciones relacionadas con personas detenidas",
+              "parrafoART": "Para procedimientos con personas detenidas, las láminas mencionan: artículo 234 del COPP (flagrancia); artículo 191 (inspección de personas); artículo 119, numeral 6 (notificación de derechos, según la presentación); artículo 127 (derechos de la persona imputada); artículo 44, ordinal 2, de la Constitución de la República Bolivariana de Venezuela (asistencia legal); y artículo 49 constitucional (debido proceso). Verificar el texto vigente y las circunstancias concretas del procedimiento."
+            },
+            {
+              "numART": "26",
+              "tituloART": "Otras diligencias y normas relacionadas",
+              "parrafoART": "Las láminas también citan el artículo 193 del COPP para inspección de vehículos; el artículo 196 para allanamiento; el artículo 96 de la Ley Orgánica sobre el Derecho de las Mujeres a una Vida Libre de Violencia en caso de flagrancia; y el artículo 557 de la Ley Orgánica para la Protección de Niños, Niñas y Adolescentes. Confirmar vigencia, numeración y ámbito de aplicación en fuentes oficiales."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "IMPORTANCIA DEL ACTA POLICIAL",
+      "subcategorias": [
+        {
+          "nombre": "Importancia judicial e institucional",
+          "articulos": [
+            {
+              "numART": "27",
+              "tituloART": "Importancia para la investigación y el proceso judicial",
+              "parrafoART": "El acta documenta la actuación policial y puede servir de respaldo para que el Ministerio Público examine los hechos y las diligencias junto con los demás elementos de la investigación. Cuando corresponda, las funcionarias y los funcionarios pueden ser llamados a explicar o ratificar su actuación. El acta no determina por sí sola la responsabilidad penal: la valoración corresponde a las autoridades competentes, con respeto al debido proceso y al derecho a la defensa."
+            },
+            {
+              "numART": "28",
+              "tituloART": "Importancia para la institución policial",
+              "parrafoART": "La información documentada permite a la institución conocer y organizar el trabajo realizado y elaborar estadísticas generales sobre procedimientos, detenciones, objetos, dinero, prendas, armas y vehículos recuperados, así como sustancias incautadas. Los datos pueden agruparse por direcciones, coordinaciones, estaciones, lugares y horarios, de acuerdo con los controles institucionales."
+            },
+            {
+              "numART": "29",
+              "tituloART": "Importancia para la funcionaria o el funcionario",
+              "parrafoART": "El acta deja registro del trabajo y de las diligencias realizadas, sirve como antecedente de consulta para actuaciones relacionadas y permite conservar información organizada si la funcionaria o el funcionario es citado posteriormente por el Ministerio Público o un tribunal."
+            }
+          ]
+        },
+        {
+          "nombre": "Funciones del acta policial",
+          "articulos": [
+            {
+              "numART": "30",
+              "tituloART": "Usos del acta policial",
+              "parrafoART": "El acta permite informar a los superiores sobre el trabajo realizado y sus resultados; conservar un registro útil para consultas o citaciones posteriores; y aportar información para las estadísticas generales de las áreas operativas y situacionales. Su elaboración debe ser objetiva, completa y ajustada a la ley."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="FPJ7DWXR-Ht6Dc1VeQiMV5NpFECglWUrWluNlbSEbIM" />
+  <meta name="description" content="Consulta claves policiales, artículos del COPP y el protocolo de redacción de actas desde una sola herramienta.">
+  <meta name="theme-color" content="#0b1f4b">
+  <meta property="og:locale" content="es_VE">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Claves y protocolos policiales | CPNB">
+  <meta property="og:description" content="Herramienta de consulta de claves policiales, artículos del COPP y protocolos de redacción de actas.">
+  <meta name="twitter:card" content="summary">
+  <title>Tu Aprendes | CPNB</title>
+  <link rel="stylesheet" href="style/css.css?v=91">
+  <link rel="icon" type="image/png" href="./icon.png">
+  <script src="interaction/desktop-notice.js?v=2" defer></script>
+  <!-- SEO Básico -->
+  <meta name="description" content="Consulta claves policiales, artículos del COPP y el protocolo de redacción de actas desde una sola herramienta de la CPNB.">
+  <meta name="theme-color" content="#0b1f4b">
+
+  <!-- Open Graph / Redes Sociales (WhatsApp, Facebook, Telegram, LinkedIn) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://informaticon2025-creator.github.io/LearnCPNB/"> <!-- Reemplaza con tu URL real -->
+  <meta property="og:title" content="Claves y protocolos policiales | CPNB">
+  <meta property="og:description" content="Herramienta de consulta rápida de claves policiales, artículos del COPP y protocolos de redacción de actas.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/informaticon2025-creator/LearnCPNB/refs/heads/main/icon.png"> <!-- URL ABSOLUTA obligatoria de tu imagen -->
+  <meta property="og:locale" content="es_VE">
+
+  <!-- Twitter Cards (Twitter / X) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://informaticon2025-creator.github.io/LearnCPNB/"> <!-- Reemplaza con tu URL real -->
+  <meta name="twitter:title" content="Claves y protocolos policiales | CPNB">
+  <meta name="twitter:description" content="Herramienta de consulta rápida de claves policiales, artículos del COPP y protocolos de redacción de actas.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/informaticon2025-creator/LearnCPNB/refs/heads/main/icon.png"> <!-- URL ABSOLUTA obligatoria de tu imagen -->
+</head>
+<body class="news-only-home is-loading">
+  <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite" aria-label="Cargando la aplicación">
+    <div class="loading-content">
+      <div class="loading-emblem">
+        <img src="./assets/cpnb-emblem.png" alt="Emblema de la Policía Nacional Bolivariana">
+      </div>
+      <p class="loading-kicker">Aprende Funcionario</p>
+      <p class="loading-title">LearnPNB</p>
+      <p class="loading-message">Cargando Informacion.</p>
+      <div class="loading-progress" aria-hidden="true"><span></span></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="topbar">
+      <div class="logo-container">
+        <img src="./assets/cpnb-emblem.png" alt="Emblema de la Policía Nacional Bolivariana">
+      </div>
+      <div class="search-section">
+        <div class="search-box">
+          <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.8" cy="10.8" r="6.8"></circle>
+            <path d="m16 16 4.5 4.5"></path>
+          </svg>
+          <input type="search" id="searchInput" placeholder="Evento" aria-label="Buscar en Inicio">
+        </div>
+      </div>
+      <button class="menu-toggle icon-button" id="menuToggle" type="button" aria-label="Abrir menú de herramientas" aria-expanded="false" aria-controls="sectionMenu">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+      <nav class="section-menu" id="sectionMenu" aria-label="Menú de la aplicación">
+        <div class="menu-brand">
+          <img src="icon.png" alt="LearnCPNB">
+        </div>
+        <div class="menu-section-label">Herramientas</div>
+        <button type="button" class="menu-support-link" id="openPinnedButton">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5v6l1 1 1-1v-6h5v-2l-2-2z"></path>
+          </svg>
+          <span>Guardados</span>
+        </button>
+        <div class="menu-section-label support-section-label">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 13v-2a8 8 0 0 1 16 0v2M4 13h3v6H6a2 2 0 0 1-2-2v-4Zm16 0h-3v6h1a2 2 0 0 0 2-2v-4ZM17 20a5 5 0 0 1-5 2"></path>
+          </svg>
+          <span>Soporte</span>
+        </div>
+        <details class="menu-group menu-contact">
+          <summary class="menu-section-toggle">
+            <span>Contacto</span>
+            <svg class="icon submenu-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="m6 9 6 6 6-6"></path>
+            </svg>
+          </summary>
+          <div class="menu-subsection">
+            <a class="menu-support-link" href="https://wa.me/584264214126" target="_blank" rel="noopener noreferrer">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4.2A8 8 0 1 1 20 11.5Z"></path>
+                <path d="M9 8.5c.3 2 2.5 4.2 4.5 4.5l1-1 2 1c-.2 1.2-1 2-2.2 2-3.3-.2-6.6-3.5-6.8-6.8 0-1.2.8-2 2-2.2l1 2-1.5.5Z"></path>
+              </svg>
+              <span>WhatsApp</span>
+            </a>
+            <a class="menu-support-link" href="https://t.me/denisonromero" target="_blank" rel="noopener noreferrer">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="m21 3-3.2 18-6.1-5.4-3.3 3.2.5-5.9L19 5.1 7.2 13.2 3 11.6 21 3Z"></path>
+              </svg>
+              <span>Telegram</span>
+            </a>
+          </div>
+        </details>
+        <button type="button" id="termsButton">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7 3h10l3 3v15H4V3h3Zm0 0v5h10V3M8 13h8M8 17h8"></path>
+          </svg>
+          <span>Protocolo y términos de esta herramienta</span>
+        </button>
+        <div class="menu-section-label exterior-section-label">Exterior</div>
+        <a class="menu-support-link" href="https://www.cpnb.com.ve/" target="_blank" rel="noopener noreferrer" aria-label="Extranet">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 3h7v7M21 3l-9 9"></path>
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          </svg>
+          <span>Extranet</span>
+        </a>
+        <a class="menu-support-link" href="https://capolnac.org/" target="_blank" rel="noopener noreferrer" aria-label="CAPOLNAC — Caja de Ahorros de la Policía Nacional Bolivariana">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 3h7v7M21 3l-9 9"></path>
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          </svg>
+          <span>CAPOLNAC</span>
+        </a>
+        <details class="menu-group menu-guides">
+          <summary class="menu-section-toggle">
+            <span>Guías</span>
+            <svg class="icon submenu-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="m6 9 6 6 6-6"></path>
+            </svg>
+          </summary>
+          <div class="menu-subsection" id="guideLinks" aria-live="polite">
+            <span class="menu-guides-status">Cargando guías...</span>
+          </div>
+        </details>
+        <div class="menu-social-links" aria-label="Redes sociales">
+          <a href="https://www.tiktok.com/@pnbvzla?lang=es-419" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M19.6 8.2a7.1 7.1 0 0 1-4.4-1.5v7.1a5.8 5.8 0 1 1-5-5.7v3.7a2.2 2.2 0 1 0 1.5 2.1V2.5h3.5c.2 2 1.8 3.6 4.4 3.8v1.9Z"></path>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/pnbvzla/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17.5" cy="6.8" r="0.8" class="social-icon-fill"></circle>
+            </svg>
+          </a>
+          <a href="https://x.com/PNBVzla" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M18.9 3H22l-6.8 7.8L23.2 21h-6.3L12 14.8 6.1 21H3l7.3-8.4L2.8 3h6.5l4.5 5.9L18.9 3Zm-1.1 16h1.7L8.3 4.9H6.5L17.8 19Z"></path>
+            </svg>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="app-main" aria-busy="true">
+    <section class="home-view" id="homeView" aria-labelledby="homeHeading">
+      <section class="news-section" aria-labelledby="homeHeading">
+        <div class="view-heading">
+          <h1 id="homeHeading">Ultimo momento</h1>
+          <p>Noticias y novedades</p>
+        </div>
+        <div class="news-grid" id="newsContainer" aria-live="polite"></div>
+        <p class="content-status" id="newsStatus" role="status" aria-live="polite">Cargando noticias...</p>
+      </section>
+
+    </section>
+
+    <section class="laws-view" id="lawsView" aria-labelledby="lawsHeading" hidden>
+      <div class="view-heading">
+        <h1 id="lawsHeading">Gacetas Oficiales</h1>
+        <p>Consulta las leyes y sus artículos</p>
+      </div>
+      <div class="laws-list" id="lawsList" aria-live="polite"></div>
+      <p class="content-status" id="lawsStatus" role="status" aria-live="polite">Cargando leyes...</p>
+    </section>
+
+    <section class="function-view" id="functionView" aria-labelledby="functionHeading" hidden>
+      <div class="view-heading">
+        <h1 id="functionHeading">Función policial</h1>
+        <p>Recursos de consulta y herramientas para el servicio policial</p>
+      </div>
+      <section class="function-section" aria-labelledby="functionKeysHeading">
+        <h2 class="section-heading" id="functionKeysHeading">Material de función policial</h2>
+        <p class="function-catalog-help">Selecciona un recurso para consultar su contenido.</p>
+        <div class="function-categories" id="functionCategories" aria-live="polite"></div>
+        <p class="content-status" id="functionStatus" role="status" aria-live="polite">Cargando material...</p>
+      </section>
+    </section>
+
+    <section class="results-panel" id="resultsPanel" aria-live="polite" hidden>
+      <h2 class="results-heading" id="resultsHeading"></h2>
+      <div class="container" id="cardsContainer"></div>
+      <table class="phonetic-table" id="phoneticTable" hidden>
+        <thead>
+          <tr><th scope="col">Letra</th><th scope="col">Código fonético</th></tr>
+        </thead>
+        <tbody id="phoneticTableBody"></tbody>
+      </table>
+      <div class="no-results" id="noResults">No se encontraron coincidencias.</div>
+    </section>
+    <button class="key-practice-backdrop" id="keyPracticeBackdrop" type="button" aria-label="Cerrar práctica" hidden></button>
+    <button class="key-practice-launch" id="keyPracticeLaunch" type="button" aria-expanded="false" aria-controls="keyPractice" hidden>Practica</button>
+    <section class="key-practice" id="keyPractice" aria-labelledby="keyPracticeHeading" hidden>
+      <div class="key-practice-header">
+        <h2 id="keyPracticeHeading">Practica las claves</h2>
+        <button class="key-practice-close" id="keyPracticeClose" type="button" aria-label="Cerrar práctica">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="key-practice-explanation" id="keyPracticeExplanation"></div>
+      <h3>Ejercicio</h3>
+      <p class="key-practice-help">Arrastra una respuesta hasta el espacio en blanco de la oración.</p>
+      <p class="key-practice-prompt" id="keyPracticePrompt"></p>
+      <div class="key-practice-choices" id="keyPracticeChoices" aria-label="Opciones de respuesta"></div>
+    </section>
+    <p class="key-practice-toast" id="keyPracticeToast" role="status" aria-live="assertive" hidden></p>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; CPNB. Proteger, Defender y Servir a nuestro pueblo.</p>
+  </footer>
+
+  <nav class="bottom-nav" aria-label="Navegación principal">
+    <button class="bottom-nav-button" type="button" data-page="home" aria-current="page">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"></path>
+      </svg>
+      <span>Inicio</span>
+    </button>
+    <button class="bottom-nav-button" type="button" data-page="laws">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path fill="#ffffff" d="M4 22V2h10l6 6v14zm9-13h5l-5-5z"/></svg>
+      <span>Leyes</span>
+    </button>
+    <button class="bottom-nav-button" type="button" data-page="function">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12 3 20 7v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V7l8-4Z"></path>
+        <path d="m9 12 2 2 4-4"></path>
+      </svg>
+      <span>Función</span>
+    </button>
+  </nav>
+
+  <dialog class="law-dialog" id="lawDialog" aria-labelledby="lawDialogTitle">
+    <div class="law-dialog-tools">
+      <div class="law-dialog-header">
+        <div>
+          <h2 id="lawDialogTitle"></h2>
+          <p id="lawDialogSubtitle"></p>
+        </div>
+        <button class="law-dialog-close" id="lawDialogClose" type="button" aria-label="Cerrar artículos">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M18 6 6 18M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <label class="law-search-label" for="lawArticleSearch">Buscar por número o contenido</label>
+      <input class="law-article-search" id="lawArticleSearch" type="search" autocomplete="off">
+      <p class="law-dialog-description" id="lawDialogDescription"></p>
+    </div>
+    <p class="law-article-status" id="lawArticleStatus" role="status" aria-live="polite"></p>
+    <p class="share-image-status" role="status" aria-live="polite"></p>
+    <div class="law-articles" id="lawArticles"></div>
+  </dialog>
+
+  <dialog class="law-dialog" id="functionDialog" aria-labelledby="functionDialogTitle">
+    <div class="law-dialog-tools">
+      <div class="law-dialog-header">
+        <div>
+          <h2 id="functionDialogTitle"></h2>
+          <p id="functionDialogSubtitle"></p>
+        </div>
+        <button class="law-dialog-close" id="functionDialogClose" type="button" aria-label="Cerrar material">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+      </div>
+      <label class="law-search-label" for="functionDocumentSearch">Buscar en este material</label>
+      <input class="law-article-search" id="functionDocumentSearch" type="search" autocomplete="off" disabled>
+    </div>
+    <p class="law-dialog-description function-dialog-description" id="functionDialogDescription"></p>
+    <p class="share-image-status" role="status" aria-live="polite"></p>
+    <div class="law-articles" id="functionDocumentContent"></div>
+    <p class="law-article-status" id="functionDocumentStatus" role="status" aria-live="polite"></p>
+  </dialog>
+
+  <dialog class="info-dialog" id="infoDialog" aria-labelledby="infoDialogTitle">
+    <div class="info-dialog-content">
+      <h2 id="infoDialogTitle"></h2>
+      <div id="infoDialogMessage"></div>
+      <a class="terms-document-download" id="termsDocumentDownload" href="file/terminos-app.html" download="Terminos-de-app.html" hidden>Descargar términos de la app</a>
+      <button class="info-dialog-close" id="infoDialogClose" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7 3h10l3 3v15H4V3h3Zm0 0v5h10V3M8 13h8M8 17h5"></path>
+          </svg></button>
+    </div>
+  </dialog>
+
+  <!-- Ventana Flotante de Elementos Fijados -->
+  <dialog class="info-dialog" id="pinnedDialog" aria-labelledby="pinnedDialogTitle">
+    <div class="info-dialog-content">
+      <h2 id="pinnedDialogTitle">Guardados</h2>
+      <div class="pinned-list-container" id="pinnedListContainer"></div>
+      <button class="info-dialog-close" id="pinnedDialogClose" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7 3h10l3 3v15H4V3h3Zm0 0v5h10V3M8 13h8M8 17h5"></path>
+          </svg></button>
+    </div>
+  </dialog>
+
+  <dialog class="welcome-dialog" id="welcomeDialog" aria-labelledby="welcomeTitle" aria-describedby="welcomeDescription">
+    <button class="welcome-close" id="welcomeClose" type="button" aria-label="Cerrar bienvenida">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+    </button>
+    <div class="welcome-content">
+          <img class="welcome-logo" src="icon.png" alt="Logo">
+          <h2 id="welcomeTitle">Aprende PNB</h2>
+          <p id="welcomeDescription">
+Tu espacio de entrenamiento y consulta técnica. Explora terminología clave, refuerza procedimientos operativos y domina los fundamentos que mueven el trabajo de campo y la actuación policial diaria..</p>
+          <p class="welcome-creator">Conecta con el creador</p>
+          <nav class="welcome-social-links" aria-label="Redes del creador">
+            <a href="https://www.tiktok.com/@deniscapote" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Denis Capote">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M19.6 8.2a7.1 7.1 0 0 1-4.4-1.5v7.1a5.8 5.8 0 1 1-5-5.7v3.7a2.2 2.2 0 1 0 1.5 2.1V2.5h3.5c.2 2 1.8 3.6 4.4 3.8v1.9Z"></path>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/polarhackeo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram del creador">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.8" r="0.8" class="welcome-icon-fill"></circle>
+              </svg>
+            </a>
+            <a href="https://x.com/informaticon01" target="_blank" rel="noopener noreferrer" aria-label="X de Denis Romero">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M18.9 3H22l-6.8 7.8L23.2 21h-6.3L12 14.8 6.1 21H3l7.3-8.4L2.8 3h6.5l4.5 5.9L18.9 3Zm-1.1 16h1.7L8.3 4.9H6.5L17.8 19Z"></path>
+              </svg>
+            </a>
+            <a href="https://wa.me/584264214126" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp del creador">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4.2A8 8 0 1 1 20 11.5Z"></path>
+                <path d="M9 8.5c.3 2 2.5 4.2 4.5 4.5l1-1 2 1c-.2 1.2-1 2-2.2 2-3.3-.2-6.6-3.5-6.8-6.8 0-1.2.8-2 2-2.2l1 2-1.5.5Z"></path>
+              </svg>
+            </a>
+            <a href="https://t.me/denisonromero" target="_blank" rel="noopener noreferrer" aria-label="Telegram de Denis Romero">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="m21 3-3.2 18-6.1-5.4-3.3 3.2.5-5.9L19 5.1 7.2 13.2 3 11.6 21 3Z"></path>
+              </svg>
+            </a>
+          </nav>
+    </div>
+  </dialog>
+
+  <dialog class="desktop-notice" id="desktopNotice" aria-labelledby="desktopNoticeTitle" aria-describedby="desktopNoticeDescription" tabindex="-1">
+    <button class="desktop-notice-share" id="desktopNoticeShare" type="button" aria-label="Compartir LearnCPNB">
+      <svg class="desktop-notice-share-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="18" cy="5" r="3"></circle>
+        <circle cx="6" cy="12" r="3"></circle>
+        <circle cx="18" cy="19" r="3"></circle>
+        <path d="m8.7 10.6 6.6-4.2m-6.6 7 6.6 4.2"></path>
+      </svg>
+      <span>Compartir</span>
+    </button>
+    <p class="desktop-notice-share-status" id="desktopNoticeShareStatus" role="status" aria-live="polite"></p>
+    <div class="desktop-notice-card">
+      <img class="desktop-notice-logo" src="icon.png" alt="">
+      <p class="desktop-notice-eyebrow">LearnCPNB</p>
+      <h2 id="desktopNoticeTitle">No disponible en DESKTOP</h2>
+      <p id="desktopNoticeDescription"> LearnCPNB no está disponible para navegadores de escritorio.</p>
+      <nav class="desktop-social-links" aria-label="Redes sociales">
+        <a href="https://www.instagram.com/polarhackeo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="17.5" cy="6.8" r="0.8" class="desktop-social-icon-fill"></circle>
+          </svg>
+        </a>
+        <a href="https://x.com/informaticon01" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M18.9 3H22l-6.8 7.8L23.2 21h-6.3L12 14.8 6.1 21H3l7.3-8.4L2.8 3h6.5l4.5 5.9L18.9 3Zm-1.1 16h1.7L8.3 4.9H6.5L17.8 19Z"></path>
+          </svg>
+        </a>
+        <a href="https://www.tiktok.com/@deniscapote" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M19.6 8.2a7.1 7.1 0 0 1-4.4-1.5v7.1a5.8 5.8 0 1 1-5-5.7v3.7a2.2 2.2 0 1 0 1.5 2.1V2.5h3.5c.2 2 1.8 3.6 4.4 3.8v1.9Z"></path>
+          </svg>
+        </a>
+      </nav>
+      <section class="desktop-section-previews" aria-labelledby="desktopPreviewsTitle">
+        <div class="desktop-previews-heading">
+          <p class="desktop-notice-eyebrow">Vista previa</p>
+          <h3 id="desktopPreviewsTitle">Secciones de la app</h3>
+        </div>
+        <div class="desktop-preview-grid">
+          <figure class="desktop-preview">
+            <img class="desktop-preview-image" src="assets/app-preview-news.png" alt="Captura real de la sección de noticias de LearnCPNB" loading="lazy">
+            <figcaption>Noticias</figcaption>
+          </figure>
+          <figure class="desktop-preview">
+            <img class="desktop-preview-image" src="assets/app-preview-laws.png" alt="Captura real de la sección de leyes y gacetas oficiales" loading="lazy">
+            <figcaption>Leyes oficiales</figcaption>
+          </figure>
+          <figure class="desktop-preview">
+            <img class="desktop-preview-image" src="assets/app-preview-function.png" alt="Captura real de la sección de función policial con su menú abierto" loading="lazy">
+            <figcaption>Función policial</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="desktop-about" aria-labelledby="desktopAboutTitle">
+        <div class="desktop-about-copy">
+          <p class="desktop-notice-eyebrow">Al servicio policial</p>
+          <h3 id="desktopAboutTitle">Una herramienta de apoyo para el oficial</h3>
+          <p>LearnCPNB reúne recursos de consulta que pueden acompañar a las y los oficiales recién egresados de la UNES en el inicio de su labor policial. Desde un enfoque de servicio, respeto a los derechos humanos y apego a la ley, la app facilita el acceso a gacetas, materiales de referencia y herramientas prácticas para reforzar lo aprendido en Ciencias Policiales. Su contenido es de apoyo y no sustituye la formación, los protocolos institucionales ni las instrucciones de los superiores.</p>
+        </div>
+        <img class="desktop-about-logo" src="assets/cpnb-emblem.png" alt="Emblema de la Policía Nacional Bolivariana, Venezuela renace" loading="lazy">
+      </section>
+      <footer class="desktop-notice-footer">
+        <p>&copy; CPNB. Proteger, Defender y Servir a nuestro pueblo.</p>
+      </footer>
+    </div>
+  </dialog>
+
+  <script src="interaction/register-sw.js"></script>
+  <script src="interaction/news-media.js?v=3"></script>
+  <script src="interaction/inter.js?v=1"></script>
+</body>
+</html>

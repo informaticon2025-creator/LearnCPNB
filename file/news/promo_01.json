@@ -1,0 +1,41 @@
+{
+  "titulo": "Aprende mas con el Reto de práctica",
+  "descripcion": "Respuestas de una Funcionario",
+  "fecha": "06/11/2026",
+  "enlace": "page/promo.html",
+  "textoBoton": "Juega",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿Cual Articulo de la Constitucion de la Republica Bolivariana de venezuela es el competente al debido procedimiento?",
+          "opciones": [
+            {
+              "texto": "Artículo 49",
+              "correcta": true
+            },
+            {
+              "texto": "Artículo 85",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 88",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 105",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El artículo 49 establece las garantías del debido proceso."
+        }
+      ]
+    }
+  ]
+}

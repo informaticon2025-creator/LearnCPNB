@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../">
+  <meta name="description" content="Módulo de creación de minutas policiales con el estilo visual de Learn CPNB.">
+  <meta name="theme-color" content="#0b1f4b">
+  <meta property="og:locale" content="es_VE">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Creación de Minutas | CPNB">
+  <meta property="og:description" content="Herramienta operativa de redacción de minutas policiales.">
+  <meta name="twitter:card" content="summary">
+  <title>Creación de Minutas | CPNB</title>
+  <link rel="stylesheet" href="style/css.css">
+  <link rel="icon" type="image/png" href="icon.png">
+
+  <style>
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      color: #ffffff;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+
+    .back-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .minuta-main-container {
+      max-width: 680px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    /* Tarjeta 100% fija, protegida contra cambios en hover o focus */
+    .minuta-card,
+    .minuta-card:hover,
+    .minuta-card:focus-within,
+    .minuta-card:active {
+      background: var(--card-bg, #ffffff) !important;
+      border: 1px solid var(--border-color, #e2e8f0) !important;
+      border-radius: 16px !important;
+      padding: 28px !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01) !important;
+      margin-bottom: 24px !important;
+    }
+
+    .minuta-card h2 {
+      color: var(--primary-color, #0b1f4b);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .minuta-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary, #64748b);
+      margin-bottom: 22px;
+      line-height: 1.4;
+    }
+
+    .minuta-form-group {
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .minuta-form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-color, #1e293b);
+      letter-spacing: 0.01em;
+    }
+
+    .minuta-form-group input,
+    .minuta-form-group select,
+    .minuta-form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--input-bg, #f8fafc);
+      border: 1px solid var(--border-color, #cbd5e1);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      color: var(--text-color, #1e293b);
+      outline: none;
+      transition: all 0.2s ease;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+
+    .minuta-form-group input:hover,
+    .minuta-form-group select:hover,
+    .minuta-form-group textarea:hover,
+    .minuta-form-group input:focus,
+    .minuta-form-group select:focus,
+    .minuta-form-group textarea:focus {
+      border-color: var(--border-color, #cbd5e1) !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .dynamic-field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: var(--input-bg, #f8fafc);
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color, #e2e8f0);
+      margin-bottom: 14px;
+      transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .dynamic-field-row.locked {
+      cursor: default;
+    }
+
+    .dynamic-field-row.unlocked {
+      border-color: var(--primary-color, #0b1f4b);
+      background: rgba(11, 31, 75, 0.03);
+      cursor: grab;
+      box-shadow: 0 4px 12px rgba(11, 31, 75, 0.08);
+    }
+
+    .dynamic-field-row.dragging {
+      opacity: 0.4;
+      border: 2px dashed var(--primary-color, #0b1f4b);
+    }
+
+    .dynamic-inputs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .dynamic-inputs-grid.single-column {
+      grid-template-columns: 1fr;
+    }
+
+    .dynamic-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .minuta-icon-btn {
+      background: var(--card-bg, #ffffff);
+      border: 1px solid var(--border-color, #cbd5e1);
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-color, #1e293b);
+      transition: all 0.2s ease;
+    }
+
+    .minuta-icon-btn:hover {
+      background: var(--border-color, #e2e8f0);
+    }
+
+    .minuta-icon-btn.btn-danger {
+      background-color: #ef4444;
+      border-color: #ef4444;
+      color: white;
+    }
+
+    .minuta-icon-btn.btn-danger:hover {
+      background-color: #dc2626;
+    }
+
+    .minuta-buttons-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .minuta-buttons-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .minuta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .minuta-btn-secondary {
+      background: var(--border-color, #e2e8f0);
+      color: var(--text-color, #1e293b);
+    }
+
+    .minuta-btn-secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .minuta-btn-primary {
+      background: var(--primary-color, #0b1f4b);
+      color: white;
+    }
+
+    .minuta-btn-primary:hover {
+      opacity: 0.92;
+      box-shadow: 0 4px 12px rgba(11, 31, 75, 0.25);
+    }
+
+    .minuta-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(11, 31, 75, 0.4);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+
+    .minuta-modal.open {
+      display: flex;
+    }
+
+    .minuta-modal-content {
+      background: var(--card-bg, #ffffff);
+      padding: 26px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 520px;
+      position: relative;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color, #e2e8f0);
+    }
+
+    .minuta-modal-close {
+      position: absolute;
+      top: 18px; right: 18px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-secondary, #64748b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .minuta-modal-close:hover {
+      background: var(--input-bg, #f8fafc);
+    }
+
+    .minuta-output-box {
+      white-space: pre-wrap;
+      background: var(--input-bg, #f8fafc);
+      padding: 16px;
+      border-radius: 10px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--text-color, #1e293b);
+      max-height: 280px;
+      overflow-y: auto;
+      border: 1px solid var(--border-color, #cbd5e1);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .minuta-output-box:hover,
+    .minuta-output-box:focus,
+    .minuta-output-box:active {
+      border-color: var(--border-color, #cbd5e1) !important;
+      outline: none !important;
+      box-shadow: none !important;
+      background: var(--input-bg, #f8fafc) !important;
+    }
+
+    .modal-actions-group {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .templates-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+
+    .template-item-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 14px;
+      background: var(--input-bg, #f8fafc);
+      border: 1px solid var(--border-color, #e2e8f0);
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+
+    .template-item-btn:hover {
+      background: rgba(11, 31, 75, 0.04);
+      border-color: var(--primary-color, #0b1f4b);
+      transform: translateY(-1px);
+    }
+
+    .template-title {
+      font-weight: 700;
+      color: var(--primary-color, #0b1f4b);
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+    }
+
+    .template-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary, #64748b);
+      line-height: 1.3;
+    }
+
+    .btn-svg-icon {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="topbar">
+      <a href="index.html" class="back-link" aria-label="Volver a inicio">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 475 717" width="20" height="20.42105263157893"><path fill="#0010a0" d="m227 357l246 246l-119 114L0 363L362 0l113 112z"/></svg>
+      </a>
+      <div class="logo-container">
+        <img src="icon.png" alt="Emblema CPNB">
+      </div>
+    </div>
+  </header>
+
+  <main class="minuta-main-container">
+    <section class="minuta-card">
+      <h2>Minuta SMS</h2>
+      <p class="minuta-subtitle">Crea y envía minutas policiales con formato profesional</p>
+
+      <form id="minuta-form">
+        <div class="minuta-form-group">
+          <label for="fmt-ciudad">Título Superior</label>
+          <input type="text" id="fmt-ciudad" placeholder="TITULO SUPERIOR">
+        </div>
+
+        <div class="minuta-form-group">
+          <label for="fmt-field-type">Campo</label>
+          <select id="fmt-field-type">
+            <option value="">Seleccionar campo...</option>
+            <option value="titulo">TÍTULO</option>
+            <option value="fecha">FECHA</option>
+            <option value="hora">HORA</option>
+            <option value="informa">INFORMA</option>
+            <option value="resumen">RESUMEN</option>
+            <option value="nota">NOTA OBSERVACIÓN</option>
+            <option value="instituto">INSTITUTO</option>
+            <option value="personalizado">PERSONALIZADO</option>
+          </select>
+        </div>
+
+        <div id="dynamic-formato-fields-container"></div>
+
+        <div class="minuta-form-group">
+          <label for="fmt-lema">Título Inferior</label>
+          <input type="text" id="fmt-lema" placeholder="TITULO INFERIOR">
+        </div>
+
+        <div class="minuta-buttons-row">
+          <button type="button" id="btn-add-formato-field" class="minuta-btn minuta-btn-secondary" title="Agregar campo extra">
+            <svg class="btn-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+            Agregar campo
+          </button>
+          <button type="button" id="btn-open-templates" class="minuta-btn minuta-btn-secondary" title="Cargar plantilla prediseñada">
+            <svg class="btn-svg-icon" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            Plantilla
+          </button>
+          <button type="button" id="btn-create-formato" class="minuta-btn minuta-btn-primary" title="Generar Formato final">
+            <svg class="btn-svg-icon" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M9 15h6M12 12v6"/></svg>
+            Generar
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Modal Vista Previa -->
+  <div id="modal-preview" class="minuta-modal">
+    <div class="minuta-modal-content">
+      <button type="button" id="btn-close-modal" class="minuta-modal-close">
+        <svg class="btn-svg-icon" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <h2 style="margin-bottom: 12px; font-size: 1.2rem; color: var(--primary-color, #0b1f4b);">Vista Previa de Minuta</h2>
+      <div id="minuta-output" class="minuta-output-box">Tu minuta aparecerá aquí...</div>
+      
+      <div class="modal-actions-group">
+        <button type="button" id="btn-copy" class="minuta-btn minuta-btn-secondary">
+          <svg class="btn-svg-icon" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          Copiar
+        </button>
+        <button type="button" id="btn-share" class="minuta-btn minuta-btn-primary">
+          <svg class="btn-svg-icon" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
+          Compartir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Plantillas -->
+  <div id="modal-templates" class="minuta-modal">
+    <div class="minuta-modal-content">
+      <button type="button" id="btn-close-templates-modal" class="minuta-modal-close">
+        <svg class="btn-svg-icon" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <h2 style="margin-bottom: 4px; font-size: 1.2rem; color: var(--primary-color, #0b1f4b);">Seleccionar Plantilla</h2>
+      <p class="minuta-subtitle" style="margin-bottom: 12px;">Elige un modelo editable. Los campos entre corchetes son marcadores de posición.</p>
+      
+      <div class="templates-list">
+        <button type="button" class="template-item-btn" data-template="modelo1">
+          <span class="template-title">Modelo 1 — Relevo de servicio</span>
+          <span class="template-desc">Formato para registrar personal, inventario y observaciones con datos por completar.</span>
+        </button>
+        <button type="button" class="template-item-btn" data-template="modelo2">
+          <span class="template-title">Modelo 2 — Relevo de conductor</span>
+          <span class="template-desc">Formato editable para recibir y entregar una unidad, sin datos personales precargados.</span>
+        </button>
+        <button type="button" class="template-item-btn" data-template="modelo3">
+          <span class="template-title">Modelo 3 — Supervisión de servicio</span>
+          <span class="template-desc">Formato general para documentar una supervisión y sus novedades.</span>
+        </button>
+        <button type="button" class="template-item-btn" data-template="modelo4">
+          <span class="template-title">Modelo 4 — Minuta informativa</span>
+          <span class="template-desc">Formato general para reportar una supervisión, comisión y cierre de novedad.</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <dialog class="info-dialog" id="infoDialog" aria-labelledby="infoDialogTitle">
+    <div class="info-dialog-content">
+      <h2 id="infoDialogTitle"></h2>
+      <div id="infoDialogMessage"></div>
+      <button class="info-dialog-close" id="infoDialogClose" type="button">Cerrar</button>
+    </div>
+  </dialog>
+
+  <dialog class="info-dialog" id="pinnedDialog" aria-labelledby="pinnedDialogTitle">
+    <div class="info-dialog-content">
+      <h2 id="pinnedDialogTitle">Elementos Fijados</h2>
+      <div class="pinned-list-container" id="pinnedListContainer"></div>
+      <button class="info-dialog-close" id="pinnedDialogClose" type="button">Cerrar</button>
+    </div>
+  </dialog>
+
+  <script src="interaction/register-sw.js"></script>
+  <script src="interaction/desktop-notice.js?v=2"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const fmtTituloSuperior = document.getElementById('fmt-ciudad');
+      const fmtTituloInferior = document.getElementById('fmt-lema');
+      const fmtFieldType = document.getElementById('fmt-field-type');
+      const dynamicFormatoFieldsContainer = document.getElementById('dynamic-formato-fields-container');
+      const btnAddFormatoField = document.getElementById('btn-add-formato-field');
+      const btnCreateFormato = document.getElementById('btn-create-formato');
+      
+      const modalPreview = document.getElementById('modal-preview');
+      const btnCloseModal = document.getElementById('btn-close-modal');
+      const btnCopy = document.getElementById('btn-copy');
+      const btnShare = document.getElementById('btn-share');
+      const minutaOutput = document.getElementById('minuta-output');
+
+      const modalTemplates = document.getElementById('modal-templates');
+      const btnOpenTemplates = document.getElementById('btn-open-templates');
+      const btnCloseTemplatesModal = document.getElementById('btn-close-templates-modal');
+
+      const now = new Date();
+      const defaultDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+      const defaultTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      let draggedItem = null;
+
+      function attachDragAndDropEvents(container) {
+        if (!container) return;
+
+        container.addEventListener('dragstart', (e) => {
+          const targetRow = e.target.closest('.dynamic-field-row');
+          if (!targetRow || targetRow.classList.contains('locked')) {
+            e.preventDefault();
+            return;
+          }
+          draggedItem = targetRow;
+          setTimeout(() => targetRow.classList.add('dragging'), 0);
+        });
+
+        container.addEventListener('dragend', (e) => {
+          const targetRow = e.target.closest('.dynamic-field-row');
+          if (targetRow) targetRow.classList.remove('dragging');
+          draggedItem = null;
+        });
+
+        container.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          if (!draggedItem) return;
+          const afterElement = getDragAfterElement(container, e.clientY);
+          if (afterElement == null) {
+            container.appendChild(draggedItem);
+          } else {
+            container.insertBefore(draggedItem, afterElement);
+          }
+        });
+
+        container.addEventListener('touchstart', (e) => {
+          const targetRow = e.target.closest('.dynamic-field-row');
+          if (!targetRow || targetRow.classList.contains('locked')) return;
+          draggedItem = targetRow;
+          draggedItem.classList.add('dragging');
+        }, { passive: true });
+
+        container.addEventListener('touchmove', (e) => {
+          if (!draggedItem) return;
+          if (e.cancelable) e.preventDefault();
+          const touchLocation = e.touches[0];
+          const afterElement = getDragAfterElement(container, touchLocation.clientY);
+          if (afterElement == null) {
+            container.appendChild(draggedItem);
+          } else {
+            container.insertBefore(draggedItem, afterElement);
+          }
+        }, { passive: false });
+
+        container.addEventListener('touchend', () => {
+          if (draggedItem) {
+            draggedItem.classList.remove('dragging');
+            draggedItem = null;
+          }
+        });
+      }
+
+      function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.dynamic-field-row:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+          const box = child.getBoundingClientRect();
+          const offset = y - box.top - box.height / 2;
+          if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+          } else {
+            return closest;
+          }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+      }
+
+      attachDragAndDropEvents(dynamicFormatoFieldsContainer);
+
+      function createFormatoField(type, customTitle = '', customValue = '') {
+        let inputsHtml = '';
+        let labelText = '';
+        let isSingle = false;
+
+        if (type === 'titulo') {
+          labelText = 'TÍTULO';
+          isSingle = true;
+          inputsHtml = `<div class="minuta-form-group"><label>${labelText}</label><input type="text" class="extra-value" value="${customValue}" placeholder="Escribe el título..."></div>`;
+        } else if (type === 'fecha') {
+          labelText = 'FECHA';
+          isSingle = true;
+          inputsHtml = `<div class="minuta-form-group"><label>${labelText}</label><input type="date" class="extra-value" value="${customValue || defaultDate}"></div>`;
+        } else if (type === 'hora') {
+          labelText = 'HORA';
+          isSingle = true;
+          inputsHtml = `<div class="minuta-form-group"><label>${labelText}</label><input type="time" class="extra-value" value="${customValue || defaultTime}"></div>`;
+        } else if (type === 'informa') {
+          labelText = 'INFORMA';
+          isSingle = true;
+          inputsHtml = `<div class="minuta-form-group"><label>${labelText}</label><input type="text" class="extra-value" value="${customValue}" placeholder="Quién informa..."></div>`;
+        } else if (type === 'resumen') {
+          labelText = 'RESUMEN';
+          isSingle = true;
+          inputsHtml = `<div class="minuta-form-group"><label>${labelText}</label><textarea class="extra-value" rows="3" placeholder="Escribe el resumen...">${customValue}</textarea></div>`;
+        } else if (type === 'nota') {
+          labelText = 'NOTA OBSERVACIÓN';
+          isSingle = true;
+          inputsHtml = `<div class="minuta-form-group"><label>${labelText}</label><textarea class="extra-value" rows="3" placeholder="Escribe la observación...">${customValue}</textarea></div>`;
+        } else if (type === 'instituto') {
+          labelText = 'INSTITUTO';
+          isSingle = true;
+          inputsHtml = `<div class="minuta-form-group"><label>${labelText}</label><input type="text" class="extra-value" value="${customValue}" placeholder="Institución..."></div>`;
+        } else if (type === 'personalizado' || type === 'extra') {
+          labelText = type === 'personalizado' ? 'PERSONALIZADO' : 'EXTRA';
+          inputsHtml = `
+            <div class="minuta-form-group"><label>Etiqueta</label><input type="text" class="extra-title" value="${customTitle}" placeholder="Nombre del campo..."></div>
+            <div class="minuta-form-group"><label>Valor</label><input type="text" class="extra-value" value="${customValue}" placeholder="Contenido..."></div>
+          `;
+        }
+
+        const row = document.createElement('div');
+        row.className = 'dynamic-field-row locked';
+        row.setAttribute('draggable', 'false');
+        row.dataset.fieldLabel = labelText;
+        row.innerHTML = `
+          <div class="dynamic-inputs-grid ${isSingle ? 'single-column' : ''}">${inputsHtml}</div>
+          <div class="dynamic-actions">
+            <button type="button" class="minuta-icon-btn btn-lock" title="Bloquear / Desbloquear para mover">
+              <svg class="btn-svg-icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </button>
+            <button type="button" class="minuta-icon-btn btn-danger btn-remove" title="Eliminar">
+              <svg class="btn-svg-icon" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            </button>
+          </div>
+        `;
+        
+        dynamicFormatoFieldsContainer.appendChild(row);
+
+        const btnLock = row.querySelector('.btn-lock');
+        btnLock.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isLocked = row.classList.contains('locked');
+          if (isLocked) {
+            row.classList.remove('locked');
+            row.classList.add('unlocked');
+            row.setAttribute('draggable', 'true');
+            btnLock.innerHTML = `<svg class="btn-svg-icon" viewBox="0 0 24 24"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>`;
+          } else {
+            row.classList.remove('unlocked', 'dragging');
+            row.classList.add('locked');
+            row.setAttribute('draggable', 'false');
+            btnLock.innerHTML = `<svg class="btn-svg-icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`;
+          }
+        });
+
+        row.querySelector('.btn-remove').addEventListener('click', () => row.remove());
+      }
+
+      if (fmtFieldType) {
+        fmtFieldType.addEventListener('change', (e) => {
+          const selectedType = e.target.value;
+          if (!selectedType) return;
+          createFormatoField(selectedType);
+          e.target.value = '';
+        });
+      }
+
+      if (btnAddFormatoField) {
+        btnAddFormatoField.addEventListener('click', () => {
+          createFormatoField('extra');
+        });
+      }
+
+      if (btnOpenTemplates) {
+        btnOpenTemplates.addEventListener('click', () => modalTemplates.classList.add('open'));
+      }
+      if (btnCloseTemplatesModal) {
+        btnCloseTemplatesModal.addEventListener('click', () => modalTemplates.classList.remove('open'));
+      }
+
+      document.querySelectorAll('.template-item-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const templateType = e.currentTarget.getAttribute('data-template');
+          loadTemplateData(templateType);
+          modalTemplates.classList.remove('open');
+        });
+      });
+
+      function loadTemplateData(type) {
+        dynamicFormatoFieldsContainer.innerHTML = '';
+        fmtTituloSuperior.value = '';
+        fmtTituloInferior.value = '';
+
+        if (type === 'modelo1') {
+          fmtTituloSuperior.value = '[PUNTO O SERVICIO] — RELEVO DE SERVICIO';
+          createFormatoField('fecha');
+          createFormatoField('resumen', '', `PERSONAL
+[CANTIDAD Y ADSCRIPCIÓN SEGÚN REPORTE INTERNO]
+
+BIENES Y EQUIPOS
+[DESCRIPCIÓN, CANTIDAD Y ESTADO — COMPLETAR POR CANAL AUTORIZADO]
+
+OBSERVACIONES
+[NOVEDADES DEL RELEVO O SIN NOVEDAD]
+
+INFORMA
+[GRADO Y DATOS DEL RESPONSABLE — COMPLETAR POR CANAL AUTORIZADO]
+
+CONFORME
+[GRADO Y DATOS DE QUIEN RECIBE — COMPLETAR POR CANAL AUTORIZADO]
+[SUPERVISIÓN CORRESPONDIENTE]`);
+          fmtTituloInferior.value = 'PROTEGER, DEFENDER Y SERVIR';
+        } else if (type === 'modelo2') {
+          fmtTituloSuperior.value = 'RELEVO DE CONDUCTOR DE UNIDAD';
+          createFormatoField('personalizado', 'PUNTO O SERVICIO', '[COMPLETAR POR CANAL AUTORIZADO]');
+          createFormatoField('fecha');
+          createFormatoField('hora');
+          createFormatoField('resumen', '', `RECIBE
+[GRADO Y DATOS — COMPLETAR POR CANAL AUTORIZADO]
+
+ENTREGA
+[GRADO Y DATOS — COMPLETAR POR CANAL AUTORIZADO]
+
+DATOS DE LA UNIDAD
+[IDENTIFICACIÓN, KILOMETRAJE Y COMBUSTIBLE — NO PUBLICAR]
+
+BIENES ENTREGADOS
+[DESCRIPCIÓN, CANTIDAD Y ESTADO — COMPLETAR POR CANAL AUTORIZADO]
+
+OBSERVACIONES
+[NOVEDADES O SIN NOVEDAD]`);
+          fmtTituloInferior.value = '';
+        } else if (type === 'modelo3') {
+          fmtTituloSuperior.value = 'SUPERVISIÓN DE SERVICIO';
+          createFormatoField('fecha');
+          createFormatoField('hora');
+          createFormatoField('resumen', '', `PUNTO O SERVICIO
+[REFERENCIA GENERAL — COMPLETAR POR CANAL AUTORIZADO]
+
+PERSONAL DE SERVICIO
+[CANTIDAD Y RESPONSABLE — COMPLETAR POR CANAL AUTORIZADO]
+
+RESULTADO
+[NOVEDADES O SIN NOVEDAD]
+
+ANEXOS
+[INDICAR SI SE REMITEN POR CANAL INSTITUCIONAL]
+
+INFORMA
+[GRADO Y DATOS — COMPLETAR POR CANAL AUTORIZADO]
+[SUPERVISIÓN CORRESPONDIENTE]`);
+          fmtTituloInferior.value = 'PROTEGER, DEFENDER Y SERVIR';
+        } else if (type === 'modelo4') {
+          fmtTituloSuperior.value = 'MINUTA INFORMATIVA';
+          createFormatoField('personalizado', 'ESTADO O ÁREA', '[COMPLETAR POR CANAL AUTORIZADO]');
+          createFormatoField('fecha');
+          createFormatoField('hora');
+          createFormatoField('personalizado', 'TIPO DE NOVEDAD', 'SUPERVISIÓN / VERIFICACIÓN / RELEVO');
+          createFormatoField('resumen', '', `En esta fecha y hora se informa a la superioridad que [DESCRIPCIÓN GENERAL DE LA ACTUACIÓN, SIN DATOS PERSONALES NI DETALLES OPERATIVOS PÚBLICOS].
+
+COMISIÓN U ORGANISMO
+[IDENTIFICACIÓN GENERAL — COMPLETAR POR CANAL AUTORIZADO]
+
+RESULTADO
+[NOVEDADES O SIN NOVEDAD]
+
+INFORMA
+[GRADO Y DATOS — COMPLETAR POR CANAL AUTORIZADO]`);
+          fmtTituloInferior.value = 'PROTEGER, DEFENDER Y SERVIR A NUESTRO PUEBLO';
+        }
+      }
+
+      function generateText() {
+        let text = '';
+        if (fmtTituloSuperior && fmtTituloSuperior.value.trim()) {
+          text += `${fmtTituloSuperior.value.trim().toUpperCase()}\n\n`;
+        }
+
+        dynamicFormatoFieldsContainer.querySelectorAll('.dynamic-field-row').forEach(row => {
+          const titleInput = row.querySelector('.extra-title');
+          const valueInput = row.querySelector('input.extra-value, textarea.extra-value');
+          const label = titleInput ? titleInput.value.trim().toUpperCase() : row.dataset.fieldLabel;
+          
+          if (valueInput && valueInput.value.trim()) {
+            let val = valueInput.value.trim();
+            if (valueInput.type === 'date') {
+              const parts = val.split('-');
+              if (parts.length === 3) val = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+            text += `${label}: ${val.toUpperCase()}\n`;
+          }
+        });
+
+        if (fmtTituloInferior && fmtTituloInferior.value.trim()) {
+          text += `\n${fmtTituloInferior.value.trim().toUpperCase()}`;
+        }
+
+        return text.trim() || 'Completa los campos para generar la minuta.';
+      }
+
+      if (btnCreateFormato) {
+        btnCreateFormato.addEventListener('click', () => {
+          minutaOutput.innerText = generateText();
+          modalPreview.classList.add('open');
+        });
+      }
+
+      if (btnCloseModal) {
+        btnCloseModal.addEventListener('click', () => modalPreview.classList.remove('open'));
+      }
+
+      if (btnCopy) {
+        btnCopy.addEventListener('click', async () => {
+          await navigator.clipboard.writeText(minutaOutput.innerText);
+          alert('Texto copiado al portapapeles');
+        });
+      }
+
+      if (btnShare) {
+        btnShare.addEventListener('click', async () => {
+          const shareText = minutaOutput.innerText;
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                title: 'Minuta Policial CPNB',
+                text: shareText
+              });
+            } catch (err) {
+              if (err.name !== 'AbortError') {
+                await navigator.clipboard.writeText(shareText);
+                alert('Texto copiado al portapapeles para compartir');
+              }
+            }
+          } else {
+            await navigator.clipboard.writeText(shareText);
+            alert('Texto copiado al portapapeles para compartir');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

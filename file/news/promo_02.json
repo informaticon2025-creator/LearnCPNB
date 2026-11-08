@@ -1,0 +1,45 @@
+{
+  "titulo": "Tu Arma de fuego",
+  "descripcion": "Beretta PX4 ",
+  "fecha": "06/11/2026",
+  "enlace": "page/promo.html",
+  "textoBoton": "Juega",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Conocer tu Armamento no es una opcion es una obligacion para saber que responsabilidad tienes en tus manos."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿De cuantas piezas se compone el PX4 en su totalidad?",
+          "opciones": [
+            {
+              "texto": "04.",
+              "correcta": false
+            },
+            {
+              "texto": "30.",
+              "correcta": false
+            },
+            {
+              "texto": "57.",
+              "correcta": false
+            },
+            {
+              "texto": "65.",
+              "correcta": true
+            },
+            {
+              "texto": "55.",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El artículo 49 establece las garantías del debido proceso."
+        }
+      ]
+    }
+  ]
+}

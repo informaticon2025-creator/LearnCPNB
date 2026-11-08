@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../">
+  <meta name="theme-color" content="#0b1f4b">
+  <script src="interaction/desktop-notice.js?v=2" defer></script>
+  <title>Página no disponible | Learn CPNB</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1c1e21;
+      background: #f0f2f5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      display: grid;
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0;
+      padding: 24px;
+      place-items: center;
+    }
+
+    main {
+      width: min(100%, 460px);
+      padding: 40px 32px;
+      border: 1px solid #dadde1;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 12px 36px rgba(11, 31, 75, 0.1);
+      text-align: center;
+    }
+
+    .status-icon {
+      display: grid;
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 20px;
+      place-items: center;
+      border-radius: 50%;
+      background: #e7f3ff;
+      color: #0b1f4b;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: #0b1f4b;
+      font-size: clamp(1.6rem, 6vw, 2rem);
+    }
+
+    p {
+      margin: 0;
+      color: #65676b;
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    a,
+    button {
+      min-height: 44px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 8px;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    a {
+      background: #0b1f4b;
+      color: #fff;
+    }
+
+    button {
+      background: #e4e6eb;
+      color: #1c1e21;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid #166fe5;
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="status-icon" aria-hidden="true">404</div>
+    <h1>Página no encontrada</h1>
+    <p>La dirección que buscas no existe. Puedes volver al inicio o reintentar.</p>
+    <div class="actions">
+      <a href="https://informaticon2025-creator.github.io/LearnCPNB/">Volver al inicio</a>
+      <button type="button" onclick="window.location.reload()">Reintentar</button>
+    </div>
+  </main>
+</body>
+</html>

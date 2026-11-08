@@ -1,0 +1,35 @@
+{
+  "tipo": "documento",
+  "num": "03",
+  "titulo": "Armamento y Equipamiento de la Policía Nacional Bolivariana",
+  "descripcion": "Información sobre el armamento y equipamiento de la Policía Nacional Bolivariana.",
+  "categoria": [
+    {
+      "nombre": "Familia Beretta",
+      "subcategorias": [
+        {
+          "nombre": "Pistola PX4 Beretta",
+          "articulos": [
+            {
+              "numART": "1",
+              "tituloART": "Geografía de la Pistola PX4 Beretta",
+              "parrafoART": "La historia de la Beretta Px4 Storm comienza en 2004 en Brescia, Italia, cuando Beretta decide actualizar su catálogo de armas de dotación para competir en el mercado policial moderno. Durante décadas la marca se consolidó con la Beretta 92FS y su tradicional sistema de leva basculante estilo Walther P38, pero el peso del armazón totalmente metálico y la falta de adaptabilidad táctica exigían una renovación tecnológica. Para crear la Px4, la empresa tomó como referencia la Beretta 8000 Cougar de los años noventa, de la cual heredó el mecanismo de acerrojado por cañón rotatorio en lugar del habitual cañón basculante tipo Browning. La gran innovación de la Px4 Storm consistió en combinar este sistema de rotación mejorado con un armazón de polímero reforzado con acero, reduciendo sensiblemente el peso para el patrullaje diario y absorbiendo mejor la energía del retroceso. Esto permite que el cañón no se eleve vertiginosamente al disparar, manteniendo la alineación sobre el blanco para tiros de reacción rápida. ",
+              "imgART": "assets/px4.png"
+            }
+          ]
+        },
+        {
+          "nombre": "Pistola Beretta 92FS / F92",
+          "articulos": [
+            {
+              "numART": "2",
+              "tituloART": "Beretta F92",
+              "parrafoART": "La Beretta 92 nació en Italia a mediados de la década de 1970 diseñada por Carlo Beretta, Giuseppe Mazzetti y Vittorio Valle como la evolución de los icónicos modelos M1923 y M1951 de la fábrica de Brescia. Su arquitectura combinó el armazón de aleación ligera de aluminio con el probado sistema de acerrojado por leva basculante inferior descendente heredado de la Walther P38, eliminando el cañón basculante tradicional y garantizando una alimentación limpia de los cartuchos. En la década de 1980 el arma dio el gran salto internacional al ganar las rigurosas pruebas del ejército de los Estados Unidos para sustituir a la legendaria Colt M1911A1, adoptándose oficialmente bajo la designación militar M9. Tras este hito se introdujo la variante 92FS (o F92), la cual incorporó un perno de seguridad mejorado en la corredera para evitar desprendimientos ante cargas de presión extrema. Con su característico diseño de corredera abierta para evitar encasquillamientos, seguro ambidiestro con función de desamartillado y cargador de gran capacidad, la Beretta 92FS se consolidó durante más de tres décadas como el estándar reglamentario en innumerables fuerzas armadas, cuerpos policiales y agencias de seguridad a nivel global.",
+              "imgART": "assets/92fs.webp"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

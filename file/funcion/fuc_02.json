@@ -1,0 +1,1494 @@
+{
+  "tipo": "claves",
+  "num": "02",
+  "titulo": "Claves policiales",
+  "descripcion": "Claves de servicio, rangos y comunicaciones.",
+  "categoria": [
+    {
+      "nombre": "GUAICAMACUTO",
+      "subcategorias": [
+        {
+          "nombre": "Guaicamacuto",
+          "articulos": [
+            {
+              "numART": "1",
+              "tituloART": "Comisario o Comisaria Superior",
+              "parrafoART": ""
+            },
+            {
+              "numART": "2",
+              "tituloART": "Comisario o Comisaria Mayor",
+              "parrafoART": ""
+            },
+            {
+              "numART": "3",
+              "tituloART": "Comisario o Comisaria General",
+              "parrafoART": ""
+            },
+            {
+              "numART": "4",
+              "tituloART": "Comisario o Comisaria Jefe",
+              "parrafoART": ""
+            },
+            {
+              "numART": "5",
+              "tituloART": "Primer Comisario o Comisaria",
+              "parrafoART": ""
+            },
+            {
+              "numART": "6",
+              "tituloART": "Comisario o Comisaria",
+              "parrafoART": ""
+            },
+            {
+              "numART": "7",
+              "tituloART": "Inspector Jefe o Inspector Jefa",
+              "parrafoART": ""
+            },
+            {
+              "numART": "8",
+              "tituloART": "Primer Inspector o Primera Inspectora",
+              "parrafoART": ""
+            },
+            {
+              "numART": "9",
+              "tituloART": "Inspector o Inspectora",
+              "parrafoART": ""
+            },
+            {
+              "numART": "10",
+              "tituloART": "Oficial Jefe u Oficial Jefa",
+              "parrafoART": ""
+            },
+            {
+              "numART": "11",
+              "tituloART": "Primer Oficial",
+              "parrafoART": ""
+            },
+            {
+              "numART": "12",
+              "tituloART": "Oficial",
+              "parrafoART": ""
+            },
+            {
+              "numART": "13",
+              "tituloART": "Agente",
+              "parrafoART": ""
+            },
+            {
+              "numART": "14",
+              "tituloART": "Aspirante (CPNB)",
+              "parrafoART": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "CONOCAYMA",
+      "subcategorias": [
+        {
+          "nombre": "Conocayma",
+          "articulos": [
+            {
+              "numART": "1",
+              "tituloART": "Supervisor Estratégico",
+              "parrafoART": ""
+            },
+            {
+              "numART": "2",
+              "tituloART": "Supervisor General",
+              "parrafoART": ""
+            },
+            {
+              "numART": "3",
+              "tituloART": "Supervisor de...",
+              "parrafoART": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "TIUNA",
+      "subcategorias": [
+        {
+          "nombre": "Instrucciones de Servicio",
+          "articulos": [
+            {
+              "numART": "1",
+              "tituloART": "Prestar apoyo o ayuda",
+              "parrafoART": ""
+            },
+            {
+              "numART": "2",
+              "tituloART": "Atención",
+              "parrafoART": ""
+            },
+            {
+              "numART": "3",
+              "tituloART": "Copiado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "4",
+              "tituloART": "Llamada general de red",
+              "parrafoART": ""
+            },
+            {
+              "numART": "5",
+              "tituloART": "Tomar nota",
+              "parrafoART": ""
+            },
+            {
+              "numART": "6",
+              "tituloART": "Si no hay emergencia no llame",
+              "parrafoART": ""
+            },
+            {
+              "numART": "7",
+              "tituloART": "Proceda de acuerdo a instrucciones",
+              "parrafoART": ""
+            },
+            {
+              "numART": "8",
+              "tituloART": "Dar prioridad",
+              "parrafoART": ""
+            },
+            {
+              "numART": "9",
+              "tituloART": "Canal abierto",
+              "parrafoART": ""
+            },
+            {
+              "numART": "10",
+              "tituloART": "Quien comanda",
+              "parrafoART": ""
+            },
+            {
+              "numART": "11",
+              "tituloART": "Quien trasmite",
+              "parrafoART": ""
+            },
+            {
+              "numART": "12",
+              "tituloART": "Sin novedad",
+              "parrafoART": ""
+            },
+            {
+              "numART": "13",
+              "tituloART": "Efectué llamada telefónica",
+              "parrafoART": ""
+            },
+            {
+              "numART": "14",
+              "tituloART": "Recorra su área",
+              "parrafoART": ""
+            },
+            {
+              "numART": "15",
+              "tituloART": "Verifique antecedentes de a) personas b) vehículos c) armas",
+              "parrafoART": ""
+            },
+            {
+              "numART": "16",
+              "tituloART": "Cambie de canal",
+              "parrafoART": ""
+            },
+            {
+              "numART": "17",
+              "tituloART": "Deje sin efecto",
+              "parrafoART": ""
+            },
+            {
+              "numART": "18",
+              "tituloART": "Donde se encuentra",
+              "parrafoART": ""
+            },
+            {
+              "numART": "19",
+              "tituloART": "Apague el transmisor",
+              "parrafoART": ""
+            },
+            {
+              "numART": "20",
+              "tituloART": "Informe estoy copiando",
+              "parrafoART": ""
+            },
+            {
+              "numART": "21",
+              "tituloART": "Reportarse unidad que está copiando",
+              "parrafoART": ""
+            },
+            {
+              "numART": "22",
+              "tituloART": "Abastecimiento o equipar la unidad",
+              "parrafoART": ""
+            },
+            {
+              "numART": "23",
+              "tituloART": "Como se escucha",
+              "parrafoART": ""
+            },
+            {
+              "numART": "24",
+              "tituloART": "Se copia bien",
+              "parrafoART": ""
+            },
+            {
+              "numART": "25",
+              "tituloART": "Se copia mal",
+              "parrafoART": ""
+            },
+            {
+              "numART": "26",
+              "tituloART": "Cambie de sitio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "27",
+              "tituloART": "Permanezca en sintonía",
+              "parrafoART": ""
+            },
+            {
+              "numART": "28",
+              "tituloART": "Positivo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "29",
+              "tituloART": "Negativo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "30",
+              "tituloART": "Procedimiento",
+              "parrafoART": ""
+            },
+            {
+              "numART": "31",
+              "tituloART": "Verifique denuncia",
+              "parrafoART": ""
+            },
+            {
+              "numART": "32",
+              "tituloART": "Tenga precaución",
+              "parrafoART": ""
+            },
+            {
+              "numART": "33",
+              "tituloART": "Entrevístese con",
+              "parrafoART": ""
+            },
+            {
+              "numART": "34",
+              "tituloART": "Informe resultado de",
+              "parrafoART": ""
+            },
+            {
+              "numART": "35",
+              "tituloART": "Permanezca en el lugar",
+              "parrafoART": ""
+            },
+            {
+              "numART": "36",
+              "tituloART": "Repita el mensaje",
+              "parrafoART": ""
+            },
+            {
+              "numART": "37",
+              "tituloART": "Preste apoyo a...",
+              "parrafoART": ""
+            },
+            {
+              "numART": "38",
+              "tituloART": "De características de",
+              "parrafoART": ""
+            },
+            {
+              "numART": "39",
+              "tituloART": "Efectué bloqueo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "40",
+              "tituloART": "Punto de control",
+              "parrafoART": ""
+            },
+            {
+              "numART": "41",
+              "tituloART": "Intercepte",
+              "parrafoART": ""
+            },
+            {
+              "numART": "42",
+              "tituloART": "Proceda a detención o decomiso",
+              "parrafoART": ""
+            },
+            {
+              "numART": "43",
+              "tituloART": "Proteja la escena del suceso",
+              "parrafoART": ""
+            },
+            {
+              "numART": "44",
+              "tituloART": "Déjese en libertad",
+              "parrafoART": ""
+            },
+            {
+              "numART": "45",
+              "tituloART": "Detenga vehículo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "46",
+              "tituloART": "Se requiere comisión de",
+              "parrafoART": ""
+            },
+            {
+              "numART": "47",
+              "tituloART": "Espere información",
+              "parrafoART": ""
+            },
+            {
+              "numART": "48",
+              "tituloART": "Espere comisión de",
+              "parrafoART": ""
+            },
+            {
+              "numART": "49",
+              "tituloART": "Entregue procedimiento a",
+              "parrafoART": ""
+            },
+            {
+              "numART": "50",
+              "tituloART": "Retírese del lugar",
+              "parrafoART": ""
+            },
+            {
+              "numART": "51",
+              "tituloART": "Lugar de servicio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "52",
+              "tituloART": "Relevo de servicio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "53",
+              "tituloART": "Evite pasar por",
+              "parrafoART": ""
+            },
+            {
+              "numART": "54",
+              "tituloART": "Empleo de Updf. (uso progresivo y diferenciado de la fuerza)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "55",
+              "tituloART": "Disuelva la manifestación",
+              "parrafoART": ""
+            },
+            {
+              "numART": "56",
+              "tituloART": "Utilice a) intermitente b) sirena c) megáfono",
+              "parrafoART": ""
+            },
+            {
+              "numART": "57",
+              "tituloART": "Manténgase alejado del lugar y espere instrucciones",
+              "parrafoART": ""
+            },
+            {
+              "numART": "58",
+              "tituloART": "Que espacio ocupan los manifestantes",
+              "parrafoART": ""
+            },
+            {
+              "numART": "59",
+              "tituloART": "Informe actitud y situación",
+              "parrafoART": ""
+            },
+            {
+              "numART": "60",
+              "tituloART": "Dinero en cualquiera de sus tipos o valor",
+              "parrafoART": ""
+            },
+            {
+              "numART": "61",
+              "tituloART": "Agrupe la unidad y empléela en masa o bloque",
+              "parrafoART": ""
+            },
+            {
+              "numART": "62",
+              "tituloART": "Despeje la vía para el libre tránsito",
+              "parrafoART": ""
+            },
+            {
+              "numART": "63",
+              "tituloART": "Comisión personal (alimentación...)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "64",
+              "tituloART": "Quien ordena la comisión",
+              "parrafoART": ""
+            },
+            {
+              "numART": "65",
+              "tituloART": "Informe novedades en el área de servicio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "66",
+              "tituloART": "Estado de alerta u orden de acuartelamiento",
+              "parrafoART": ""
+            },
+            {
+              "numART": "67",
+              "tituloART": "Denunciante",
+              "parrafoART": ""
+            },
+            {
+              "numART": "68",
+              "tituloART": "Denunciado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "69",
+              "tituloART": "Que se decomiso",
+              "parrafoART": ""
+            },
+            {
+              "numART": "70",
+              "tituloART": "Donde condujo el procedimiento",
+              "parrafoART": ""
+            },
+            {
+              "numART": "71",
+              "tituloART": "Se requiere unidad de remolque",
+              "parrafoART": ""
+            },
+            {
+              "numART": "72",
+              "tituloART": "Consulte las claves",
+              "parrafoART": ""
+            },
+            {
+              "numART": "73",
+              "tituloART": "Impongan sanción administrativa",
+              "parrafoART": ""
+            },
+            {
+              "numART": "74",
+              "tituloART": "Ballena",
+              "parrafoART": ""
+            },
+            {
+              "numART": "75",
+              "tituloART": "Vanguardia (de la marcha)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "76",
+              "tituloART": "Retaguardia (de la marcha)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "77",
+              "tituloART": "Grupo de respuesta inmediata (GRI)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "78",
+              "tituloART": "Pelotón de restablecimiento de orden público (PROP)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "79",
+              "tituloART": "Evento público",
+              "parrafoART": ""
+            },
+            {
+              "numART": "80",
+              "tituloART": "Resguarde el comando",
+              "parrafoART": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "PEMON",
+      "subcategorias": [
+        {
+          "nombre": "Procedimientos Policiales",
+          "articulos": [
+            {
+              "numART": "1",
+              "tituloART": "Atacan a",
+              "parrafoART": ""
+            },
+            {
+              "numART": "2",
+              "tituloART": "Manifestación",
+              "parrafoART": ""
+            },
+            {
+              "numART": "3",
+              "tituloART": "Concentración de personas",
+              "parrafoART": ""
+            },
+            {
+              "numART": "4",
+              "tituloART": "Huelga",
+              "parrafoART": ""
+            },
+            {
+              "numART": "5",
+              "tituloART": "Marcha pacífica",
+              "parrafoART": ""
+            },
+            {
+              "numART": "6",
+              "tituloART": "Caminata",
+              "parrafoART": ""
+            },
+            {
+              "numART": "7",
+              "tituloART": "Caravana",
+              "parrafoART": ""
+            },
+            {
+              "numART": "8",
+              "tituloART": "Maratón",
+              "parrafoART": ""
+            },
+            {
+              "numART": "9",
+              "tituloART": "Dispositivo de...",
+              "parrafoART": ""
+            },
+            {
+              "numART": "10",
+              "tituloART": "Evento cultural deportivo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "11",
+              "tituloART": "Excursión o plan vacacional",
+              "parrafoART": ""
+            },
+            {
+              "numART": "12",
+              "tituloART": "Choque o colisión a) patrulla b) moto c) vehículo particular, d) helicóptero",
+              "parrafoART": ""
+            },
+            {
+              "numART": "13",
+              "tituloART": "Motín",
+              "parrafoART": ""
+            },
+            {
+              "numART": "14",
+              "tituloART": "Estudiante",
+              "parrafoART": ""
+            },
+            {
+              "numART": "15",
+              "tituloART": "Muerto",
+              "parrafoART": ""
+            },
+            {
+              "numART": "16",
+              "tituloART": "Lesionado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "17",
+              "tituloART": "Detenido",
+              "parrafoART": ""
+            },
+            {
+              "numART": "18",
+              "tituloART": "Ciudadano",
+              "parrafoART": ""
+            },
+            {
+              "numART": "19",
+              "tituloART": "Robo a) mano armada b) arrebatón",
+              "parrafoART": ""
+            },
+            {
+              "numART": "20",
+              "tituloART": "Fiscal de guardia",
+              "parrafoART": ""
+            },
+            {
+              "numART": "21",
+              "tituloART": "Ruidos molestos",
+              "parrafoART": ""
+            },
+            {
+              "numART": "22",
+              "tituloART": "Sospechoso (a)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "23",
+              "tituloART": "Solicitado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "24",
+              "tituloART": "Riña",
+              "parrafoART": ""
+            },
+            {
+              "numART": "25",
+              "tituloART": "Hurto",
+              "parrafoART": ""
+            },
+            {
+              "numART": "26",
+              "tituloART": "Francotirador (es)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "27",
+              "tituloART": "Sujeto (s) encapuchado (s)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "28",
+              "tituloART": "Pancartas, panfletos, volantes",
+              "parrafoART": ""
+            },
+            {
+              "numART": "29",
+              "tituloART": "Disparos",
+              "parrafoART": ""
+            },
+            {
+              "numART": "30",
+              "tituloART": "Enfrentamiento con",
+              "parrafoART": ""
+            },
+            {
+              "numART": "31",
+              "tituloART": "Artefactos explosivos",
+              "parrafoART": ""
+            },
+            {
+              "numART": "32",
+              "tituloART": "Explosión",
+              "parrafoART": ""
+            },
+            {
+              "numART": "33",
+              "tituloART": "Armas de fuego",
+              "parrafoART": ""
+            },
+            {
+              "numART": "34",
+              "tituloART": "Armas blancas",
+              "parrafoART": ""
+            },
+            {
+              "numART": "35",
+              "tituloART": "Objeto contundente",
+              "parrafoART": ""
+            },
+            {
+              "numART": "36",
+              "tituloART": "Testigo (s)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "37",
+              "tituloART": "Entrega de citación de...",
+              "parrafoART": ""
+            },
+            {
+              "numART": "38",
+              "tituloART": "Inspección técnica",
+              "parrafoART": ""
+            },
+            {
+              "numART": "39",
+              "tituloART": "Moto",
+              "parrafoART": ""
+            },
+            {
+              "numART": "40",
+              "tituloART": "Vehículo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "41",
+              "tituloART": "Bicicleta",
+              "parrafoART": ""
+            },
+            {
+              "numART": "42",
+              "tituloART": "Tsunami",
+              "parrafoART": ""
+            },
+            {
+              "numART": "43",
+              "tituloART": "Derrumbe",
+              "parrafoART": ""
+            },
+            {
+              "numART": "44",
+              "tituloART": "Incendio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "45",
+              "tituloART": "Inundación",
+              "parrafoART": ""
+            },
+            {
+              "numART": "46",
+              "tituloART": "Venta ilícita de licor",
+              "parrafoART": ""
+            },
+            {
+              "numART": "47",
+              "tituloART": "Deslave",
+              "parrafoART": ""
+            },
+            {
+              "numART": "48",
+              "tituloART": "Precipitaciones",
+              "parrafoART": ""
+            },
+            {
+              "numART": "49",
+              "tituloART": "Desbordamiento",
+              "parrafoART": ""
+            },
+            {
+              "numART": "50",
+              "tituloART": "Sismo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "51",
+              "tituloART": "Mar de fondo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "52",
+              "tituloART": "Construcción prohibida",
+              "parrafoART": ""
+            },
+            {
+              "numART": "53",
+              "tituloART": "Persona quemada",
+              "parrafoART": ""
+            },
+            {
+              "numART": "54",
+              "tituloART": "Persona intoxicada",
+              "parrafoART": ""
+            },
+            {
+              "numART": "55",
+              "tituloART": "Interferencia",
+              "parrafoART": ""
+            },
+            {
+              "numART": "56",
+              "tituloART": "Persona extraviada",
+              "parrafoART": ""
+            },
+            {
+              "numART": "57",
+              "tituloART": "Denuncia de...",
+              "parrafoART": ""
+            },
+            {
+              "numART": "58",
+              "tituloART": "Buhoneros o vendedores informales",
+              "parrafoART": ""
+            },
+            {
+              "numART": "59",
+              "tituloART": "Accidente de tránsito",
+              "parrafoART": ""
+            },
+            {
+              "numART": "60",
+              "tituloART": "Atropello",
+              "parrafoART": ""
+            },
+            {
+              "numART": "61",
+              "tituloART": "Animal suelto en la vía",
+              "parrafoART": ""
+            },
+            {
+              "numART": "62",
+              "tituloART": "Poste o árbol derribado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "63",
+              "tituloART": "Cables eléctricos en vía",
+              "parrafoART": ""
+            },
+            {
+              "numART": "64",
+              "tituloART": "Solicita grúa",
+              "parrafoART": ""
+            },
+            {
+              "numART": "65",
+              "tituloART": "Congestión de tráfico",
+              "parrafoART": ""
+            },
+            {
+              "numART": "66",
+              "tituloART": "Motociclista",
+              "parrafoART": ""
+            },
+            {
+              "numART": "67",
+              "tituloART": "Conductor ebrio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "68",
+              "tituloART": "Materiales en la vía",
+              "parrafoART": ""
+            },
+            {
+              "numART": "69",
+              "tituloART": "Semáforo en mal estado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "70",
+              "tituloART": "Acuerdo entre partes",
+              "parrafoART": ""
+            },
+            {
+              "numART": "71",
+              "tituloART": "Desvió de tránsito a",
+              "parrafoART": ""
+            },
+            {
+              "numART": "72",
+              "tituloART": "Traslado de...",
+              "parrafoART": ""
+            },
+            {
+              "numART": "73",
+              "tituloART": "Personal de refuerzo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "74",
+              "tituloART": "Policía de servicio en",
+              "parrafoART": ""
+            },
+            {
+              "numART": "75",
+              "tituloART": "Policía franco de servicio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "76",
+              "tituloART": "Daños en la calzada",
+              "parrafoART": ""
+            },
+            {
+              "numART": "77",
+              "tituloART": "Vehículo mal estacionado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "78",
+              "tituloART": "Solicita comprobantes",
+              "parrafoART": ""
+            },
+            {
+              "numART": "79",
+              "tituloART": "No porta documentos",
+              "parrafoART": ""
+            },
+            {
+              "numART": "80",
+              "tituloART": "Operativo especial transito",
+              "parrafoART": ""
+            },
+            {
+              "numART": "81",
+              "tituloART": "Salida de comisión",
+              "parrafoART": ""
+            },
+            {
+              "numART": "82",
+              "tituloART": "Accidente aéreo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "83",
+              "tituloART": "Accidente ferroviario",
+              "parrafoART": ""
+            },
+            {
+              "numART": "84",
+              "tituloART": "Trolebús dañado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "85",
+              "tituloART": "Robo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "86",
+              "tituloART": "Hurto",
+              "parrafoART": ""
+            },
+            {
+              "numART": "87",
+              "tituloART": "Vehículo abandonado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "88",
+              "tituloART": "Unidad o vehículo accidentado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "89",
+              "tituloART": "Alarma de...",
+              "parrafoART": ""
+            },
+            {
+              "numART": "90",
+              "tituloART": "Violación, seducción actos lascivos",
+              "parrafoART": ""
+            },
+            {
+              "numART": "91",
+              "tituloART": "Agresión o lesiones personales",
+              "parrafoART": ""
+            },
+            {
+              "numART": "92",
+              "tituloART": "Secuestro",
+              "parrafoART": ""
+            },
+            {
+              "numART": "93",
+              "tituloART": "Persona consumiendo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "94",
+              "tituloART": "Persona con antecedentes",
+              "parrafoART": ""
+            },
+            {
+              "numART": "95",
+              "tituloART": "Persona (s) extraviada (s)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "96",
+              "tituloART": "Homicidio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "97",
+              "tituloART": "Suicidio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "98",
+              "tituloART": "Ahorcado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "99",
+              "tituloART": "Electrocutado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "100",
+              "tituloART": "Inmersión",
+              "parrafoART": ""
+            },
+            {
+              "numART": "101",
+              "tituloART": "Envenenamiento",
+              "parrafoART": ""
+            },
+            {
+              "numART": "102",
+              "tituloART": "Arrollamiento",
+              "parrafoART": ""
+            },
+            {
+              "numART": "103",
+              "tituloART": "Accidente a) con muerto, b) con lesionado, c) con daños materiales",
+              "parrafoART": ""
+            },
+            {
+              "numART": "104",
+              "tituloART": "Encunetamiento o embarrancamiento",
+              "parrafoART": ""
+            },
+            {
+              "numART": "105",
+              "tituloART": "Aborto",
+              "parrafoART": ""
+            },
+            {
+              "numART": "106",
+              "tituloART": "Feto",
+              "parrafoART": ""
+            },
+            {
+              "numART": "107",
+              "tituloART": "Extorsión, estafa, fraude",
+              "parrafoART": ""
+            },
+            {
+              "numART": "108",
+              "tituloART": "Apropiación indebida",
+              "parrafoART": ""
+            },
+            {
+              "numART": "109",
+              "tituloART": "Cosas provenientes del delito",
+              "parrafoART": ""
+            },
+            {
+              "numART": "110",
+              "tituloART": "Sustancias psicotrópicas y estupefacientes (drogas)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "111",
+              "tituloART": "Desobediencia a la autoridad",
+              "parrafoART": ""
+            },
+            {
+              "numART": "112",
+              "tituloART": "Niño, niña o adolescente",
+              "parrafoART": ""
+            },
+            {
+              "numART": "113",
+              "tituloART": "Mendigo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "114",
+              "tituloART": "Indigente",
+              "parrafoART": ""
+            },
+            {
+              "numART": "115",
+              "tituloART": "Enajenado mental",
+              "parrafoART": ""
+            },
+            {
+              "numART": "116",
+              "tituloART": "Comunidad (LGBTIQ+)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "117",
+              "tituloART": "Trabajadora sexual",
+              "parrafoART": ""
+            },
+            {
+              "numART": "118",
+              "tituloART": "Violador o violadora",
+              "parrafoART": ""
+            },
+            {
+              "numART": "119",
+              "tituloART": "Ebrio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "120",
+              "tituloART": "Juego de envite y azar",
+              "parrafoART": ""
+            },
+            {
+              "numART": "121",
+              "tituloART": "Se niegan a cancelar",
+              "parrafoART": ""
+            },
+            {
+              "numART": "122",
+              "tituloART": "Indocumentado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "123",
+              "tituloART": "Abandonado",
+              "parrafoART": ""
+            },
+            {
+              "numART": "124",
+              "tituloART": "Ciudadano inconsciente en la vía",
+              "parrafoART": ""
+            },
+            {
+              "numART": "125",
+              "tituloART": "Porte ilícito de armas",
+              "parrafoART": ""
+            },
+            {
+              "numART": "126",
+              "tituloART": "Persona que se hace pasar por autoridad",
+              "parrafoART": ""
+            },
+            {
+              "numART": "127",
+              "tituloART": "Distribuidor de drogas",
+              "parrafoART": ""
+            },
+            {
+              "numART": "128",
+              "tituloART": "Competencia de motos o vehículos (piques)",
+              "parrafoART": ""
+            },
+            {
+              "numART": "129",
+              "tituloART": "Motorizados en parejas",
+              "parrafoART": ""
+            },
+            {
+              "numART": "130",
+              "tituloART": "Aposentamiento de seguridad y/o resguardo a",
+              "parrafoART": ""
+            },
+            {
+              "numART": "131",
+              "tituloART": "Fuga de",
+              "parrafoART": ""
+            },
+            {
+              "numART": "132",
+              "tituloART": "Ausencia de energía eléctrica",
+              "parrafoART": ""
+            },
+            {
+              "numART": "133",
+              "tituloART": "Ausencia de suministro de agua",
+              "parrafoART": ""
+            },
+            {
+              "numART": "134",
+              "tituloART": "Bote de aguas negras",
+              "parrafoART": ""
+            },
+            {
+              "numART": "135",
+              "tituloART": "Bote de aguas blancas",
+              "parrafoART": ""
+            },
+            {
+              "numART": "136",
+              "tituloART": "Acumulación de basura",
+              "parrafoART": ""
+            },
+            {
+              "numART": "137",
+              "tituloART": "Animal muerto",
+              "parrafoART": ""
+            },
+            {
+              "numART": "138",
+              "tituloART": "Maltrato animal",
+              "parrafoART": ""
+            },
+            {
+              "numART": "139",
+              "tituloART": "Congestionamiento de tránsito",
+              "parrafoART": ""
+            },
+            {
+              "numART": "140",
+              "tituloART": "Allanamiamiento",
+              "parrafoART": ""
+            },
+            {
+              "numART": "141",
+              "tituloART": "Visita de...",
+              "parrafoART": ""
+            },
+            {
+              "numART": "142",
+              "tituloART": "Traslado a) plasma b) dinero c) detenido d) herido o enfermo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "143",
+              "tituloART": "Medida de desalojo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "144",
+              "tituloART": "Invasiones",
+              "parrafoART": ""
+            },
+            {
+              "numART": "145",
+              "tituloART": "Se está observando desplazamiento de vehículos militares",
+              "parrafoART": ""
+            },
+            {
+              "numART": "146",
+              "tituloART": "Privado de libertad",
+              "parrafoART": ""
+            },
+            {
+              "numART": "147",
+              "tituloART": "Practicar prueba o examen",
+              "parrafoART": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "WAYUU",
+      "subcategorias": [
+        {
+          "nombre": "Warao 1",
+          "articulos": [
+            {
+              "numART": "W1",
+              "tituloART": "Ministerio del Poder Popular para las Relaciones Interiores, Justicia y Paz",
+              "parrafoART": ""
+            }
+          ]
+        },
+        {
+          "nombre": "Wayuu",
+          "articulos": [
+            {
+              "numART": "1",
+              "tituloART": "Palacio de Miraflores",
+              "parrafoART": ""
+            },
+            {
+              "numART": "2",
+              "tituloART": "Residencia Presidencial",
+              "parrafoART": ""
+            },
+            {
+              "numART": "3",
+              "tituloART": "Ministerio del Poder Popular de Agricultura y Tierras",
+              "parrafoART": ""
+            },
+            {
+              "numART": "4",
+              "tituloART": "Ministerio del Poder Popular para la Alimentación",
+              "parrafoART": ""
+            },
+            {
+              "numART": "5",
+              "tituloART": "Ministerio del Poder Popular del Ambiente",
+              "parrafoART": ""
+            },
+            {
+              "numART": "6",
+              "tituloART": "Ministerio del Poder Popular para Ciencia, Tecnología e Industrias Intermedias",
+              "parrafoART": ""
+            },
+            {
+              "numART": "7",
+              "tituloART": "Ministerio del Poder Popular para el Comercio",
+              "parrafoART": ""
+            },
+            {
+              "numART": "8",
+              "tituloART": "Ministerio del Poder Popular para la Comunicación e Información",
+              "parrafoART": ""
+            },
+            {
+              "numART": "9",
+              "tituloART": "Ministerio del Poder Popular para la Cultura",
+              "parrafoART": ""
+            },
+            {
+              "numART": "10",
+              "tituloART": "Ministerio del Poder Popular para la Defensa",
+              "parrafoART": ""
+            },
+            {
+              "numART": "11",
+              "tituloART": "Ministerio del Poder Popular para el Deporte",
+              "parrafoART": ""
+            },
+            {
+              "numART": "12",
+              "tituloART": "Ministerio del Poder Popular para el Despacho de la Presidencia",
+              "parrafoART": ""
+            },
+            {
+              "numART": "13",
+              "tituloART": "Ministerio del Poder Popular para la Educación",
+              "parrafoART": ""
+            },
+            {
+              "numART": "14",
+              "tituloART": "Ministerio del Poder Popular para la Educación Superior",
+              "parrafoART": ""
+            },
+            {
+              "numART": "15",
+              "tituloART": "Ministerio del Poder Popular de Energía y Petróleo",
+              "parrafoART": ""
+            },
+            {
+              "numART": "16",
+              "tituloART": "Ministerio del Poder Popular para las Comunas",
+              "parrafoART": ""
+            },
+            {
+              "numART": "17",
+              "tituloART": "Ministerio del Poder Popular para las Finanzas",
+              "parrafoART": ""
+            },
+            {
+              "numART": "18",
+              "tituloART": "Ministerio del Poder Popular para las Industrias Básicas y la Minería",
+              "parrafoART": ""
+            },
+            {
+              "numART": "19",
+              "tituloART": "Ministerio del Poder Popular para las Obras Públicas y Vivienda",
+              "parrafoART": ""
+            },
+            {
+              "numART": "20",
+              "tituloART": "Ministerio del Poder Popular para la Planificación y Desarrollo",
+              "parrafoART": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "alfabetoFonetico": [
+    [
+      "A",
+      "Alfa"
+    ],
+    [
+      "B",
+      "Bravo"
+    ],
+    [
+      "C",
+      "Carlos"
+    ],
+    [
+      "D",
+      "Delta"
+    ],
+    [
+      "E",
+      "Eco"
+    ],
+    [
+      "F",
+      "Foltrox"
+    ],
+    [
+      "G",
+      "Golfo"
+    ],
+    [
+      "H",
+      "Hotel"
+    ],
+    [
+      "I",
+      "India"
+    ],
+    [
+      "J",
+      "Julieta"
+    ],
+    [
+      "K",
+      "Kilo"
+    ],
+    [
+      "L",
+      "Lima"
+    ],
+    [
+      "M",
+      "Miguel"
+    ],
+    [
+      "N",
+      "Noviembre"
+    ],
+    [
+      "O",
+      "Oscar"
+    ],
+    [
+      "P",
+      "Papa"
+    ],
+    [
+      "Q",
+      "Quebe"
+    ],
+    [
+      "R",
+      "Romeo"
+    ],
+    [
+      "S",
+      "Sierra"
+    ],
+    [
+      "T",
+      "Tango"
+    ],
+    [
+      "U",
+      "Uniforme"
+    ],
+    [
+      "V",
+      "Victor"
+    ],
+    [
+      "W",
+      "Wisky"
+    ],
+    [
+      "X",
+      "Xiomara"
+    ],
+    [
+      "Y",
+      "Yanky"
+    ],
+    [
+      "Z",
+      "Zulu"
+    ]
+  ]
+}

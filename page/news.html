@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="../">
+  <meta name="theme-color" content="#0b1f4b">
+  <meta name="description" content="Lee la noticia completa y compártela.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Noticia | Tu learn | CPNB">
+  <meta property="og:description" content="Lee la noticia completa y compártela.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/informaticon2025-creator/LearnCPNB/refs/heads/main/icon.png">
+  <meta property="og:url" content="https://informaticon2025-creator.github.io/LearnCPNB/page/news.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Noticia | Tu learn | CPNB">
+  <meta name="twitter:description" content="Lee la noticia completa y compártela.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/informaticon2025-creator/LearnCPNB/refs/heads/main/icon.png">
+  <title>Noticia | Tu learn | CPNB</title>
+  <link rel="canonical" href="https://informaticon2025-creator.github.io/LearnCPNB/page/news.html">
+  <link rel="stylesheet" href="style/css.css?v=91">
+  <link rel="icon" type="image/png" href="icon.png">
+  <script src="interaction/news-media.js?v=3" defer></script>
+  <script src="interaction/news-detail.js?v=1" defer></script>
+  <script src="interaction/register-sw.js" defer></script>
+  <script src="interaction/desktop-notice.js?v=2" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="topbar">
+      <a class="logo-container" href="index.html#home" aria-label="Ir al inicio">
+        <img src="icon.png" alt="Emblema de la Policía Nacional Bolivariana">
+      </a>
+      <form class="search-section" action="index.html" method="get" role="search">
+        <input type="hidden" name="view" value="home">
+        <div class="search-box">
+          <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.8" cy="10.8" r="6.8"></circle>
+            <path d="m16 16 4.5 4.5"></path>
+          </svg>
+          <input type="search" name="search" placeholder="Buscar noticias..." aria-label="Buscar noticias">
+        </div>
+      </form>
+      <button class="menu-toggle icon-button" id="menuToggle" type="button" aria-label="Abrir menú de herramientas" aria-expanded="false" aria-controls="sectionMenu">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+      <nav class="section-menu" id="sectionMenu" aria-label="Menú de la aplicación">
+        <div class="menu-brand">
+          <img src="icon.png" alt="LearnCPNB">
+        </div>
+        <div class="menu-section-label">Herramientas</div>
+        <a class="menu-support-link" href="page/minuta.html">
+          <span>Minuta SMS</span>
+        </a>
+        <div class="menu-section-label support-section-label">Redes oficiales</div>
+        <a class="menu-support-link" href="https://www.instagram.com/pnbvzla/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a class="menu-support-link" href="https://x.com/PNBVzla" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+        <a class="menu-support-link" href="https://www.tiktok.com/@pnbvzla?lang=es-419" target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a class="menu-support-link" href="https://wa.me/584264214126" target="_blank" rel="noopener noreferrer">Contactar por WhatsApp</a>
+        <a class="menu-support-link" href="https://www.cpnb.com.ve/" target="_blank" rel="noopener noreferrer">Extranet</a>
+        <div class="menu-social-links" aria-label="Redes sociales">
+          <a href="https://www.tiktok.com/@pnbvzla?lang=es-419" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.6 8.2a7.1 7.1 0 0 1-4.4-1.5v7.1a5.8 5.8 0 1 1-5-5.7v3.7a2.2 2.2 0 1 0 1.5 2.1V2.5h3.5c.2 2 1.8 3.6 4.4 3.8v1.9Z"></path></svg>
+          </a>
+          <a href="https://www.instagram.com/pnbvzla/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.8" r="0.8" class="social-icon-fill"></circle></svg>
+          </a>
+          <a href="https://x.com/PNBVzla" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18.9 3H22l-6.8 7.8L23.2 21h-6.3L12 14.8 6.1 21H3l7.3-8.4L2.8 3h6.5l4.5 5.9L18.9 3Zm-1.1 16h1.7L8.3 4.9H6.5L17.8 19Z"></path></svg>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="app-main news-detail-main">
+    <a class="news-back-link" href="index.html#home">
+   <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 475 717" width="20" height="20.42105263157893"><path fill="#0010a0" d="m227 357l246 246l-119 114L0 363L362 0l113 112z"/></svg>
+    </a>
+    <article class="news-detail-card" id="newsArticle" aria-live="polite">
+      <p class="content-status" id="newsDetailStatus" role="status">Cargando noticia...</p>
+    </article>
+    <section class="news-share" id="newsShare" aria-label="Compartir noticia" hidden>
+      <div class="news-share-toolbar">
+        <button class="news-share-toggle" type="button" id="newsShareToggle" aria-label="Compartir noticia" aria-expanded="false" aria-controls="newsShareMenu">
+          <svg class="news-share-toggle-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <path d="m8.7 10.6 6.6-4.2m-6.6 7 6.6 4.2"></path>
+          </svg>
+        </button>
+        <button class="news-comments-toggle" type="button" id="newsCommentsToggle" aria-label="Comentarios" aria-expanded="false" aria-controls="newsComments">
+          <svg class="news-share-toggle-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2 1-4.5A7.5 7.5 0 1 1 20 11.5Z"></path>
+            <path d="M8 10h8M8 14h5"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="news-share-menu" id="newsShareMenu" aria-label="Opciones para compartir" hidden>
+        <div class="news-share-menu-heading">
+          <h2>Comparte esta noticia</h2>
+          <p>Elige dónde quieres compartirla</p>
+        </div>
+      <div class="news-share-actions">
+        <button class="share-action share-action--native" type="button" id="nativeShareButton">
+          <svg class="share-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"></path>
+            <path d="M5 12v7h14v-7"></path>
+          </svg>
+          <span>Más opciones</span>
+        </button>
+        <a class="share-action share-action--whatsapp" id="shareWhatsApp" target="_blank" rel="noopener noreferrer">
+          <svg class="share-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.5-4.2A8 8 0 1 1 20 11.6Z"></path>
+            <path d="M9 8.5c.3 2 2.5 4.2 4.5 4.5l1-1 2 1c-.2 1.2-1 2-2.2 2-3.3-.2-6.6-3.5-6.8-6.8 0-1.2.8-2 2-2.2l1 2-1.5.5Z"></path>
+          </svg>
+          <span>WhatsApp</span>
+        </a>
+        <a class="share-action share-action--facebook" id="shareFacebook" target="_blank" rel="noopener noreferrer">
+          <svg class="share-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 21v-8h2.7l.4-3H14V8.1c0-.9.3-1.5 1.5-1.5h1.7V3.9c-.8-.1-1.6-.2-2.5-.2-2.5 0-4.2 1.5-4.2 4.3V10H8v3h2.5v8H14Z"></path>
+          </svg>
+          <span>Facebook</span>
+        </a>
+        <button class="share-action share-action--instagram" type="button" id="shareInstagram">
+          <svg class="share-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle class="share-icon-fill" cx="17.5" cy="6.8" r="1"></circle>
+          </svg>
+          <span>Instagram</span>
+        </button>
+        <a class="share-action share-action--x" id="shareX" target="_blank" rel="noopener noreferrer">
+          <svg class="share-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M18.9 3H22l-6.8 7.8L23.2 21h-6.3L12 14.8 6.1 21H3l7.3-8.4L2.8 3h6.5l4.5 5.9L18.9 3Zm-1.1 16h1.7L8.3 4.9H6.5L17.8 19Z"></path>
+          </svg>
+          <span>X</span>
+        </a>
+        <a class="share-action share-action--telegram" id="shareTelegram" target="_blank" rel="noopener noreferrer">
+          <svg class="share-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="m21 4-3.2 16-6-4.5-3.2 3 .6-5.8L19 6.5 7.7 12.2 3 10.6 21 4Z"></path>
+          </svg>
+          <span>Telegram</span>
+        </a>
+        <button class="share-action share-action--copy" type="button" id="copyNewsLink">
+          <svg class="share-action-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="8" y="8" width="12" height="13" rx="2"></rect>
+            <path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h2"></path>
+          </svg>
+          <span>Copiar enlace</span>
+        </button>
+      </div>
+      </div>
+      <p class="news-share-status" id="newsShareStatus" role="status" aria-live="polite"></p>
+    </section>
+    <section class="news-comments" id="newsComments" aria-labelledby="newsCommentsHeading" hidden>
+      <div class="news-comments-heading">
+        <h2 id="newsCommentsHeading">Comentarios</h2>
+        <p>Comenta sin iniciar sesión. Tus comentarios se guardan en este navegador y se envían por correo.</p>
+      </div>
+      <p class="news-comments-status" id="newsCommentsStatus" role="status" aria-live="polite"></p>
+      <div class="news-comments-list" id="newsCommentsList" aria-label="Comentarios guardados en este navegador"></div>
+      <form class="news-comments-form" id="newsCommentsForm">
+        <label class="news-comment-field" for="newsCommentName">
+          Nombre (opcional)
+          <input class="news-comment-input" id="newsCommentName" name="name" type="text" maxlength="80" autocomplete="name" placeholder="Anónimo">
+        </label>
+        <label class="news-comment-field" for="newsCommentText">
+          Tu comentario
+          <textarea class="news-comment-input news-comment-textarea" id="newsCommentText" name="comment" rows="4" maxlength="3000" required></textarea>
+        </label>
+        <label class="news-comments-honeypot" aria-hidden="true">
+          Deja este campo vacío
+          <input name="website" type="text" tabindex="-1" autocomplete="off">
+        </label>
+        <button class="news-comment-submit" id="newsCommentSubmit" type="submit">Publicar comentario</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; CPNB. Proteger, Defender y Servir a nuestro pueblo.</p>
+  </footer>
+
+  <nav class="bottom-nav" aria-label="Navegación principal">
+    <a class="bottom-nav-button" href="index.html#home" aria-label="Inicio">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"></path></svg>
+      <span>Inicio</span>
+    </a>
+    <a class="bottom-nav-button" href="index.html#laws" aria-label="Leyes">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path fill="#ffffff" d="M4 22V2h10l6 6v14zm9-13h5l-5-5z"/></svg>
+      <span>Leyes</span>
+    </a>
+    <a class="bottom-nav-button" href="index.html#function" aria-label="Función">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path fill="#ffffff" d="M12 3 20 7v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V7l8-4Z"></path><path d="m9 12 2 2 4-4"></path></svg>
+      <span>Función</span>
+    </a>
+  </nav>
+</body>
+</html>
