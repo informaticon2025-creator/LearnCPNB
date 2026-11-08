@@ -1,39 +1,39 @@
 {
-  "titulo": "Aprende mas con el Reto de práctica",
-  "descripcion": "Respuestas de una Funcionario",
-  "fecha": "06/11/2026",
+  "titulo": "Inspeccion Corporal",
+  "descripcion": "Respuestas de un Funcionario",
+  "fecha": "08/11/2026",
   "enlace": "page/promo.html",
   "textoBoton": "Juega",
   "contenido": [
     {
       "tipo": "texto",
-      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+      "titulo": "Aprende y busca los artículos competentes basándote en las leyes."
     },
     {
       "tipo": "quiz",
       "titulo": "Opciones Respuesta",
       "preguntas": [
         {
-          "pregunta": "¿Cual Articulo de la Constitucion de la Republica Bolivariana de venezuela es el competente al debido procedimiento?",
+          "pregunta": "¿Cuál es el fundamento legal establecido en el Código Orgánico Procesal Penal que faculta a los funcionarios de investigación penal para efectuar una inspección corporal a un ciudadano?",
           "opciones": [
             {
-              "texto": "Artículo 49",
+              "texto": "Artículo 186",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 191",
               "correcta": true
             },
             {
-              "texto": "Artículo 85",
+              "texto": "Artículo 193",
               "correcta": false
             },
             {
-              "texto": "Artículo 88",
-              "correcta": false
-            },
-            {
-              "texto": "Artículo 105",
+              "texto": "Artículo 196",
               "correcta": false
             }
           ],
-          "explicacion": "El artículo 49 establece las garantías del debido proceso."
+          "explicacion": "El Artículo 191 del COPP faculta a la policía para inspeccionar a una persona cuando existan motivos suficientes para presumir que oculta entre sus ropas, pertenencias o adheridos a su cuerpo objetos relacionados con un hecho punible, respetando siempre el pudor y la dignidad de la persona."
         }
       ]
     }
