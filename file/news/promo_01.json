@@ -1,7 +1,7 @@
 {
-  "titulo": "Inspeccion Corporal",
+  "titulo": "Retención de Vehículos",
   "descripcion": "Respuestas de un Funcionario",
-  "fecha": "07/11/2026",
+  "fecha": "08/11/2026",
   "enlace": "page/promo.html",
   "textoBoton": "Responde",
   "contenido": [
@@ -14,26 +14,26 @@
       "titulo": "Opciones Respuesta",
       "preguntas": [
         {
-          "pregunta": "¿Cuál es el fundamento legal establecido en el Código Orgánico Procesal Penal que faculta a los funcionarios de investigación penal para efectuar una inspección corporal a un ciudadano?",
+          "pregunta": "¿Cuál es el fundamento legal establecido en la Ley de Transporte Terrestre que faculta a las autoridades para proceder a la retención e inmovilización de un vehículo?",
           "opciones": [
             {
-              "texto": "Artículo 186",
+              "texto": "Artículo 107",
               "correcta": false
             },
             {
-              "texto": "Artículo 191",
+              "texto": "Artículo 181",
               "correcta": true
             },
             {
-              "texto": "Artículo 193",
+              "texto": "Artículo 144",
               "correcta": false
             },
             {
-              "texto": "Artículo 196",
+              "texto": "Artículo 185",
               "correcta": false
             }
           ],
-          "explicacion": "El Artículo 191 del COPP faculta a la policía para inspeccionar a una persona cuando existan motivos suficientes para presumir que oculta entre sus ropas, pertenencias o adheridos a su cuerpo objetos relacionados con un hecho punible, respetando siempre el pudor y la dignidad de la persona."
+          "explicacion": "El Artículo 181 de la Ley de Transporte Terrestre establece los supuestos específicos bajo los cuales las autoridades de tránsito proceden a la retención de vehículos (tales como circular sin documentación reglamentaria, condiciones de inseguridad, conductores en estado de ebriedad o bajo efectos de sustancias, o por estar involucrados en accidentes con víctimas)."
         }
       ]
     }
