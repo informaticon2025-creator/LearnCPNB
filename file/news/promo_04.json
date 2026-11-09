@@ -1,0 +1,41 @@
+{
+  "titulo": "Identificación Criminalística",
+  "descripcion": "Preguntas de Procedimiento Policial",
+  "fecha": "09/11/2026",
+  "enlace": "page/resena.html",
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Demuestra tu conocimiento sobre los instrumentos registrales utilizados en la filiación dactiloscópica y verificación de antecedentes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Evaluación Técnica",
+      "preguntas": [
+        {
+          "pregunta": "¿Cómo se denominan formalmente las planillas oficiales de registro empleadas por los órganos de seguridad para el procesamiento dactiloscópico/fotográfico y la verificación del historial en el sistema SIIPOL del aprehendido?",
+          "opciones": [
+            {
+              "texto": "R1 y R5",
+              "correcta": false
+            },
+            {
+              "texto": "R13 y R9",
+              "correcta": true
+            },
+            {
+              "texto": "F-01 y F-02",
+              "correcta": false
+            },
+            {
+              "texto": "SIIPOL-A y SIIPOL-B",
+              "correcta": false
+            }
+          ],
+          "explicacion": "Dentro de los protocolos de filiación e identificación policial, la planilla R9 corresponde al registro decatadactilar y fotográfico de filiación, mientras que la R13 constituye la constancia de verificación del prontuario e historial en el Sistema de Información Policial (SIIPOL)."
+        }
+      ]
+    }
+  ]
+}
