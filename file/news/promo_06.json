@@ -1,0 +1,42 @@
+{
+  "titulo": "Acta Policial de Aprehensión",
+  "descripcion": "Preguntas de Procedimiento Policial",
+  "fecha": "10/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Demuestra tu conocimiento sobre la fundamentación legal del Acta Policial de Aprehensión."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Evaluación Técnica",
+      "preguntas": [
+        {
+          "pregunta": "5: Acta Policial de Aprehensión",
+          "opciones": [
+            {
+              "texto": "Artículo 113 del COPP y Artículo 49 de la CRBV",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 266 del COPP y Artículo 55 de la CRBV",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 234 del COPP y Artículo 44 de la CRBV",
+              "correcta": true
+            },
+            {
+              "texto": "Artículo 191 del COPP y Artículo 21 de la CRBV",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El Acta Policial de Aprehensión deja constancia de una aprehensión y sus circunstancias de modo, tiempo y lugar, teniendo como fundamentos la flagrancia en el artículo 234 del COPP y la libertad personal en el artículo 44 de la CRBV[cite: 2]."
+        }
+      ]
+    }
+  ]
+}
