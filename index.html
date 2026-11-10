@@ -10,7 +10,7 @@
   <meta property="og:title" content="Claves y protocolos policiales | CPNB">
   <meta name="twitter:card" content="summary">
   <title>Tu Aprendes | PNB</title>
-  <link rel="stylesheet" href="style/css.css?v=93">
+  <link rel="stylesheet" href="style/css.css?v=94">
   <link rel="icon" type="image/png" href="./icon.png">
   <script src="interaction/desktop-notice.js?v=2" defer></script>
   <!-- SEO Básico -->
@@ -187,16 +187,20 @@
         <h1 id="functionHeading">Función policial</h1>
         <p>Recursos de consulta y herramientas para el servicio policial</p>
       </div>
-      <button class="promo-catalog-trigger" id="promoCatalogOpen" type="button" aria-expanded="false" aria-controls="promoCatalogView">
-        Responder y practicar
-      </button>
+      <div class="function-panel-toggles" role="group" aria-label="Secciones de función policial">
+        <button class="promo-catalog-trigger" id="functionMaterialOpen" type="button" aria-expanded="true" aria-controls="functionMaterialSection">
+          Material de función policial
+        </button>
+        <button class="promo-catalog-trigger" id="promoCatalogOpen" type="button" aria-expanded="false" aria-controls="promoCatalogView">
+          Responder y practicar
+        </button>
+      </div>
       <section class="promo-catalog-section" id="promoCatalogView" aria-labelledby="promoCatalogHeading" hidden>
         <div class="promo-catalog-header">
           <div>
             <h2 class="section-heading" id="promoCatalogHeading" tabindex="-1">Actividades de práctica</h2>
             <p class="promo-catalog-help">Completa cada actividad correctamente para continuar con la siguiente.</p>
           </div>
-          <button class="promo-catalog-back" id="promoCatalogBack" type="button">Volver al material</button>
         </div>
         <div class="promo-catalog-list" id="promoCatalog" aria-live="polite"></div>
         <p class="content-status" id="promoCatalogStatus" role="status" aria-live="polite">Cargando promociones...</p>
@@ -426,9 +430,9 @@ Tu espacio de entrenamiento y consulta técnica. Explora terminología clave, re
       </footer>
     </div>
   </dialog>
-<div id="container-f7a4cd18b482d3e1811e3157321aaf55"></div>
+<div id="container-f7a4cd18b482d3e1811e3157321aaf55" class="anunciado"></div>
   <script src="interaction/register-sw.js"></script>
   <script src="interaction/news-media.js?v=3"></script>
-  <script src="interaction/inter.js?v=3"></script>
+  <script src="interaction/inter.js?v=4"></script>
 </body>
 </html>

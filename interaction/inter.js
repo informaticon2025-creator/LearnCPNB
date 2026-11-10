@@ -1738,9 +1738,23 @@ document.getElementById('functionView').addEventListener('click', event => {
 });
 
 const promoCatalogOpen = document.getElementById('promoCatalogOpen');
-const promoCatalogBack = document.getElementById('promoCatalogBack');
+const functionMaterialOpen = document.getElementById('functionMaterialOpen');
 const promoCatalogView = document.getElementById('promoCatalogView');
 const functionMaterialSection = document.getElementById('functionMaterialSection');
+
+function showFunctionPanel(panel) {
+  const showPromos = panel === 'promos';
+  const showMaterial = panel === 'material';
+  promoCatalogView.hidden = !showPromos;
+  functionMaterialSection.hidden = !showMaterial;
+  promoCatalogOpen.setAttribute('aria-expanded', String(showPromos));
+  functionMaterialOpen.setAttribute('aria-expanded', String(showMaterial));
+}
+
+function toggleFunctionPanel(panel) {
+  const activeButton = panel === 'promos' ? promoCatalogOpen : functionMaterialOpen;
+  showFunctionPanel(activeButton.getAttribute('aria-expanded') === 'true' ? null : panel);
+}
 
 function openPromoCatalog() {
   currentPage = 'function';
@@ -1752,22 +1766,15 @@ function openPromoCatalog() {
   document.getElementById('sectionMenu').classList.remove('open');
   document.getElementById('menuToggle').setAttribute('aria-expanded', 'false');
   keyPracticeLaunch.hidden = true;
-  promoCatalogView.hidden = false;
-  functionMaterialSection.hidden = true;
-  promoCatalogOpen.hidden = true;
-  promoCatalogOpen.setAttribute('aria-expanded', 'true');
+  showFunctionPanel('promos');
   document.getElementById('promoCatalogHeading').focus();
 }
 
-promoCatalogOpen.addEventListener('click', openPromoCatalog);
-
-promoCatalogBack.addEventListener('click', () => {
-  promoCatalogView.hidden = true;
-  functionMaterialSection.hidden = false;
-  promoCatalogOpen.hidden = false;
-  promoCatalogOpen.setAttribute('aria-expanded', 'false');
-  promoCatalogOpen.focus();
+promoCatalogOpen.addEventListener('click', () => {
+  if (currentPage !== 'function') openPromoCatalog();
+  else toggleFunctionPanel('promos');
 });
+functionMaterialOpen.addEventListener('click', () => toggleFunctionPanel('material'));
 
 if (new URLSearchParams(window.location.search).get('promos') === '1') {
   openPromoCatalog();
