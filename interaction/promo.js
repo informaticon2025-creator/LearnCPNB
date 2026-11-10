@@ -184,12 +184,13 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete) {
     const correctOptions = Array.isArray(question?.opciones)
       ? question.opciones.filter(option => option && option.correcta === true).length
       : 0;
+    const isMultipleSelection = correctOptions > 1;
     if (
       !question ||
       typeof question.pregunta !== 'string' ||
       !Array.isArray(question.opciones) ||
       question.opciones.length < 2 ||
-      correctOptions !== 1 ||
+      correctOptions < 1 ||
       question.opciones.some(option =>
         !option ||
         typeof option.texto !== 'string' ||
@@ -203,21 +204,24 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete) {
     fieldset.className = 'promo-question';
     const legend = createPromoElement('legend', '', question.pregunta);
     fieldset.appendChild(legend);
+    if (isMultipleSelection) {
+      fieldset.appendChild(createPromoElement('p', 'promo-quiz-progress', 'Selecciona todas las respuestas correctas.'));
+    }
 
     question.opciones.forEach((option, optionIndex) => {
       const label = createPromoElement('label', 'promo-option');
       const input = document.createElement('input');
-      input.type = 'radio';
+      input.type = isMultipleSelection ? 'checkbox' : 'radio';
       input.name = `promo-${blockIndex}-question-${questionIndex}`;
       input.value = String(optionIndex);
-      input.required = true;
+      input.required = !isMultipleSelection;
       const optionText = createPromoElement('span', 'promo-option-text', option.texto);
       const selectionMark = createPromoCheckIcon('promo-option-check');
       label.append(input, optionText, selectionMark);
       input.addEventListener('change', () => {
         fieldset.querySelectorAll('.promo-option').forEach(optionLabel => {
-          const radio = optionLabel.querySelector('input[type="radio"]');
-          optionLabel.classList.toggle('is-selected', radio.checked);
+          const answerInput = optionLabel.querySelector('input');
+          optionLabel.classList.toggle('is-selected', answerInput.checked);
         });
       });
       fieldset.appendChild(label);
@@ -243,11 +247,20 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete) {
     const selectedAnswers = [];
     block.preguntas.forEach((question, questionIndex) => {
       const fieldset = form.querySelectorAll('.promo-question')[questionIndex];
-      const selected = Number(formData.get(`promo-${blockIndex}-question-${questionIndex}`));
-      const selectedInput = fieldset.querySelector(`input[value="${selected}"]`);
-      const selectedLabel = selectedInput.closest('.promo-option');
-      const correct = question.opciones[selected].correcta;
-      selectedAnswers.push({ label: selectedLabel, correct });
+      const name = `promo-${blockIndex}-question-${questionIndex}`;
+      const correctCount = question.opciones.filter(option => option.correcta).length;
+      const selectedOptions = correctCount > 1
+        ? formData.getAll(name).map(Number)
+        : [Number(formData.get(name))];
+      const correct = selectedOptions.length === correctCount &&
+        selectedOptions.every(selected => question.opciones[selected]?.correcta);
+      selectedOptions.forEach(selected => {
+        const selectedInput = fieldset.querySelector(`input[value="${selected}"]`);
+        selectedAnswers.push({
+          label: selectedInput.closest('.promo-option'),
+          correct: question.opciones[selected].correcta
+        });
+      });
       if (!correct) incorrectFieldsets.push(fieldset);
     });
 
@@ -258,9 +271,9 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete) {
       showQuizFeedback(false, () => {
         incorrectFieldsets.forEach(fieldset => {
           fieldset.querySelectorAll('.promo-option').forEach(optionLabel => {
-            const input = optionLabel.querySelector('input[type="radio"]');
+            const input = optionLabel.querySelector('input');
             input.checked = false;
-            optionLabel.classList.remove('is-selected', 'is-incorrect');
+            optionLabel.classList.remove('is-selected', 'is-incorrect', 'is-correct');
           });
         });
       });

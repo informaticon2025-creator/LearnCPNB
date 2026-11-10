@@ -15,22 +15,22 @@
       "titulo": "Evaluación Técnica",
       "preguntas": [
         {
-          "pregunta": "¿Cómo se denominan formalmente las planillas oficiales de registro empleadas por los órganos de seguridad para el procesamiento dactiloscópico/fotográfico y la verificación del historial en el sistema SIIPOL del aprehendido?",
+          "pregunta": "¿Cuáles son las dos planillas/procesos que se realizan en la reseña de una persona detenida?",
           "opciones": [
             {
-              "texto": "R1 y R5",
-              "correcta": false
-            },
-            {
-              "texto": "R13 y R9",
+              "texto": "R9",
               "correcta": true
             },
             {
-              "texto": "F-01 y F-02",
+              "texto": "B6",
               "correcta": false
             },
             {
-              "texto": "SIIPOL-A y SIIPOL-B",
+              "texto": "R13",
+              "correcta": true
+            },
+            {
+              "texto": "66",
               "correcta": false
             }
           ],

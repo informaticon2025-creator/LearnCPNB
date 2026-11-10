@@ -1,6 +1,6 @@
-const CACHE_NAME = 'learncpnb-v106';
+const CACHE_NAME = 'learncpnb-v108';
 const APP_SHELL = [
-  'index.html?v=106',
+  'index.html?v=108',
   'page/news.html?v=103',
   'page/404.html',
   'page/offline.html',
@@ -20,7 +20,7 @@ const APP_SHELL = [
   'interaction/desktop-notice.js?v=2',
   'interaction/news-media.js?v=3',
   'interaction/news-detail.js?v=1',
-  'interaction/promo.js?v=2',
+  'interaction/promo.js?v=4',
   'interaction/art.js',
   'interaction/actas.js',
   'interaction/register-sw.js',
