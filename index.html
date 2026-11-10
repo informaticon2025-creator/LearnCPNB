@@ -10,7 +10,7 @@
   <meta property="og:title" content="Claves y protocolos policiales | CPNB">
   <meta name="twitter:card" content="summary">
   <title>Tu Aprendes | PNB</title>
-  <link rel="stylesheet" href="style/css.css?v=91">
+  <link rel="stylesheet" href="style/css.css?v=93">
   <link rel="icon" type="image/png" href="./icon.png">
   <script src="interaction/desktop-notice.js?v=2" defer></script>
   <!-- SEO Básico -->
@@ -187,7 +187,21 @@
         <h1 id="functionHeading">Función policial</h1>
         <p>Recursos de consulta y herramientas para el servicio policial</p>
       </div>
-      <section class="function-section" aria-labelledby="functionKeysHeading">
+      <button class="promo-catalog-trigger" id="promoCatalogOpen" type="button" aria-expanded="false" aria-controls="promoCatalogView">
+        Responder y practicar
+      </button>
+      <section class="promo-catalog-section" id="promoCatalogView" aria-labelledby="promoCatalogHeading" hidden>
+        <div class="promo-catalog-header">
+          <div>
+            <h2 class="section-heading" id="promoCatalogHeading" tabindex="-1">Actividades de práctica</h2>
+            <p class="promo-catalog-help">Completa cada actividad correctamente para continuar con la siguiente.</p>
+          </div>
+          <button class="promo-catalog-back" id="promoCatalogBack" type="button">Volver al material</button>
+        </div>
+        <div class="promo-catalog-list" id="promoCatalog" aria-live="polite"></div>
+        <p class="content-status" id="promoCatalogStatus" role="status" aria-live="polite">Cargando promociones...</p>
+      </section>
+      <section class="function-section" id="functionMaterialSection" aria-labelledby="functionKeysHeading">
         <h2 class="section-heading" id="functionKeysHeading">Material de función policial</h2>
         <p class="function-catalog-help">Selecciona un recurso para consultar su contenido.</p>
         <div class="function-categories" id="functionCategories" aria-live="polite"></div>
@@ -195,6 +209,7 @@
       </section>
     </section>
 
+    <button class="key-practice-launch" id="keyPracticeLaunch" type="button" hidden>Practica</button>
     <section class="results-panel" id="resultsPanel" aria-live="polite" hidden>
       <h2 class="results-heading" id="resultsHeading"></h2>
       <div class="container" id="cardsContainer"></div>
@@ -206,24 +221,6 @@
       </table>
       <div class="no-results" id="noResults">No se encontraron coincidencias.</div>
     </section>
-    <button class="key-practice-backdrop" id="keyPracticeBackdrop" type="button" aria-label="Cerrar práctica" hidden></button>
-    <button class="key-practice-launch" id="keyPracticeLaunch" type="button" aria-expanded="false" aria-controls="keyPractice" hidden>Practica</button>
-    <section class="key-practice" id="keyPractice" aria-labelledby="keyPracticeHeading" hidden>
-      <div class="key-practice-header">
-        <h2 id="keyPracticeHeading">Practica las claves</h2>
-        <button class="key-practice-close" id="keyPracticeClose" type="button" aria-label="Cerrar práctica">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="m6 6 12 12M18 6 6 18"></path>
-          </svg>
-        </button>
-      </div>
-      <div class="key-practice-explanation" id="keyPracticeExplanation"></div>
-      <h3>Ejercicio</h3>
-      <p class="key-practice-help">Arrastra una respuesta hasta el espacio en blanco de la oración.</p>
-      <p class="key-practice-prompt" id="keyPracticePrompt"></p>
-      <div class="key-practice-choices" id="keyPracticeChoices" aria-label="Opciones de respuesta"></div>
-    </section>
-    <p class="key-practice-toast" id="keyPracticeToast" role="status" aria-live="assertive" hidden></p>
   </main>
 
   <footer class="site-footer">
@@ -432,6 +429,6 @@ Tu espacio de entrenamiento y consulta técnica. Explora terminología clave, re
 <div id="container-f7a4cd18b482d3e1811e3157321aaf55"></div>
   <script src="interaction/register-sw.js"></script>
   <script src="interaction/news-media.js?v=3"></script>
-  <script src="interaction/inter.js?v=1"></script>
+  <script src="interaction/inter.js?v=3"></script>
 </body>
 </html>

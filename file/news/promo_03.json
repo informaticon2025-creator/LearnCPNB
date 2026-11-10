@@ -3,6 +3,7 @@
   "descripcion": "Respuestas de un Funcionario",
   "fecha": "06/11/2026",
   "enlace": "page/promo.html",
+  "siguiente": 2,
   "textoBoton": "Responde",
   "contenido": [
     {

@@ -3,6 +3,7 @@
   "descripcion": "Preguntas de Procedimiento Policial",
   "fecha": "10/11/2026",
   "enlace": "page/promo.html",
+  "siguiente": null,
   "textoBoton": "Responder",
   "contenido": [
     {

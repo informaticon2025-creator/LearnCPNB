@@ -3756,6 +3756,12 @@ body.promo-page .site-header .topbar {
   gap: 16px;
 }
 
+.promo-page .promo-quiz-progress {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
 .promo-page .promo-question {
   display: grid;
   gap: 10px;
@@ -4299,5 +4305,185 @@ body.promo-page .site-header .topbar {
   .promo-feedback-backdrop,
   .promo-feedback-card {
     animation: none;
+  }
+}
+
+.promo-catalog-trigger,
+.promo-catalog-back,
+.promo-catalog-archive {
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid var(--accent-color);
+  border-radius: 12px;
+  background: var(--accent-color);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.promo-catalog-trigger {
+  width: 100%;
+}
+
+.promo-catalog-trigger:hover,
+.promo-catalog-trigger:focus-visible,
+.promo-catalog-back:hover,
+.promo-catalog-back:focus-visible,
+.promo-catalog-archive:hover,
+.promo-catalog-archive:focus-visible {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.promo-catalog-trigger:focus-visible,
+.promo-catalog-back:focus-visible,
+.promo-catalog-archive:focus-visible,
+.promo-catalog-button:focus-visible {
+  outline: 3px solid rgba(36, 92, 158, 0.35);
+  outline-offset: 3px;
+}
+
+.promo-catalog-section {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  padding: 24px;
+  border: 1px solid rgba(220, 229, 240, 0.9);
+  border-radius: 20px;
+  background: linear-gradient(145deg, #fff 0%, #fbfdff 100%);
+  box-shadow: 0 16px 40px rgba(25, 53, 89, 0.08);
+}
+
+.promo-catalog-section[hidden] {
+  display: none;
+}
+
+.promo-catalog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.promo-catalog-header .section-heading {
+  margin-bottom: 8px;
+}
+
+.promo-catalog-help {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.promo-catalog-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 12px;
+}
+
+.promo-catalog-card {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.promo-catalog-button {
+  display: grid;
+  justify-items: start;
+  gap: 7px;
+  width: 100%;
+  min-height: 100%;
+  padding: 17px;
+  border: 1px solid var(--accent-color);
+  border-radius: 15px;
+  background: var(--accent-color);
+  color: #ffffff;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.promo-catalog-button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  box-shadow: 0 10px 22px rgba(18, 59, 112, 0.16);
+  transform: translateY(-2px);
+}
+
+.promo-catalog-button strong {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.promo-catalog-button > span:not(.promo-catalog-action) {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.promo-catalog-action {
+  align-self: end;
+  margin-top: 5px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.promo-catalog-card--completed .promo-catalog-button {
+  border-color: #cbd2dc;
+  background: linear-gradient(135deg, #e1e5eb, #d5dbe3);
+  color: #647181;
+  cursor: not-allowed;
+}
+
+.promo-catalog-card--completed .promo-catalog-button > span:not(.promo-catalog-action) {
+  color: #707b89;
+}
+
+.promo-catalog-card--completed .promo-catalog-action {
+  border-color: #bbc3ce;
+  background: rgba(255, 255, 255, 0.42);
+  color: #586575;
+}
+
+.promo-catalog-archive {
+  justify-self: start;
+  min-height: 38px;
+  padding: 7px 14px;
+  border-color: #d6dfeb;
+  background: #f5f8fc;
+  color: var(--accent-color);
+  font-size: 0.86rem;
+}
+
+.promo-catalog-archive:hover,
+.promo-catalog-archive:focus-visible {
+  color: #ffffff;
+}
+
+@media (max-width: 480px) {
+  .promo-catalog-section {
+    padding: 18px;
+  }
+
+  .promo-catalog-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-catalog-trigger,
+  .promo-catalog-back,
+  .promo-catalog-archive,
+  .promo-catalog-button {
+    transition: none;
   }
 }

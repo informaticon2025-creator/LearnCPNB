@@ -200,24 +200,11 @@ let currentFilter = null;
 let showingAlphabet = false;
 let currentPage = 'home';
 let newsItems = [];
+let promoItems = [];
 let lawItems = [];
 let functionResources = [];
-let currentPracticeQuestion = null;
-let practiceCategory = null;
-let previousPracticeSignature = null;
-let practiceOpen = false;
-let activePracticePointer = null;
-const normalizeText = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-const keyPractice = document.getElementById('keyPractice');
-const keyPracticeBackdrop = document.getElementById('keyPracticeBackdrop');
 const keyPracticeLaunch = document.getElementById('keyPracticeLaunch');
-const keyPracticeClose = document.getElementById('keyPracticeClose');
-const keyPracticeExplanation = document.getElementById('keyPracticeExplanation');
-const keyPracticePrompt = document.getElementById('keyPracticePrompt');
-const keyPracticeChoices = document.getElementById('keyPracticeChoices');
-const keyPracticeToast = document.getElementById('keyPracticeToast');
-let practiceToastTimer;
-let practiceAdvanceTimer;
+const normalizeText = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
 function showView(view) {
   const activePage = view === 'keys' || view === 'search' ? currentPage : view;
@@ -344,128 +331,19 @@ function parsePublicationDate(value) {
   return date.getTime();
 }
 
-function renderNews(news, promotions = []) {
+function renderNews(news) {
   const container = document.getElementById('newsContainer');
   const status = document.getElementById('newsStatus');
   container.replaceChildren();
 
-  const publishedNews = news.filter(item => item.titulo.trim() || item.descripcion.trim());
-  const publishedPromotions = promotions.filter(item =>
-    item.titulo.trim() && item.descripcion.trim()
-  );
-  if (!publishedNews.length && !publishedPromotions.length) {
-    status.textContent = 'No se conecto el Servicio por favor intente mas tarde.';
-    return;
-  }
+  const publishedNews = news
+    .filter(item => item.titulo.trim() || item.descripcion.trim())
+    .sort((first, second) =>
+      (parsePublicationDate(second.fecha) ?? 0) - (parsePublicationDate(first.fecha) ?? 0) ||
+      second.id - first.id
+    );
 
-  const savedCompletedPromos = localStorage.getItem('learncpnb-completed-promos');
-  const completedPromoIds = savedCompletedPromos ? JSON.parse(savedCompletedPromos) : [];
-  if (
-    !Array.isArray(completedPromoIds) ||
-    completedPromoIds.some(id => !Number.isSafeInteger(id) || id < 1 || id > 999)
-  ) {
-    throw new Error('El registro de actividades completadas no es válido.');
-  }
-  const archivedPromos = getArchivedPromos();
-  const archivedPromoIds = archivedPromos.map(promo => promo.id);
-  const publishedItems = [
-    ...publishedNews.map(item => ({
-      type: 'news',
-      item,
-      order: item.id,
-      publicationDate: parsePublicationDate(item.fecha)
-    })),
-    ...publishedPromotions.map((item, index) => ({
-      type: 'promo',
-      item: { ...item, promoId: item.promoId || index + 1 },
-      order: item.promoId || index + 1,
-      publicationDate: parsePublicationDate(item.fecha)
-    }))
-  ].sort((first, second) =>
-    (second.publicationDate ?? 0) - (first.publicationDate ?? 0) ||
-    second.order - first.order ||
-    (first.type === second.type ? 0 : first.type === 'promo' ? -1 : 1)
-  );
-
-  publishedItems.forEach(entry => {
-    if (entry.type === 'promo') {
-      const item = entry.item;
-      const promoId = item.promoId;
-      if (archivedPromoIds.includes(promoId)) return;
-      const promotionUrl = safeHttpUrl(item.enlace.trim() || 'page/promo.html', document.baseURI);
-      if (!promotionUrl) {
-        throw new Error(`La promoción ${promoId} tiene una URL inválida.`);
-      }
-      const destination = new URL(promotionUrl);
-      const isPromoActivity =
-        destination.origin === window.location.origin &&
-        destination.pathname === new URL('page/promo.html', document.baseURI).pathname;
-      if (isPromoActivity) destination.searchParams.set('id', String(promoId));
-
-      const isCompleted = isPromoActivity && completedPromoIds.includes(promoId);
-      const promotion = document.createElement(isCompleted ? 'article' : 'a');
-      promotion.className = `news-promotion${isCompleted ? ' news-promotion--completed' : ''}`;
-      if (isCompleted) {
-        promotion.setAttribute('aria-label', `Actividad completada: ${item.titulo}`);
-      } else {
-        promotion.href = destination.href;
-      }
-      if (!isCompleted && destination.origin !== window.location.origin) {
-        promotion.target = '_blank';
-        promotion.rel = 'noopener noreferrer';
-      }
-
-      const content = document.createElement('span');
-      content.className = 'news-promotion-content';
-      const title = document.createElement('strong');
-      title.textContent = item.titulo;
-      const description = document.createElement('span');
-      description.textContent = item.descripcion;
-      content.append(title, description);
-
-      const action = document.createElement('span');
-      action.className = 'news-promotion-action';
-      action.textContent = isCompleted ? 'Actividad completada' : item.textoBoton;
-      if (isCompleted && isPromoActivity) {
-        const controls = document.createElement('span');
-        controls.className = 'news-promotion-controls';
-        const archiveButton = document.createElement('button');
-        archiveButton.className = 'news-promotion-archive';
-        archiveButton.type = 'button';
-        archiveButton.textContent = 'Archivar';
-        archiveButton.setAttribute('aria-label', `Archivar actividad: ${item.titulo}`);
-        archiveButton.addEventListener('click', () => {
-          try {
-            const currentArchivedPromos = getArchivedPromos();
-            if (!currentArchivedPromos.some(promo => promo.id === promoId)) {
-              currentArchivedPromos.push({
-                id: promoId,
-                title: item.titulo,
-                description: item.descripcion,
-                fecha: item.fecha || '',
-                archivedAt: new Date().toISOString()
-              });
-              saveArchivedPromos(currentArchivedPromos);
-            }
-            promotion.remove();
-            if (!container.childElementCount) {
-              status.textContent = 'No hay noticias ni actividades disponibles.';
-            }
-          } catch (error) {
-            console.error('No se pudo archivar la actividad.', error);
-            status.textContent = 'No se pudo archivar la actividad. Inténtalo de nuevo.';
-          }
-        });
-        controls.append(action, archiveButton);
-        promotion.append(content, controls);
-      } else {
-        promotion.append(content, action);
-      }
-      container.appendChild(promotion);
-      return;
-    }
-
-    const item = entry.item;
+  publishedNews.forEach(item => {
     const card = document.createElement('article');
     card.className = 'news-card';
     card.tabIndex = 0;
@@ -537,7 +415,136 @@ function renderNews(news, promotions = []) {
 
   status.textContent = container.childElementCount
     ? ''
-    : 'No hay noticias ni actividades disponibles.';
+    : 'Aún no hay noticias disponibles.';
+}
+
+function renderPromoCatalog(promotions) {
+  const container = document.getElementById('promoCatalog');
+  const status = document.getElementById('promoCatalogStatus');
+  container.replaceChildren();
+
+  const savedCompletedPromos = localStorage.getItem('learncpnb-completed-promos');
+  const completedPromoIds = savedCompletedPromos ? JSON.parse(savedCompletedPromos) : [];
+  if (
+    !Array.isArray(completedPromoIds) ||
+    completedPromoIds.some(id => !Number.isSafeInteger(id) || id < 1 || id > 999)
+  ) {
+    throw new Error('El registro de actividades completadas no es válido.');
+  }
+  const archivedPromoIds = getArchivedPromos().map(promo => promo.id);
+  const publishedPromotions = promotions.filter(item =>
+    item.titulo.trim() && item.descripcion.trim()
+  );
+  const promotionsById = new Map(publishedPromotions.map(item => [item.promoId, item]));
+  const orderedPromotions = [];
+  const orderedPromoIds = new Set();
+  let nextPromoId = publishedPromotions.length
+    ? Math.min(...publishedPromotions.map(item => item.promoId))
+    : null;
+
+  while (nextPromoId !== null && !orderedPromoIds.has(nextPromoId)) {
+    const promo = promotionsById.get(nextPromoId);
+    if (!promo) break;
+    orderedPromotions.push(promo);
+    orderedPromoIds.add(nextPromoId);
+    nextPromoId = promo.siguiente === undefined ? nextPromoId + 1 : promo.siguiente;
+  }
+  publishedPromotions
+    .filter(item => !orderedPromoIds.has(item.promoId))
+    .sort((first, second) => first.promoId - second.promoId)
+    .forEach(item => orderedPromotions.push(item));
+
+  orderedPromotions.forEach(item => {
+    const promoId = item.promoId;
+    if (archivedPromoIds.includes(promoId)) return;
+
+    const destinationUrl = safeHttpUrl(item.enlace.trim() || 'page/promo.html', document.baseURI);
+    if (!destinationUrl) {
+      throw new Error(`La promoción ${promoId} tiene una URL inválida.`);
+    }
+    const destination = new URL(destinationUrl);
+    const isPromoActivity =
+      destination.origin === window.location.origin &&
+      destination.pathname === new URL('page/promo.html', document.baseURI).pathname;
+    if (isPromoActivity) destination.searchParams.set('id', String(promoId));
+
+    const isCompleted = isPromoActivity && completedPromoIds.includes(promoId);
+    const card = document.createElement('article');
+    card.className = `promo-catalog-card${isCompleted ? ' promo-catalog-card--completed' : ''}`;
+    const action = document.createElement(isCompleted ? 'button' : 'a');
+    action.className = 'promo-catalog-button';
+    if (isCompleted) {
+      action.type = 'button';
+      action.disabled = true;
+    } else {
+      action.href = destination.href;
+      if (destination.origin !== window.location.origin) {
+        action.target = '_blank';
+        action.rel = 'noopener noreferrer';
+      }
+    }
+
+    const title = document.createElement('strong');
+    title.textContent = item.titulo;
+    const description = document.createElement('span');
+    description.textContent = item.descripcion;
+    const label = document.createElement('span');
+    label.className = 'promo-catalog-action';
+    label.textContent = isCompleted ? 'Actividad completada' : item.textoBoton;
+    action.append(title, description, label);
+    card.appendChild(action);
+
+    if (isCompleted && isPromoActivity) {
+      const archiveButton = document.createElement('button');
+      archiveButton.className = 'promo-catalog-archive';
+      archiveButton.type = 'button';
+      archiveButton.textContent = 'Archivar';
+      archiveButton.setAttribute('aria-label', `Archivar actividad: ${item.titulo}`);
+      archiveButton.addEventListener('click', () => {
+        try {
+          const currentArchivedPromos = getArchivedPromos();
+          if (!currentArchivedPromos.some(promo => promo.id === promoId)) {
+            currentArchivedPromos.push({
+              id: promoId,
+              title: item.titulo,
+              description: item.descripcion,
+              fecha: item.fecha || '',
+              archivedAt: new Date().toISOString()
+            });
+            saveArchivedPromos(currentArchivedPromos);
+          }
+          renderPromoCatalog(promotions);
+        } catch (error) {
+          console.error('No se pudo archivar la actividad.', error);
+          status.textContent = 'No se pudo archivar la actividad. Inténtalo de nuevo.';
+        }
+      });
+      card.appendChild(archiveButton);
+    }
+
+    container.appendChild(card);
+  });
+
+  const keyPracticeCard = document.createElement('article');
+  keyPracticeCard.className = 'promo-catalog-card promo-catalog-card--keys';
+  const keyPracticeLink = document.createElement('a');
+  keyPracticeLink.className = 'promo-catalog-button';
+  keyPracticeLink.href = 'page/promo.html?practice=keys';
+  const keyPracticeTitle = document.createElement('strong');
+  keyPracticeTitle.textContent = 'Práctica de claves policiales';
+  const keyPracticeDescription = document.createElement('span');
+  keyPracticeDescription.textContent = 'Pon a prueba tu memoria con preguntas aleatorias sobre claves, códigos y significados.';
+  const keyPracticeAction = document.createElement('span');
+  keyPracticeAction.className = 'promo-catalog-action';
+  keyPracticeAction.textContent = 'Practicar';
+  keyPracticeLink.append(keyPracticeTitle, keyPracticeDescription, keyPracticeAction);
+  keyPracticeCard.appendChild(keyPracticeLink);
+  const practicePosition = Math.floor(Math.random() * (container.childElementCount + 1));
+  container.insertBefore(keyPracticeCard, container.children[practicePosition] || null);
+
+  status.textContent = container.childElementCount
+    ? ''
+    : 'Aún no hay prácticas disponibles.';
 }
 
 async function fetchNumberedJson(folder, prefix, validate) {
@@ -600,7 +607,10 @@ function validatePromotion(item, number) {
     !item ||
     Array.isArray(item) ||
     ['titulo', 'descripcion', 'enlace', 'textoBoton'].some(key => typeof item[key] !== 'string') ||
-    (item.fecha !== undefined && (typeof item.fecha !== 'string' || parsePublicationDate(item.fecha) === null))
+    (item.fecha !== undefined && (typeof item.fecha !== 'string' || parsePublicationDate(item.fecha) === null)) ||
+    (item.siguiente !== undefined &&
+      item.siguiente !== null &&
+      (!Number.isSafeInteger(item.siguiente) || item.siguiente < 1 || item.siguiente > 999))
   ) {
     throw new Error(`La promoción ${number} debe incluir titulo, descripcion, enlace y textoBoton como texto; fecha es opcional y debe ser válida (DD/MM/AAAA o AAAA-MM-DD).`);
   }
@@ -608,6 +618,7 @@ function validatePromotion(item, number) {
 
 async function loadNews() {
   const status = document.getElementById('newsStatus');
+  const promoStatus = document.getElementById('promoCatalogStatus');
   try {
     const [entries, promotions] = await Promise.all([
       fetchNumberedJson('file/news', 'new', validateNews),
@@ -616,11 +627,14 @@ async function loadNews() {
     newsItems = entries
       .map((item, index) => ({ ...item, id: index + 1 }))
       .reverse();
-    renderNews(newsItems, promotions.map((item, index) => ({ ...item, promoId: index + 1 })));
+    promoItems = promotions.map((item, index) => ({ ...item, promoId: index + 1 }));
+    renderNews(newsItems);
+    renderPromoCatalog(promoItems);
     refreshCurrentSearch();
   } catch (error) {
     console.error(error);
     status.textContent = error.message || 'No se pudieron cargar las noticias.';
+    promoStatus.textContent = error.message || 'No se pudieron cargar las promociones.';
   }
 }
 
@@ -1266,238 +1280,18 @@ async function openLaw(law, initialArticle = '') {
 lawArticleSearch.addEventListener('input', renderLawArticles);
 document.getElementById('lawDialogClose').addEventListener('click', () => lawDialog.close());
 
-function shufflePracticeChoices(choices) {
-  const shuffled = choices.slice();
-  for (let index = shuffled.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.floor(Math.random() * (index + 1));
-    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
-  }
-  return shuffled;
-}
-
-function showKeyPracticeToast(message, isCorrect) {
-  window.clearTimeout(practiceToastTimer);
-  keyPracticeToast.textContent = message;
-  keyPracticeToast.classList.toggle('is-correct', isCorrect);
-  keyPracticeToast.hidden = false;
-  practiceToastTimer = window.setTimeout(() => {
-    keyPracticeToast.hidden = true;
-  }, 2400);
-}
-
-function startKeyPracticeQuestion() {
-  window.clearTimeout(practiceAdvanceTimer);
-  const categoryItems = data.filter(item => item.cat === practiceCategory);
-  if (!categoryItems.length) {
-    keyPractice.hidden = true;
-    return;
-  }
-
-  const modes = ['number', 'code', 'meaning'];
-  const possibleQuestions = categoryItems.flatMap(target =>
-    modes.map(mode => ({ target, mode }))
-  );
-  const availableQuestions = possibleQuestions.filter(question =>
-    JSON.stringify([question.mode, question.target.cat, question.target.num, question.target.title]) !== previousPracticeSignature
-  );
-  const questionPool = availableQuestions.length ? availableQuestions : possibleQuestions;
-  const question = questionPool[Math.floor(Math.random() * questionPool.length)];
-  const { target, mode } = question;
-  previousPracticeSignature = JSON.stringify([mode, target.cat, target.num, target.title]);
-  const answer = mode === 'number'
-    ? target.num
-    : mode === 'code'
-      ? `${target.cat} ${target.num}`
-      : target.title;
-  const choicesByLabel = new Map();
-  categoryItems.forEach(item => {
-    const label = mode === 'number'
-      ? item.num
-      : mode === 'code'
-        ? `${item.cat} ${item.num}`
-        : item.title;
-    if (!choicesByLabel.has(label)) choicesByLabel.set(label, { label, correct: false });
-    if (item === target) choicesByLabel.get(label).correct = true;
-  });
-
-  const answerChoice = choicesByLabel.get(answer);
-  const distractors = Array.from(choicesByLabel.values()).filter(choice =>
-    choice.label !== answer && !choice.correct
-  );
-  const choices = shufflePracticeChoices([
-    ...shufflePracticeChoices(distractors).slice(0, 3),
-    answerChoice
-  ]);
-  currentPracticeQuestion = { answer };
-  window.clearTimeout(practiceToastTimer);
-  keyPracticeToast.hidden = true;
-  keyPracticeToast.classList.remove('is-correct');
-
-  keyPracticeExplanation.replaceChildren();
-  const explanationHeading = document.createElement('h3');
-  explanationHeading.textContent = `Clave ${target.cat} ${target.num}`;
-  const explanationText = document.createElement('p');
-  explanationText.textContent = `${target.cat} ${target.num} se utiliza para comunicar «${target.title}». El nombre identifica la clave y el número señala su significado específico.`;
-  keyPracticeExplanation.append(explanationHeading, explanationText);
-
-  const promptText = mode === 'number'
-    ? `${target.cat} `
-    : mode === 'code'
-      ? `Completa la clave de «${target.title}»: `
-      : `¿Qué significa ${target.cat} ${target.num}? `;
-  const dropZone = document.createElement('span');
-  dropZone.className = 'key-practice-dropzone';
-  dropZone.id = 'keyPracticeDropzone';
-  dropZone.textContent = '____';
-  dropZone.setAttribute('role', 'group');
-  dropZone.setAttribute('aria-label', 'Espacio para arrastrar la respuesta');
-  keyPracticePrompt.replaceChildren(
-    document.createTextNode(promptText),
-    dropZone,
-    document.createTextNode(mode === 'number' ? ` = «${target.title}»` : '')
-  );
-  keyPracticeChoices.replaceChildren();
-  choices.forEach(choice => {
-    const button = document.createElement('button');
-    button.className = 'key-practice-choice';
-    button.type = 'button';
-    button.textContent = choice.label;
-    button.dataset.correct = String(choice.correct);
-    keyPracticeChoices.appendChild(button);
-  });
-}
-
-function answerKeyPractice(choice) {
-  if (!currentPracticeQuestion || !choice || choice.disabled || !activePracticePointer?.dragging) return;
-
-  keyPracticeChoices.querySelectorAll('button').forEach(button => {
-    button.disabled = true;
-  });
-
-  if (choice.dataset.correct !== 'true') {
-    choice.classList.add('is-incorrect');
-    showKeyPracticeToast('Incorrecto, bachaco aéreo. Vamos con otra pregunta.', false);
-  } else {
-    const dropZone = document.getElementById('keyPracticeDropzone');
-    dropZone.textContent = choice.textContent;
-    dropZone.classList.add('has-answer');
-    showKeyPracticeToast('¡Correcto, Cadete! Vamos con otra pregunta.', true);
-  }
-
-  practiceAdvanceTimer = window.setTimeout(startKeyPracticeQuestion, 1800);
-}
-
 function updateKeyPractice(items) {
   const query = document.getElementById('searchInput').value.trim();
-  const shouldShow = currentPage === 'function' &&
+  keyPracticeLaunch.hidden = !(currentPage === 'function' &&
     currentFilter &&
     currentFilter !== 'RADIO' &&
     !showingAlphabet &&
     !query &&
-    items.length > 0;
-  keyPracticeLaunch.hidden = !shouldShow;
-  if (!shouldShow) {
-    window.clearTimeout(practiceAdvanceTimer);
-    practiceOpen = false;
-    keyPractice.hidden = true;
-    keyPracticeBackdrop.hidden = true;
-    document.body.classList.remove('key-practice-open');
-    keyPracticeLaunch.setAttribute('aria-expanded', 'false');
-    keyPracticeLaunch.textContent = 'Practica';
-    return;
-  }
-
-  if (practiceCategory !== currentFilter) {
-    practiceCategory = currentFilter;
-    practiceOpen = false;
-    keyPractice.hidden = true;
-    keyPracticeBackdrop.hidden = true;
-    document.body.classList.remove('key-practice-open');
-    keyPracticeLaunch.setAttribute('aria-expanded', 'false');
-    keyPracticeLaunch.textContent = 'Practica';
-    startKeyPracticeQuestion();
-  }
+    items.length > 0);
 }
-
-keyPracticeChoices.addEventListener('pointerdown', event => {
-  const choice = event.target.closest('.key-practice-choice');
-  if (!choice || choice.disabled || event.button !== 0) return;
-
-  activePracticePointer = {
-    pointerId: event.pointerId,
-    choice,
-    startX: event.clientX,
-    startY: event.clientY,
-    dragging: false,
-    ghost: null
-  };
-  choice.setPointerCapture(event.pointerId);
-});
-
-keyPracticeChoices.addEventListener('pointermove', event => {
-  const pointer = activePracticePointer;
-  if (!pointer || pointer.pointerId !== event.pointerId) return;
-
-  if (!pointer.dragging && Math.hypot(event.clientX - pointer.startX, event.clientY - pointer.startY) >= 12) {
-    pointer.dragging = true;
-    pointer.ghost = document.createElement('div');
-    pointer.ghost.className = 'key-practice-drag-ghost';
-    pointer.ghost.textContent = pointer.choice.textContent;
-    document.body.appendChild(pointer.ghost);
-  }
-  if (pointer.dragging) {
-    pointer.ghost.style.left = `${event.clientX}px`;
-    pointer.ghost.style.top = `${event.clientY}px`;
-  }
-});
-
-keyPracticeChoices.addEventListener('pointerup', event => {
-  const pointer = activePracticePointer;
-  if (!pointer || pointer.pointerId !== event.pointerId) return;
-
-  if (!pointer.dragging) {
-    showKeyPracticeToast('Debes arrastrar la respuesta hasta el espacio de la oración.', false);
-  } else {
-    const target = document.elementFromPoint(event.clientX, event.clientY);
-    if (target?.closest('#keyPracticeDropzone')) {
-      answerKeyPractice(pointer.choice);
-    } else {
-      showKeyPracticeToast('Suelta la respuesta en el espacio de la oración.', false);
-    }
-    pointer.ghost.remove();
-  }
-  activePracticePointer = null;
-});
-
-keyPracticeChoices.addEventListener('pointercancel', event => {
-  if (!activePracticePointer || activePracticePointer.pointerId !== event.pointerId) return;
-  activePracticePointer.ghost?.remove();
-  activePracticePointer = null;
-});
 
 keyPracticeLaunch.addEventListener('click', () => {
-  practiceOpen = !practiceOpen;
-  keyPractice.hidden = !practiceOpen;
-  keyPracticeBackdrop.hidden = !practiceOpen;
-  document.body.classList.toggle('key-practice-open', practiceOpen);
-  keyPracticeLaunch.setAttribute('aria-expanded', String(practiceOpen));
-});
-
-function closeKeyPractice() {
-  practiceOpen = false;
-  keyPractice.hidden = true;
-  keyPracticeBackdrop.hidden = true;
-  document.body.classList.remove('key-practice-open');
-  keyPracticeLaunch.setAttribute('aria-expanded', 'false');
-  keyPracticeLaunch.focus();
-}
-
-keyPracticeClose.addEventListener('click', closeKeyPractice);
-keyPracticeBackdrop.addEventListener('click', closeKeyPractice);
-
-document.addEventListener('keydown', event => {
-  if (event.key !== 'Escape' || !practiceOpen) return;
-  closeKeyPractice();
+  openPromoCatalog();
 });
 
 function renderCards(items) {
@@ -1566,11 +1360,7 @@ function renderSearchResults(heading, results) {
   const noResults = document.getElementById('noResults');
   const resultsPanel = document.getElementById('resultsPanel');
   const phoneticTable = document.getElementById('phoneticTable');
-  practiceOpen = false;
   keyPracticeLaunch.hidden = true;
-  keyPractice.hidden = true;
-  keyPracticeLaunch.setAttribute('aria-expanded', 'false');
-  keyPracticeLaunch.textContent = 'Practica';
   container.replaceChildren();
   container.hidden = false;
   phoneticTable.hidden = true;
@@ -1891,11 +1681,7 @@ function renderAlphabet(query = '') {
   const cards = document.getElementById('cardsContainer');
   const noResults = document.getElementById('noResults');
   const resultsPanel = document.getElementById('resultsPanel');
-  practiceOpen = false;
   keyPracticeLaunch.hidden = true;
-  keyPractice.hidden = true;
-  keyPracticeLaunch.setAttribute('aria-expanded', 'false');
-  keyPracticeLaunch.textContent = 'Practica';
   const filteredAlphabet = phoneticAlphabet.filter(([letter, code]) =>
     normalizeText(`${letter} ${code}`).includes(query)
   );
@@ -1950,6 +1736,42 @@ document.getElementById('functionView').addEventListener('click', event => {
     showAlphabet();
   }
 });
+
+const promoCatalogOpen = document.getElementById('promoCatalogOpen');
+const promoCatalogBack = document.getElementById('promoCatalogBack');
+const promoCatalogView = document.getElementById('promoCatalogView');
+const functionMaterialSection = document.getElementById('functionMaterialSection');
+
+function openPromoCatalog() {
+  currentPage = 'function';
+  currentFilter = null;
+  showingAlphabet = false;
+  document.getElementById('searchInput').value = '';
+  updateSearchPlaceholder();
+  showView('function');
+  document.getElementById('sectionMenu').classList.remove('open');
+  document.getElementById('menuToggle').setAttribute('aria-expanded', 'false');
+  keyPracticeLaunch.hidden = true;
+  promoCatalogView.hidden = false;
+  functionMaterialSection.hidden = true;
+  promoCatalogOpen.hidden = true;
+  promoCatalogOpen.setAttribute('aria-expanded', 'true');
+  document.getElementById('promoCatalogHeading').focus();
+}
+
+promoCatalogOpen.addEventListener('click', openPromoCatalog);
+
+promoCatalogBack.addEventListener('click', () => {
+  promoCatalogView.hidden = true;
+  functionMaterialSection.hidden = false;
+  promoCatalogOpen.hidden = false;
+  promoCatalogOpen.setAttribute('aria-expanded', 'false');
+  promoCatalogOpen.focus();
+});
+
+if (new URLSearchParams(window.location.search).get('promos') === '1') {
+  openPromoCatalog();
+}
 
 document.getElementById('menuToggle').addEventListener('click', () => {
   const menu = document.getElementById('sectionMenu');
