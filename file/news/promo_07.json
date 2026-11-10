@@ -1,0 +1,50 @@
+{
+  "titulo": "Acta de Investigación Penal",
+  "descripcion": "Preguntas de Procedimiento Policial",
+  "fecha": "10/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Documenta diligencias realizadas por funcionarias o funcionarios que cumplen labores de investigación criminal, bajo la dirección del Ministerio Público y dentro de sus atribuciones."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Evaluación Técnica",
+      "preguntas": [
+        {
+          "pregunta": "6: Acta de Investigación Penal",
+          "opciones": [
+            {
+              "texto": "Artículos 234, 235 y 236 del COPP",
+              "correcta": false
+            },
+            {
+              "texto": "Artículos 191, 192 y 193 del COPP",
+              "correcta": false
+            },
+            {
+              "texto": "Artículos 113, 114 y 115 del COPP",
+              "correcta": true
+            },
+            {
+              "texto": "Artículos 266, 267 y 268 del COPP",
+              "correcta": false
+            },
+            {
+              "texto": "Artículos 110, 111 y 112 del COPP",
+              "correcta": false
+            },
+            {
+              "texto": "Artículos 300, 301 y 302 del COPP",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El Acta de Investigación Penal se fundamenta en los artículos 113, 114 y 115 del COPP, y se utiliza para dejar constancia de requerimientos, pedimentos y experticias solicitados por el Ministerio Público mediante una orden de inicio de investigación penal[cite: 3]."
+        }
+      ]
+    }
+  ]
+}
