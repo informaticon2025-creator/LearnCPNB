@@ -1,0 +1,42 @@
+{
+  "titulo": "Redacción de Actas Policiales",
+  "descripcion": "Preguntas de Procedimiento Policial",
+  "fecha": "10/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Demuestra tu conocimiento sobre la correcta redacción de actas y procedimientos policiales."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Evaluación Técnica",
+      "preguntas": [
+        {
+          "pregunta": "¿Cómo redactarla?",
+          "opciones": [
+            {
+              "texto": "Con claridad, precisión, concisión, orden cronológico, lugar, fecha, intervinientes y evidencias.",
+              "correcta": true
+            },
+            {
+              "texto": "De forma subjetiva, desordenada y omitiendo fechas o lugares del hecho.",
+              "correcta": false
+            },
+            {
+              "texto": "Con lenguaje coloquial informal y sin identificar a los intervinientes.",
+              "correcta": false
+            },
+            {
+              "texto": "Priorizando la opinión personal del funcionario por encima de los hechos.",
+              "correcta": false
+            }
+          ],
+          "explicacion": "Se debe redactar con claridad, precisión y concisión; narrar los hechos en orden cronológico; indicar lugar y fecha; identificar a las personas intervinientes; y describir lugares, objetos y evidencias de interés[cite: 1]."
+        }
+      ]
+    }
+  ]
+}
