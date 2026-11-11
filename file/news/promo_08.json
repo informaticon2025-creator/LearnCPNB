@@ -12,7 +12,7 @@
     },
     {
       "tipo": "quiz",
-      "titulo": "Evaluación Técnica",
+      "titulo": "Selecciona las actas complementarias correctas",
       "preguntas": [
         {
           "pregunta": "8: Actas Complementarias",
