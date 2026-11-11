@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Server | LearnCPNB</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="icon" type="image/x-icon" href="./image/icon.png">
+  <script src="admin.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="brand-copy">
+          <p class="eyebrow">Servidor</p>
+          <h1>Editor de la Web</h1>
+          <p class="subtitle">Enlace de archivos</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="connection-badge" id="connectionBadge" role="status">Sin conectar</div>
+        <button class="button button-secondary" id="disconnectButton" type="button" hidden>Desconectar</button>
+      </div>
+    </header>
+
+    <section class="panel connection-panel" aria-labelledby="connectionTitle">
+      <div class="panel-heading">
+        <div>
+          <p class="step">Box</p>
+          <h2 id="connectionTitle">Conectar Token</h2>
+        </div>
+      </div>
+      <p class="help">Continue con el Token de verificacion para poder seguir.</p>
+      <div class="connect-row">
+        <label class="sr-only" for="tokenInput">Token personal de GitHub</label>
+        <input id="tokenInput" type="password" autocomplete="off" placeholder="Token" spellcheck="false">
+        <button class="button button-primary" id="connectButton" type="button">Conectar</button>
+      </div>
+    </section>
+
+    <section class="panel editor-panel" aria-labelledby="editorTitle">
+      <div class="panel-heading">
+        <div>
+          <p class="step">Box</p>
+          <h2 id="editorTitle">Contenido</h2>
+        </div>
+        <button class="button button-secondary" id="refreshButton" type="button">Actualizar</button>
+      </div>
+
+      <div class="select-row">
+        <div>
+          <label for="collectionSelect">Sección</label>
+          <select id="collectionSelect">
+            <option value="news">Noticias</option>
+            <option value="promotions">Promociones y actividades</option>
+            <option value="laws">Leyes</option>
+            <option value="functions">Funciones</option>
+          </select>
+        </div>
+        <div>
+          <label for="resourceSelect">Archivo</label>
+          <select id="resourceSelect" disabled>
+            <option value="">Conecta client para cargar</option>
+          </select>
+        </div>
+        <button class="button button-secondary new-button" id="newButton" type="button">+ Nuevo</button>
+      </div>
+
+      <div class="file-meta" id="fileMeta" hidden></div>
+      <fieldset id="editorFields" class="editor-fields" disabled>
+        <legend class="sr-only">Formulario de contenido</legend>
+        <div id="editorForm" class="editor-form">
+          <p class="empty-form">Conecta y selecciona un archivo para editar sus campos.</p>
+        </div>
+      </fieldset>
+      <p class="help format-help">Rellena los campos y usa «Agregar» para incluir más artículos, categorías u opciones.</p>
+      <div class="actions-row">
+        <label class="commit-label" for="commitInput">Commit
+          <input id="commitInput" type="text" maxlength="120" value="Nuevo archivo">
+        </label>
+        <button class="button button-danger" id="deleteButton" type="button" hidden>Eliminar último</button>
+        <button class="button button-primary save-button" id="saveButton" type="button" disabled>Guardar y publicar</button>
+      </div>
+      <div class="status" id="statusOutput" role="status" aria-live="polite">Conecta GitHub para comenzar. Cada guardado crea un commit en la rama main.</div>
+    </section>
+
+    <footer>Editor privado de esta computadora · Publicar</footer>
+  </main>
+</body>
+</html>
