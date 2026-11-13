@@ -1,0 +1,42 @@
+{
+  "titulo": "El Memorando",
+  "descripcion": "Comunicación escrita breve y directa de uso interno",
+  "fecha": "13/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "El memorando es una comunicación escrita breve, ejecutiva y directa de uso estrictamente interno dentro del CPNB para agilizar órdenes, novedades o solicitudes entre comandos, oficinas o funcionarios."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Selecciona la opción correcta sobre el Memorando",
+      "preguntas": [
+        {
+          "pregunta": "1: ¿Qué define al Memorando dentro del CPNB?",
+          "opciones": [
+            {
+              "texto": "Es un documento solemne dirigido exclusivamente a fiscales y jueces con saludo diplomático extenso",
+              "correcta": false
+            },
+            {
+              "texto": "Sirve para remitir evidencias físicas y detenidos hacia el CICPC u otros organismos externos",
+              "correcta": false
+            },
+            {
+              "texto": "Es una comunicación de uso estrictamente interno con estilo directo y esquema PARA, DE, FECHA y ASUNTO, sin despedida protocolar",
+              "correcta": true
+            },
+            {
+              "texto": "Lleva siempre los datos completos del despacho externo y cierra obligatoriamente con el lema institucional",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El memorándum agiliza la comunicación interna entre oficinas, comandos o funcionarios del mismo cuerpo policial mediante un formato ejecutivo (PARA / DE / FECHA / ASUNTO) que pasa directo a la firma y sello."
+        }
+      ]
+    }
+  ]
+}

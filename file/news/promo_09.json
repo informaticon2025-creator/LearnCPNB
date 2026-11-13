@@ -1,0 +1,43 @@
+{
+  "titulo": "El Oficio",
+  "descripcion": "Comunicación escrita formal hacia organismos externos",
+  "fecha": "13/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "El oficio es una comunicación escrita formal y protocolar utilizada en el CPNB para gestionar asuntos oficiales hacia el exterior de la institución (Fiscalía, tribunales, CICPC u otros entes del Estado) o entre dependencias de alto nivel."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Selecciona la opción correcta sobre el Oficio",
+      "preguntas": [
+        {
+          "pregunta": "1: ¿Cuál es el uso principal y estructura de un Oficio policial?",
+          "opciones": [
+
+            {
+              "texto": "Notificar cambios de guardia internos usando únicamente los bloques PARA, DE, FECHA y ASUNTO",
+              "correcta": false
+            },
+            {
+              "texto": "Realizar llamados de atención internos entre funcionarios de una misma estación sin membrete ni sello",
+              "correcta": false
+            },
+            {
+              "texto": "Sustituir las actas policiales de aprehensión en procedimientos de flagrancia",
+              "correcta": false
+            },
+                        {
+              "texto": "Remitir actuaciones o solicitudes hacia entes externos (Fiscalía, tribunales) con tono protocolar, destinatario completo y despedida formal",
+              "correcta": true
+            }
+          ],
+          "explicacion": "El oficio se emplea cuando la comunicación sale de la institución hacia organismos externos del Estado, identificando plenamente al destinatario y cerrando con despedida protocolar, firma y sello."
+        }
+      ]
+    }
+  ]
+}
