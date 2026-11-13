@@ -73,7 +73,7 @@ window.createNewsIframeElement = function (value, title) {
   openLink.href = url.href;
   openLink.target = '_blank';
   openLink.rel = 'noopener noreferrer';
-  openLink.textContent = '¿No se reproduce? Abrir video en una pestaña nueva';
+  openLink.textContent = '¿En caso de no reproduccion dirijete a la fuente';
 
   const media = document.createElement('div');
   media.className = 'news-video';
