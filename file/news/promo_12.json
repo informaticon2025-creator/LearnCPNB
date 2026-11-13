@@ -1,0 +1,47 @@
+{
+  "titulo": "Libro de Novedades del Servicio",
+  "descripcion": "Finalidad y estructura reglamentaria del registro diario de guardia en el PAC",
+  "fecha": "13/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "El Libro de Novedades del Servicio es el registro oficial y cronológico donde se deja constancia de todo lo ocurrido durante el turno de guardia en un Punto de Atención Ciudadana (PAC) o comando. Su motivo principal es garantizar el control administrativo y operativo, documentar el estado de fuerza disponible, dejar respaldo legal de los relevos y novedades relevantes, y asegurar la rendición de cuentas sobre los equipos y materiales asignados."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Selecciona el orden correcto de cómo debe estar estructurado el Libro de Novedades",
+      "preguntas": [
+        {
+          "pregunta": "1: Según el formato operativo del CPNB, ¿cuál es la estructura correcta que debe llevar el Libro de Novedades del servicio?",
+          "opciones": [
+
+            {
+              "texto": "1. Sentencia condenatoria, 2. Auto de formal procesamiento, 3. Boleta de excarcelación, 4. Cómputo de pena, 5. Oficio de remisión",
+              "correcta": false
+            },
+            {
+              "texto": "1. Pirámide de Kelsen, 2. Ordenanzas municipales, 3. Decretos ejecutivos, 4. Leyes orgánicas, 5. Constitución",
+              "correcta": false
+            },
+                        {
+              "texto": "1. Encabezado y Personal de Servicio, 2. Personal Asignado, 3. Personal Faltando y Capacidad Operativa, 4. Materiales de Apoyo, 5. Dotación, Puntos de Supervisión y Minutas de Servicio",
+              "correcta": true
+            },
+            {
+              "texto": "1. Para, De, Fecha y Asunto, 2. Saludo protocolar, 3. Inspección técnica, 4. Levantamiento de cadáver, 5. Cadena de custodia",
+              "correcta": false
+            },
+            {
+              "texto": "1. Presupuesto anual, 2. Inventario de armamento nacional, 3. Solicitud de vacaciones, 4. Acta de denuncia, 5. Despedida diplomática",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El Libro de Novedades sigue un orden lógico de control operativo: inicia identificando el turno y personal de servicio, detalla el personal asignado y faltante junto a la capacidad operativa, inventaría los materiales de apoyo y cierra con la dotación, puntos de supervisión y minutas cronológicas de la guardia."
+        }
+      ]
+    }
+  ]
+}

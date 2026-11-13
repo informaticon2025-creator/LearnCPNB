@@ -1,0 +1,69 @@
+{
+  "titulo": "La Pirámide de Kelsen",
+  "descripcion": "Jerarquía del ordenamiento jurídico y actuación policial",
+  "fecha": "13/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "imagen",
+      "url": "https://img.genial.ly/6451160cd3157e0018e53aa8/377f8ff2-6d54-4881-8420-d21f1dc2f8b7.png",
+      "alt": "Pirámide de Kelsen"
+    },
+    {
+      "tipo": "texto",
+      "titulo": "La Pirámide de Kelsen establece el orden jerárquico de las normas jurídicas: ninguna norma inferior puede contradecir a una superior. En su estructura se ordenan desde la Constitución y los tratados internacionales en la cima, pasando por las leyes orgánicas, especiales y ordinarias, hasta los decretos, ordenanzas, resoluciones y otros actos administrativos en la base."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Selecciona la opción correcta según la Pirámide de Kelsen",
+      "preguntas": [
+        {
+          "pregunta": "1: Según la jerarquía de la Pirámide de Kelsen, ¿qué norma tiene mayor rango legal?",
+          "opciones": [
+            {
+              "texto": "La Constitución",
+              "correcta": true
+            },
+            {
+              "texto": "Los Decretos Ejecutivos",
+              "correcta": false
+            },
+            {
+              "texto": "Las Ordenanzas y Resoluciones",
+              "correcta": false
+            },
+            {
+              "texto": "Las Leyes Ordinarias",
+              "correcta": false
+            }
+          ],
+          "explicacion": "La Constitución ocupa el nivel supremo del ordenamiento jurídico; las leyes, decretos, ordenanzas y demás actos administrativos están subordinados a ella."
+        },
+        {
+          "pregunta": "2: Si una ordenanza municipal contradice directamente lo establecido en una Ley Orgánica, ¿qué ocurre según la Pirámide de Kelsen?",
+          "opciones": [
+            {
+              "texto": "Prevalece la Ley Orgánica",
+              "correcta": true
+            },
+            {
+              "texto": "Prevalece la Ordenanza Municipal",
+              "correcta": false
+            },
+            {
+              "texto": "Se aplican ambas por igual",
+              "correcta": false
+            },
+            {
+              "texto": "Queda sin efecto la Ley Orgánica",
+              "correcta": false
+            }
+          ],
+          "explicacion": "Por el principio de jerarquía normativa, ninguna norma inferior (como decretos u ordenanzas) puede contradecir ni derogar una norma de rango superior como una Ley Orgánica."
+        }
+      ]
+    }
+  ]
+}

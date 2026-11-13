@@ -1,0 +1,64 @@
+{
+  "titulo": "Uso Progresivo y Diferenciado de la Fuerza (UPDF)",
+  "descripcion": "Aplicación práctica y niveles de intervención policial en el CPNB",
+  "fecha": "13/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "El Uso Progresivo y Diferenciado de la Fuerza (UPDF) se utiliza de forma escalonada: el funcionario inicia con presencia policial y despliegue táctico, continúa con el diálogo y órdenes verbales, y solo asciende hacia el control físico suave, control físico duro, armas intermedias o fuerza potencialmente mortal según aumente la resistencia o agresión de la persona, descendiendo de nivel en cuanto cese la amenaza."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Selecciona la opción correcta sobre cómo se utiliza el UPDF",
+      "preguntas": [
+        {
+          "pregunta": "1: Durante una intervención donde un ciudadano grita e insulta pero mantiene las manos visibles y no intenta agredir físicamente, ¿cómo se utiliza el UPDF?",
+          "opciones": [
+            {
+              "texto": "Se mantiene distancia táctica y se emplea el diálogo y órdenes verbales firmes para persuadirlo sin recurrir al contacto físico",
+              "correcta": true
+            },
+            {
+              "texto": "Se utiliza inmediatamente el bastón policial para neutralizar su actitud verbal",
+              "correcta": false
+            },
+            {
+              "texto": "Se desenfunda el arma de fuego orgánica como medida preventiva de intimidación",
+              "correcta": false
+            },
+            {
+              "texto": "Se aplican técnicas de control físico duro derribando al ciudadano al suelo",
+              "correcta": false
+            }
+          ],
+          "explicacion": "Ante la resistencia verbal o psicológica sin agresión física, el UPDF exige utilizar la presencia policial y el diálogo subiendo el tono de voz con órdenes claras antes de aplicar cualquier fuerza física."
+        },
+        {
+          "pregunta": "2: Si un ciudadano forcejea activamente para soltarse y lanza golpes contra el funcionario policial, ¿cómo debe escalarse el uso del UPDF?",
+          "opciones": [
+            {
+              "texto": "Se pasa al control físico duro o al uso de armas intermedias (bastón policial) para neutralizar la agresión y lograr el esposamiento",
+              "correcta": true
+            },
+            {
+              "texto": "Se utiliza el arma de fuego orgánica porque existe contacto físico",
+              "correcta": false
+            },
+            {
+              "texto": "Se limita exclusivamente a repetir órdenes verbales sin tocar al ciudadano",
+              "correcta": false
+            },
+            {
+              "texto": "Se mantiene la fuerza aplicada incluso después de que el ciudadano haya sido esposado y controlado",
+              "correcta": false
+            }
+          ],
+          "explicacion": "Frente a una agresión activa no letal, se utilizan técnicas de control físico duro o armas intermedias para someter la resistencia, debiendo reducir inmediatamente el nivel de fuerza en cuanto la persona sea controlada."
+        }
+      ]
+    }
+  ]
+}
