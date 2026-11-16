@@ -1,0 +1,201 @@
+{
+  "titulo": "Pirámide Resistencia - Control (UPDFP)",
+  "descripcion": "Uso Progresivo y Diferenciado de la Fuerza Policial: niveles de resistencia ciudadana y niveles de control oficial",
+  "fecha": "13/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "imagen",
+      "url": "https://clubaopip.com.pe/wp-content/uploads/definicion-de-uso-de-la-fuerza-policial-3-768x463.jpg",
+      "alt": "Pirámide Resistencia - Control UPDFP"
+    },
+    {
+      "tipo": "texto",
+      "titulo": "La Pirámide Resistencia - Control del Uso Progresivo y Diferenciado de la Fuerza Policial (UPDFP) establece la proporcionalidad entre la conducta del ciudadano (niveles de resistencia) y la respuesta del funcionario (niveles de control), manteniendo la verbalización como eje transversal en todos los escalones."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Selecciona la opción correcta según la Pirámide Resistencia - Control (UPDFP)",
+      "preguntas": [
+        {
+          "pregunta": "1: Según la base de la Pirámide Resistencia - Control, ¿cuál es el nivel de control inicial del oficial frente a la 'Intimidación Psicológica' del ciudadano?",
+          "opciones": [
+            {
+              "texto": "Despliegue táctico",
+              "correcta": false
+            },
+            {
+              "texto": "Presencia",
+              "correcta": true
+            },
+            {
+              "texto": "Diálogo",
+              "correcta": false
+            },
+            {
+              "texto": "Técnicas suaves de control físico",
+              "correcta": false
+            }
+          ],
+          "explicacion": "En el primer escalón (base) de la pirámide, ante la intimidación psicológica del ciudadano, el nivel de control correspondiente del oficial es la Presencia."
+        },
+        {
+          "pregunta": "2: Cuando el ciudadano se muestra 'Indeciso', ¿qué nivel de control corresponde aplicar al funcionario según la pirámide?",
+          "opciones": [
+            {
+              "texto": "Presencia",
+              "correcta": false
+            },
+            {
+              "texto": "Diálogo",
+              "correcta": false
+            },
+            {
+              "texto": "Despliegue táctico",
+              "correcta": true
+            },
+            {
+              "texto": "Armas intermedias",
+              "correcta": false
+            }
+          ],
+          "explicacion": "En el segundo nivel de la escala proporcional, cuando la conducta del ciudadano es indecisa, el oficial responde mediante el Despliegue Táctico."
+        },
+        {
+          "pregunta": "3: Ante 'Agresiones Verbales' por parte del ciudadano, ¿cuál es el nivel de control indicado para el oficial?",
+          "opciones": [
+            {
+              "texto": "Diálogo",
+              "correcta": true
+            },
+            {
+              "texto": "Técnicas duras de control físico",
+              "correcta": false
+            },
+            {
+              "texto": "Despliegue táctico",
+              "correcta": false
+            },
+            {
+              "texto": "Presencia",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El tercer escalón de la Pirámide Resistencia - Control establece que frente a agresiones verbales del ciudadano corresponde el Diálogo como nivel de control."
+        },
+        {
+          "pregunta": "4: De acuerdo con la Pirámide Resistencia - Control, ¿qué acción policial corresponde directamente ante un ciudadano en nivel de 'Resistencia Pasiva'?",
+          "opciones": [
+            {
+              "texto": "Diálogo",
+              "correcta": false
+            },
+            {
+              "texto": "Técnicas suaves de control físico",
+              "correcta": true
+            },
+            {
+              "texto": "Técnicas duras de control físico",
+              "correcta": false
+            },
+            {
+              "texto": "Armas intermedias",
+              "correcta": false
+            }
+          ],
+          "explicacion": "En el cuarto nivel (amarillo), ante una Resistencia Pasiva del ciudadano, el funcionario debe aplicar Técnicas Suaves de Control Físico."
+        },
+        {
+          "pregunta": "5: ¿Cuál es el nivel de control correspondiente por parte del oficial cuando el ciudadano presenta 'Resistencia Defensiva'?",
+          "opciones": [
+            {
+              "texto": "Técnicas suaves de control físico",
+              "correcta": false
+            },
+            {
+              "texto": "Armas intermedias",
+              "correcta": false
+            },
+            {
+              "texto": "Técnicas duras de control físico",
+              "correcta": true
+            },
+            {
+              "texto": "Potencialmente mortal",
+              "correcta": false
+            }
+          ],
+          "explicacion": "En el quinto escalón (naranja), ante una Resistencia Defensiva del ciudadano, el oficial debe aplicar Técnicas Duras de Control Físico."
+        },
+        {
+          "pregunta": "6: Si el ciudadano escala a 'Agresiones Activas', ¿qué nivel de control debe emplear el oficial según la pirámide?",
+          "opciones": [
+            {
+              "texto": "Técnicas duras de control físico",
+              "correcta": false
+            },
+            {
+              "texto": "Armas intermedias",
+              "correcta": true
+            },
+            {
+              "texto": "Potencialmente mortal",
+              "correcta": false
+            },
+            {
+              "texto": "Despliegue táctico",
+              "correcta": false
+            }
+          ],
+          "explicacion": "En el sexto nivel (rojo), frente a Agresiones Activas del ciudadano, corresponde el uso de Armas Intermedias."
+        },
+        {
+          "pregunta": "7: En la cúspide de la Pirámide Resistencia - Control, ¿qué nivel de control corresponde cuando el ciudadano ejerce 'Violencia Mortal'?",
+          "opciones": [
+            {
+              "texto": "Armas intermedias",
+              "correcta": false
+            },
+            {
+              "texto": "Técnicas duras de control físico",
+              "correcta": false
+            },
+            {
+              "texto": "Potencialmente mortal",
+              "correcta": true
+            },
+            {
+              "texto": "Despliegue táctico",
+              "correcta": false
+            }
+          ],
+          "explicacion": "En el nivel superior (negro), ante una situación de Violencia Mortal por parte del ciudadano, el nivel de control proporcional del oficial es Potencialmente Mortal."
+        },
+        {
+          "pregunta": "8: ¿Qué elemento atraviesa de forma transversal todos los niveles de la Pirámide Resistencia - Control desde la base hasta la cúspide?",
+          "opciones": [
+            {
+              "texto": "El despliegue táctico",
+              "correcta": false
+            },
+            {
+              "texto": "El uso de armas intermedias",
+              "correcta": false
+            },
+            {
+              "texto": "La verbalización",
+              "correcta": true
+            },
+            {
+              "texto": "La presencia policial",
+              "correcta": false
+            }
+          ],
+          "explicacion": "La verbalización se ubica en el centro atravesando todos los niveles, lo que indica su aplicación constante y obligatoria en cada escalón del procedimiento."
+        }
+      ]
+    }
+  ]
+}
