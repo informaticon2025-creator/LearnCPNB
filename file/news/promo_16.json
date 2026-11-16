@@ -1,7 +1,7 @@
 {
-  "titulo": "Pirámide Resistencia - Control (UPDFP)",
-  "descripcion": "Uso Progresivo y Diferenciado de la Fuerza Policial: niveles de resistencia ciudadana y niveles de control oficial",
-  "fecha": "13/11/2026",
+  "titulo": "¿Qué significa SIPOL?",
+  "descripcion": "Evaluación operativa sobre el significado, alcance y protocolo de consulta del SIPOL",
+  "fecha": "16/11/2026",
   "enlace": "page/promo.html",
   "siguiente": null,
   "textoBoton": "Responder",
@@ -9,191 +9,81 @@
     {
       "tipo": "imagen",
       "url": "https://clubaopip.com.pe/wp-content/uploads/definicion-de-uso-de-la-fuerza-policial-3-768x463.jpg",
-      "alt": "Pirámide Resistencia - Control UPDFP"
+      "alt": "Verificación policial SIPOL"
     },
     {
       "tipo": "texto",
-      "titulo": "La Pirámide Resistencia - Control del Uso Progresivo y Diferenciado de la Fuerza Policial (UPDFP) establece la proporcionalidad entre la conducta del ciudadano (niveles de resistencia) y la respuesta del funcionario (niveles de control), manteniendo la verbalización como eje transversal en todos los escalones."
+      "titulo": "Pon a prueba tus conocimientos operativos sobre esta herramienta fundamental en los puntos de control y procedimientos de verificación policial en Venezuela."
     },
     {
       "tipo": "quiz",
-      "titulo": "Selecciona la opción correcta según la Pirámide Resistencia - Control (UPDFP)",
+      "titulo": "Selecciona la opción correcta según el protocolo y normativa policial",
       "preguntas": [
         {
-          "pregunta": "1: Según la base de la Pirámide Resistencia - Control, ¿cuál es el nivel de control inicial del oficial frente a la 'Intimidación Psicológica' del ciudadano?",
+          "pregunta": "1: ¿Qué significan exactamente las siglas SIPOL en el ámbito policial venezolano?",
           "opciones": [
             {
-              "texto": "Despliegue táctico",
+              "texto": "Sistema Integrado de Patrullaje y Operaciones Locales",
               "correcta": false
             },
             {
-              "texto": "Presencia",
+              "texto": "Sistema de Investigación e Información Policial",
               "correcta": true
             },
             {
-              "texto": "Diálogo",
+              "texto": "Servicio de Inteligencia y Prevención del Orden Público",
               "correcta": false
             },
             {
-              "texto": "Técnicas suaves de control físico",
+              "texto": "Sistema de Identificación de Personas y Objetos Legales",
               "correcta": false
             }
           ],
-          "explicacion": "En el primer escalón (base) de la pirámide, ante la intimidación psicológica del ciudadano, el nivel de control correspondiente del oficial es la Presencia."
+          "explicacion": "SIPOL corresponde a las siglas de Sistema de Investigación e Información Policial, herramienta oficial de consulta y verificación de registros policiales y judiciales."
         },
         {
-          "pregunta": "2: Cuando el ciudadano se muestra 'Indeciso', ¿qué nivel de control corresponde aplicar al funcionario según la pirámide?",
+          "pregunta": "2: ¿Qué diferencia existe en SIPOL entre tener un 'Registro Policial' (historial) y poseer una 'Solicitud Activa'?",
           "opciones": [
             {
-              "texto": "Presencia",
+              "texto": "No existe ninguna diferencia; ambos implican detención inmediata",
               "correcta": false
             },
             {
-              "texto": "Diálogo",
-              "correcta": false
-            },
-            {
-              "texto": "Despliegue táctico",
+              "texto": "El registro refleja antecedentes o reseñas pasadas ya resueltas, mientras que la solicitud activa implica una orden de captura o requerimiento vigente",
               "correcta": true
             },
             {
-              "texto": "Armas intermedias",
+              "texto": "La solicitud activa aplica solo a vehículos y el registro solo a personas",
+              "correcta": false
+            },
+            {
+              "texto": "El registro policial es emitido por el INTT y la solicitud por el SAIME",
               "correcta": false
             }
           ],
-          "explicacion": "En el segundo nivel de la escala proporcional, cuando la conducta del ciudadano es indecisa, el oficial responde mediante el Despliegue Táctico."
+          "explicacion": "Un ciudadano puede poseer registros policiales históricos sin estar requerido actualmente; solo una solicitud activa ordena su aprehensión y presentación ante un tribunal."
         },
         {
-          "pregunta": "3: Ante 'Agresiones Verbales' por parte del ciudadano, ¿cuál es el nivel de control indicado para el oficial?",
+          "pregunta": "3: Si al verificar a un ciudadano en el SIPOL arroja una 'Solicitud' (orden de aprehensión vigente), ¿cómo debe proceder el funcionario actuante?",
           "opciones": [
             {
-              "texto": "Diálogo",
+              "texto": "Retener su cédula de identidad y citarlo para la semana siguiente",
+              "correcta": false
+            },
+            {
+              "texto": "Practicar la aprehensión respetando sus derechos constitucionales, notificar al Ministerio Público y ponerlo a orden del tribunal que lo requiere",
               "correcta": true
             },
             {
-              "texto": "Técnicas duras de control físico",
+              "texto": "Aplicar una multa administrativa y permitirle continuar su tránsito",
               "correcta": false
             },
             {
-              "texto": "Despliegue táctico",
-              "correcta": false
-            },
-            {
-              "texto": "Presencia",
+              "texto": "Eliminar la solicitud del sistema si el ciudadano no tiene antecedentes previos",
               "correcta": false
             }
           ],
-          "explicacion": "El tercer escalón de la Pirámide Resistencia - Control establece que frente a agresiones verbales del ciudadano corresponde el Diálogo como nivel de control."
-        },
-        {
-          "pregunta": "4: De acuerdo con la Pirámide Resistencia - Control, ¿qué acción policial corresponde directamente ante un ciudadano en nivel de 'Resistencia Pasiva'?",
-          "opciones": [
-            {
-              "texto": "Diálogo",
-              "correcta": false
-            },
-            {
-              "texto": "Técnicas suaves de control físico",
-              "correcta": true
-            },
-            {
-              "texto": "Técnicas duras de control físico",
-              "correcta": false
-            },
-            {
-              "texto": "Armas intermedias",
-              "correcta": false
-            }
-          ],
-          "explicacion": "En el cuarto nivel (amarillo), ante una Resistencia Pasiva del ciudadano, el funcionario debe aplicar Técnicas Suaves de Control Físico."
-        },
-        {
-          "pregunta": "5: ¿Cuál es el nivel de control correspondiente por parte del oficial cuando el ciudadano presenta 'Resistencia Defensiva'?",
-          "opciones": [
-            {
-              "texto": "Técnicas suaves de control físico",
-              "correcta": false
-            },
-            {
-              "texto": "Armas intermedias",
-              "correcta": false
-            },
-            {
-              "texto": "Técnicas duras de control físico",
-              "correcta": true
-            },
-            {
-              "texto": "Potencialmente mortal",
-              "correcta": false
-            }
-          ],
-          "explicacion": "En el quinto escalón (naranja), ante una Resistencia Defensiva del ciudadano, el oficial debe aplicar Técnicas Duras de Control Físico."
-        },
-        {
-          "pregunta": "6: Si el ciudadano escala a 'Agresiones Activas', ¿qué nivel de control debe emplear el oficial según la pirámide?",
-          "opciones": [
-            {
-              "texto": "Técnicas duras de control físico",
-              "correcta": false
-            },
-            {
-              "texto": "Armas intermedias",
-              "correcta": true
-            },
-            {
-              "texto": "Potencialmente mortal",
-              "correcta": false
-            },
-            {
-              "texto": "Despliegue táctico",
-              "correcta": false
-            }
-          ],
-          "explicacion": "En el sexto nivel (rojo), frente a Agresiones Activas del ciudadano, corresponde el uso de Armas Intermedias."
-        },
-        {
-          "pregunta": "7: En la cúspide de la Pirámide Resistencia - Control, ¿qué nivel de control corresponde cuando el ciudadano ejerce 'Violencia Mortal'?",
-          "opciones": [
-            {
-              "texto": "Armas intermedias",
-              "correcta": false
-            },
-            {
-              "texto": "Técnicas duras de control físico",
-              "correcta": false
-            },
-            {
-              "texto": "Potencialmente mortal",
-              "correcta": true
-            },
-            {
-              "texto": "Despliegue táctico",
-              "correcta": false
-            }
-          ],
-          "explicacion": "En el nivel superior (negro), ante una situación de Violencia Mortal por parte del ciudadano, el nivel de control proporcional del oficial es Potencialmente Mortal."
-        },
-        {
-          "pregunta": "8: ¿Qué elemento atraviesa de forma transversal todos los niveles de la Pirámide Resistencia - Control desde la base hasta la cúspide?",
-          "opciones": [
-            {
-              "texto": "El despliegue táctico",
-              "correcta": false
-            },
-            {
-              "texto": "El uso de armas intermedias",
-              "correcta": false
-            },
-            {
-              "texto": "La verbalización",
-              "correcta": true
-            },
-            {
-              "texto": "La presencia policial",
-              "correcta": false
-            }
-          ],
-          "explicacion": "La verbalización se ubica en el centro atravesando todos los niveles, lo que indica su aplicación constante y obligatoria en cada escalón del procedimiento."
+          "explicacion": "Ante una solicitud judicial activa reflejada en SIPOL, el funcionario debe ejecutar la aprehensión conforme al COPP, garantizar los derechos del detenido y notificar de inmediato al Ministerio Público y al órgano jurisdiccional."
         }
       ]
     }
