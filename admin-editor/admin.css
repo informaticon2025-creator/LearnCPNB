@@ -60,6 +60,7 @@ label { display: block; margin-bottom: 7px; color: var(--navy); font-size: 0.9re
 .editor-form { display: grid; gap: 14px; }
 .editor-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .editor-field { min-width: 0; }
+.field-help { display: block; margin-top: 5px; color: var(--muted); font-size: 0.82rem; }
 .editor-field-wide { grid-column: 1 / -1; }
 .editor-field input[type="checkbox"] { width: 20px; min-height: 20px; margin: 0 8px 0 0; vertical-align: middle; }
 .null-row { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; color: var(--muted); font-size: 0.85rem; }

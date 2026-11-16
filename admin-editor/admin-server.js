@@ -131,9 +131,12 @@ function validateResource(type, item, number) {
   if (type === 'promotions') {
     if (
       ['titulo', 'descripcion', 'enlace', 'textoBoton'].some(key => typeof item[key] !== 'string') ||
+      typeof item.categoria !== 'string' ||
+      !item.categoria.trim() ||
+      item.categoria.trim().length > 80 ||
       (item.fecha !== undefined && !isValidDate(item.fecha))
     ) {
-      fail('incluye titulo, descripcion, enlace y textoBoton; fecha es opcional.');
+      fail('incluye titulo, descripcion, categoria, enlace y textoBoton; la categoría debe tener hasta 80 caracteres y fecha es opcional.');
     }
     return;
   }

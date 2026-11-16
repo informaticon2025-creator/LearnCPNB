@@ -62,6 +62,47 @@ const inputLabels = {
   functions: 'artículo'
 };
 
+const promotionCategories = [
+  'Actas y documentación policial',
+  'Actuación operativa',
+  'Investigación y consulta policial',
+  'Uso progresivo y control de la fuerza',
+  'Fundamentos jurídicos',
+  'Claves y códigos policiales'
+];
+
+const legacyPromotionCategories = new Map([
+  [1, 'Actuación operativa'],
+  [2, 'Actuación operativa'],
+  [3, 'Fundamentos jurídicos'],
+  [4, 'Investigación y consulta policial'],
+  [5, 'Actas y documentación policial'],
+  [6, 'Actas y documentación policial'],
+  [7, 'Actas y documentación policial'],
+  [8, 'Actas y documentación policial'],
+  [9, 'Actas y documentación policial'],
+  [10, 'Actas y documentación policial'],
+  [11, 'Fundamentos jurídicos'],
+  [12, 'Actas y documentación policial'],
+  [13, 'Uso progresivo y control de la fuerza'],
+  [14, 'Actuación operativa'],
+  [15, 'Uso progresivo y control de la fuerza'],
+  [16, 'Investigación y consulta policial']
+]);
+
+function getPromotionCategoryOptions() {
+  const categories = new Set(promotionCategories);
+  for (const resource of resources) {
+    const item = JSON.parse(resource.content);
+    const number = Number(resource.path.match(/promo_(\d+)\.json$/)?.[1]);
+    const category = typeof item.categoria === 'string'
+      ? item.categoria.trim()
+      : legacyPromotionCategories.get(number);
+    if (category) categories.add(category);
+  }
+  return [...categories];
+}
+
 async function api(path, options = {}) {
   const response = await fetch(path, {
     cache: 'no-store',
@@ -125,6 +166,16 @@ function setCurrentResource(resource) {
   isCreating = false;
   elements.resource.value = resource?.path || '';
   editorData = resource ? JSON.parse(resource.content) : null;
+  if (
+    elements.collection.value === 'promotions' &&
+    editorData &&
+    typeof editorData === 'object' &&
+    !Array.isArray(editorData) &&
+    !editorData.categoria
+  ) {
+    const number = Number(resource.path.match(/promo_(\d+)\.json$/)?.[1]);
+    editorData.categoria = legacyPromotionCategories.get(number) || '';
+  }
   renderEditor();
   elements.commit.value = resource
     ? `Actualizar ${resource.path.split('/').pop()} desde el editor local`
@@ -180,6 +231,7 @@ function blankResource(type) {
     return {
       titulo: '',
       descripcion: '',
+      categoria: '',
       enlace: '',
       siguiente: null,
       textoBoton: 'Ver más',
@@ -204,6 +256,9 @@ function blankResource(type) {
 }
 
 function labelFor(key) {
+  if (key === 'categoria' && elements.collection.value === 'promotions') {
+    return 'Categoría de actividad';
+  }
   return fieldLabels[key] || key.replace(/([a-z])([A-Z])/g, '$1 $2')
     .replace(/^./, character => character.toUpperCase());
 }
@@ -398,6 +453,10 @@ function renderField(key, value, path, container, onChange) {
       : document.createElement(typeof value === 'string' && isLongText(key, value) ? 'textarea' : 'input');
     if (control instanceof HTMLInputElement) {
       control.type = typeof value === 'number' ? 'number' : 'text';
+      if (key === 'categoria' && elements.collection.value === 'promotions') {
+        control.setAttribute('list', 'promotionCategoryOptions');
+        control.maxLength = 80;
+      }
     }
     control.value = value ?? '';
     if (options) {
@@ -408,6 +467,15 @@ function renderField(key, value, path, container, onChange) {
       onChange(typeof value === 'number' && control.value !== '' ? Number(control.value) : control.value);
     });
     field.append(label, control);
+    if (key === 'categoria' && elements.collection.value === 'promotions') {
+      const optionsList = document.createElement('datalist');
+      optionsList.id = 'promotionCategoryOptions';
+      optionsList.replaceChildren(...getPromotionCategoryOptions().map(category => new Option(category, category)));
+      const help = document.createElement('small');
+      help.className = 'field-help';
+      help.textContent = 'Elige una categoría existente o escribe un nombre para crear una nueva.';
+      field.append(optionsList, help);
+    }
   }
   container.append(field);
 }

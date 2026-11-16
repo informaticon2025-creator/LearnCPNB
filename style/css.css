@@ -1,4 +1,5 @@
 :root {
+  font-size: var(--app-font-size, 16px);
   --bg-color: #f1f5fb;
   --card-bg: #ffffff;
   --accent-color: #123b70;
@@ -606,6 +607,161 @@ header {
 .info-dialog-content p {
   line-height: 1.6;
   overflow-wrap: anywhere;
+}
+
+.settings-control {
+  display: grid;
+  gap: 10px;
+}
+
+.settings-font-heading,
+.settings-range-labels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.settings-font-heading {
+  font-weight: 700;
+}
+
+.settings-font-heading output,
+.settings-range-labels {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+#fontSizeSetting {
+  width: 100%;
+  accent-color: var(--accent-color);
+}
+
+.settings-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.settings-toggle input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent-color);
+}
+
+.settings-dialog-close {
+  justify-self: end;
+}
+
+html.color-inverted {
+  --bg-color: #0b1f4b;
+  --card-bg: #123b70;
+  --accent-color: #ffffff;
+  --accent-hover: #ffffff;
+  --text-main: #ffffff;
+  --text-muted: #dce7f5;
+  --border-color: rgba(255, 255, 255, 0.24);
+  --badge-bg: rgba(255, 255, 255, 0.14);
+}
+
+html.color-inverted .section-menu {
+  --text-main: #123b70;
+  --text-muted: #526b8b;
+  --border-color: rgba(18, 59, 112, 0.2);
+  --badge-bg: rgba(18, 59, 112, 0.1);
+  color: var(--text-main);
+}
+
+html.color-inverted .icon-button {
+  background: #123b70;
+  color: #ffffff;
+}
+
+html.color-inverted .search-box input,
+html.color-inverted .news-comment-input {
+  border-color: var(--border-color);
+  background: #0b1f4b;
+  color: var(--text-main);
+}
+
+html.color-inverted .news-content p {
+  color: var(--text-muted);
+}
+
+html.color-inverted .news-section,
+html.color-inverted .tools-section,
+html.color-inverted .laws-view,
+html.color-inverted .function-section {
+  border-color: var(--border-color);
+  background: var(--card-bg);
+}
+
+html.color-inverted .view-heading h1,
+html.color-inverted .news-content h2 {
+  color: #ffffff;
+}
+
+html.color-inverted .info-dialog-close {
+  background: #ffffff;
+  color: #123b70;
+}
+
+html.color-inverted .desktop-notice,
+html.color-inverted .desktop-notice-tooltip,
+html.color-inverted .download-compendium,
+html.color-inverted .welcome-dialog,
+html.color-inverted .function-category,
+html.color-inverted .function-keys-toggle,
+html.color-inverted .function-category-description,
+html.color-inverted .function-action-card,
+html.color-inverted .law-card,
+html.color-inverted .law-card:hover,
+html.color-inverted .law-card:focus-visible,
+html.color-inverted .key-practice-launch,
+html.color-inverted .key-practice-drag-ghost,
+html.color-inverted .news-comment-submit,
+html.color-inverted .news-link,
+html.color-inverted .search-result-action:hover,
+html.color-inverted .promo-catalog-trigger,
+html.color-inverted .promo-catalog-button,
+html.color-inverted .promo-catalog-button > span:not(.promo-catalog-action),
+html.color-inverted .promo-catalog-action,
+html.color-inverted .promo-catalog-archive,
+html.color-inverted .promo-home-button:hover,
+html.color-inverted .promo-option-check,
+html.color-inverted .anunciado {
+  color: #123b70;
+}
+
+html.color-inverted .promo-catalog-section {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: #123b70;
+}
+
+html.color-inverted .bottom-nav {
+  background: #ffffff;
+}
+
+html.color-inverted .bottom-nav-button,
+html.color-inverted .bottom-nav-button[aria-current="page"],
+html.color-inverted .bottom-nav-button:not([aria-current="page"]):hover {
+  color: #123b70;
+}
+
+html.color-inverted body .bottom-nav .bottom-nav-button,
+html.color-inverted body .bottom-nav .bottom-nav-button[aria-current="page"],
+html.color-inverted body .bottom-nav .bottom-nav-button:not([aria-current="page"]):hover {
+  color: #123b70;
+}
+
+html.color-inverted body .bottom-nav .bottom-nav-button[aria-current="page"] {
+  background: rgba(18, 59, 112, 0.12);
 }
 
 .terms-countdown {
@@ -4406,8 +4562,64 @@ body.promo-page .site-header .topbar {
 
 .promo-catalog-list {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.promo-catalog-group {
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  background: var(--bg-color);
+}
+
+.promo-catalog-group-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 12px 16px;
+  color: var(--text-main);
+  list-style: none;
+  cursor: pointer;
+}
+
+.promo-catalog-group-summary::-webkit-details-marker {
+  display: none;
+}
+
+.promo-catalog-group-title {
+  flex: 1 1 auto;
+  font-weight: 700;
+}
+
+.promo-catalog-group-count {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.promo-catalog-group-chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--accent-color);
+  transition: transform 180ms ease;
+}
+
+.promo-catalog-group[open] .promo-catalog-group-chevron {
+  transform: rotate(180deg);
+}
+
+.promo-catalog-group-summary:focus-visible {
+  outline: 3px solid var(--accent-hover);
+  outline-offset: -3px;
+}
+
+.promo-catalog-group-list {
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 12px;
+  padding: 0 14px 14px;
 }
 
 .promo-catalog-card {
@@ -4515,6 +4727,10 @@ body.promo-page .site-header .topbar {
   .promo-catalog-back,
   .promo-catalog-archive,
   .promo-catalog-button {
+    transition: none;
+  }
+
+  .promo-catalog-group-chevron {
     transition: none;
   }
 }

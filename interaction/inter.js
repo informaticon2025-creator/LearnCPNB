@@ -422,6 +422,18 @@ function renderPromoCatalog(promotions) {
   const container = document.getElementById('promoCatalog');
   const status = document.getElementById('promoCatalogStatus');
   container.replaceChildren();
+  const legacyCategories = [
+    { title: 'Actas y documentación policial', promoIds: [5, 6, 7, 8, 9, 10, 12] },
+    { title: 'Actuación operativa', promoIds: [1, 2, 14] },
+    { title: 'Investigación y consulta policial', promoIds: [4, 16] },
+    { title: 'Uso progresivo y control de la fuerza', promoIds: [13, 15] },
+    { title: 'Fundamentos jurídicos', promoIds: [3, 11] }
+  ];
+  const legacyCategoryByPromoId = new Map(
+    legacyCategories.flatMap(category => category.promoIds.map(promoId => [promoId, category.title]))
+  );
+  const categoriesByName = new Map();
+  const cardsByCategory = new Map();
 
   const savedCompletedPromos = localStorage.getItem('learncpnb-completed-promos');
   const completedPromoIds = savedCompletedPromos ? JSON.parse(savedCompletedPromos) : [];
@@ -522,9 +534,18 @@ function renderPromoCatalog(promotions) {
       card.appendChild(archiveButton);
     }
 
-    container.appendChild(card);
+    const categoryName = item.categoria?.trim() || legacyCategoryByPromoId.get(promoId) || 'Otras actividades';
+    if (!cardsByCategory.has(categoryName)) {
+      cardsByCategory.set(categoryName, []);
+      categoriesByName.set(categoryName, {
+        id: `promo-category-${categoriesByName.size + 1}`,
+        title: categoryName
+      });
+    }
+    cardsByCategory.get(categoryName).push(card);
   });
 
+  const keyCategory = 'Claves y códigos policiales';
   const keyPracticeCard = document.createElement('article');
   keyPracticeCard.className = 'promo-catalog-card promo-catalog-card--keys';
   const keyPracticeLink = document.createElement('a');
@@ -539,8 +560,44 @@ function renderPromoCatalog(promotions) {
   keyPracticeAction.textContent = 'Practicar';
   keyPracticeLink.append(keyPracticeTitle, keyPracticeDescription, keyPracticeAction);
   keyPracticeCard.appendChild(keyPracticeLink);
-  const practicePosition = Math.floor(Math.random() * (container.childElementCount + 1));
-  container.insertBefore(keyPracticeCard, container.children[practicePosition] || null);
+  if (!cardsByCategory.has(keyCategory)) {
+    cardsByCategory.set(keyCategory, []);
+    categoriesByName.set(keyCategory, {
+      id: `promo-category-${categoriesByName.size + 1}`,
+      title: keyCategory
+    });
+  }
+  cardsByCategory.get(keyCategory).push(keyPracticeCard);
+
+  cardsByCategory.forEach((cards, categoryName) => {
+    if (!cards.length) return;
+    const category = categoriesByName.get(categoryName);
+
+    const group = document.createElement('details');
+    group.className = 'promo-catalog-group';
+    const summary = document.createElement('summary');
+    summary.className = 'promo-catalog-group-summary';
+    const title = document.createElement('span');
+    title.className = 'promo-catalog-group-title';
+    title.textContent = category.title;
+    const count = document.createElement('span');
+    count.className = 'promo-catalog-group-count';
+    count.textContent = `${cards.length} ${cards.length === 1 ? 'actividad' : 'actividades'}`;
+    const chevron = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    chevron.classList.add('icon', 'promo-catalog-group-chevron');
+    chevron.setAttribute('viewBox', '0 0 24 24');
+    chevron.setAttribute('aria-hidden', 'true');
+    const chevronPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    chevronPath.setAttribute('d', 'm6 9 6 6 6-6');
+    chevron.appendChild(chevronPath);
+    summary.append(title, count, chevron);
+
+    const list = document.createElement('div');
+    list.className = 'promo-catalog-group-list';
+    cards.forEach(card => list.appendChild(card));
+    group.append(summary, list);
+    container.appendChild(group);
+  });
 
   status.textContent = container.childElementCount
     ? ''
@@ -607,12 +664,14 @@ function validatePromotion(item, number) {
     !item ||
     Array.isArray(item) ||
     ['titulo', 'descripcion', 'enlace', 'textoBoton'].some(key => typeof item[key] !== 'string') ||
+    (item.categoria !== undefined &&
+      (typeof item.categoria !== 'string' || !item.categoria.trim() || item.categoria.trim().length > 80)) ||
     (item.fecha !== undefined && (typeof item.fecha !== 'string' || parsePublicationDate(item.fecha) === null)) ||
     (item.siguiente !== undefined &&
       item.siguiente !== null &&
       (!Number.isSafeInteger(item.siguiente) || item.siguiente < 1 || item.siguiente > 999))
   ) {
-    throw new Error(`La promoción ${number} debe incluir titulo, descripcion, enlace y textoBoton como texto; fecha es opcional y debe ser válida (DD/MM/AAAA o AAAA-MM-DD).`);
+    throw new Error(`La promoción ${number} debe incluir titulo, descripcion, enlace y textoBoton como texto; categoria es opcional y debe tener hasta 80 caracteres; fecha es opcional y debe ser válida (DD/MM/AAAA o AAAA-MM-DD).`);
   }
 }
 
@@ -2058,6 +2117,48 @@ if (pinnedDialogClose) {
     pinnedDialog.close();
   });
 }
+
+const settingsDialog = document.getElementById('settingsDialog');
+const openSettingsButton = document.getElementById('openSettingsButton');
+const settingsDialogClose = document.getElementById('settingsDialogClose');
+const fontSizeSetting = document.getElementById('fontSizeSetting');
+const fontSizeValue = document.getElementById('fontSizeValue');
+const invertColorsSetting = document.getElementById('invertColorsSetting');
+const fontSizeStorageKey = 'learncpnb-font-size';
+const invertColorsStorageKey = 'learncpnb-invert-colors';
+const storedFontSize = Number(localStorage.getItem(fontSizeStorageKey));
+const initialFontSize = Number.isInteger(storedFontSize) && storedFontSize >= 14 && storedFontSize <= 22
+  ? storedFontSize
+  : 16;
+
+function updateFontSize(fontSize) {
+  document.documentElement.style.setProperty('--app-font-size', `${fontSize}px`);
+  fontSizeSetting.value = String(fontSize);
+  fontSizeValue.value = `${fontSize} px`;
+}
+
+updateFontSize(initialFontSize);
+invertColorsSetting.checked = localStorage.getItem(invertColorsStorageKey) === 'true';
+document.documentElement.classList.toggle('color-inverted', invertColorsSetting.checked);
+
+fontSizeSetting.addEventListener('input', () => {
+  const fontSize = Number(fontSizeSetting.value);
+  updateFontSize(fontSize);
+  localStorage.setItem(fontSizeStorageKey, String(fontSize));
+});
+
+invertColorsSetting.addEventListener('change', () => {
+  document.documentElement.classList.toggle('color-inverted', invertColorsSetting.checked);
+  localStorage.setItem(invertColorsStorageKey, String(invertColorsSetting.checked));
+});
+
+openSettingsButton.addEventListener('click', () => {
+  document.getElementById('sectionMenu').classList.remove('open');
+  document.getElementById('menuToggle').setAttribute('aria-expanded', 'false');
+  settingsDialog.showModal();
+});
+
+settingsDialogClose.addEventListener('click', () => settingsDialog.close());
 
 document.getElementById('searchInput').addEventListener('input', () => {
   handleGlobalSearch();
