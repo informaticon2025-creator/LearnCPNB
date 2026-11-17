@@ -2,7 +2,7 @@ const promoContent = document.getElementById('promoContent');
 document.body.classList.add('promo-page');
 let promoFeedbackTimeout;
 let promoFeedbackElement;
-const completedPromosStorageKey = 'learncpnb-completed-promos';
+const completedPromosStorageKey = 'learncpnb-completed-promos-v2';
 const practiceLivesStorageKey = 'learncpnb-practice-lives';
 const maxPracticeLives = 5;
 const practiceCooldownMs = 24 * 60 * 60 * 1000;

@@ -488,7 +488,7 @@ function renderPromoCatalog(promotions) {
   const categoriesByName = new Map();
   const cardsByCategory = new Map();
 
-  const savedCompletedPromos = localStorage.getItem('learncpnb-completed-promos');
+  const savedCompletedPromos = localStorage.getItem('learncpnb-completed-promos-v2');
   const completedPromoIds = savedCompletedPromos ? JSON.parse(savedCompletedPromos) : [];
   if (
     !Array.isArray(completedPromoIds) ||
