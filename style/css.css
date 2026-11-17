@@ -4964,6 +4964,24 @@ body.promo-page .site-header .topbar {
   cursor: not-allowed;
 }
 
+.promo-catalog-card--locked .promo-catalog-button {
+  border-color: #cbd2dc;
+  background: linear-gradient(135deg, #e8edf3, #dce3ec);
+  color: #647181;
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.promo-catalog-card--locked .promo-catalog-button > span:not(.promo-catalog-action) {
+  color: #707b89;
+}
+
+.promo-catalog-card--locked .promo-catalog-action {
+  border-color: #bbc3ce;
+  background: rgba(255, 255, 255, 0.42);
+  color: #586575;
+}
+
 .promo-catalog-card--completed .promo-catalog-button > span:not(.promo-catalog-action) {
   color: #707b89;
 }
@@ -5197,48 +5215,50 @@ html.color-inverted .promo-catalog-card::before {
   color: #f2cf79;
 }
 
-.promo-lives {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  width: fit-content;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 10px 16px;
-  border: 1px solid rgba(18, 59, 112, 0.14);
-  border-radius: 999px;
-  background: linear-gradient(135deg, #ffffff, #edf4fc);
-  box-shadow: 0 8px 22px rgba(18, 59, 112, 0.1);
-}
-
-.promo-lives-label {
-  color: #123b70;
-  font-size: 0.88rem;
-  font-weight: 800;
-}
-
-.promo-lives-shields {
-  display: flex;
+.practice-lives-indicator {
+  position: fixed;
+  top: 68px;
+  left: max(8px, calc((100vw - 960px) / 2 + 14px));
+  z-index: 109;
+  display: inline-flex;
   align-items: center;
   gap: 5px;
+  min-height: 34px;
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #123b70, #245c9e);
+  box-shadow: 0 4px 12px rgba(18, 59, 112, 0.15);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
-.promo-life-shield {
-  width: 23px;
-  height: 23px;
-  fill: #245c9e;
-  stroke: #123b70;
+body.promo-page .practice-lives-indicator {
+  left: max(8px, calc((100vw - 960px) / 2 + 68px));
+}
+
+.practice-lives-shield {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.6;
-  transition: opacity 180ms ease, fill 180ms ease, transform 180ms ease;
+  stroke-width: 1.8;
 }
 
-.promo-life-shield.is-lost {
-  fill: transparent;
-  opacity: 0.28;
-  transform: scale(0.88);
+.practice-lives-indicator span {
+  min-width: 2.2em;
+  text-align: center;
+}
+
+.practice-lives-dots {
+  width: 16px;
+  height: 16px;
+  fill: var(--accent-gold);
+  stroke: none;
 }
 
 .practice-cooldown-notice {
@@ -5371,23 +5391,10 @@ html.color-inverted .promo-page .promo-lesson-progress-fill {
   background: linear-gradient(90deg, #123b70, #245c9e, #c49a3a);
 }
 
-html.color-inverted .promo-lives {
-  border-color: rgba(255, 255, 255, 0.25);
-  background: linear-gradient(135deg, #123b70, #0b1f4b);
-}
-
-html.color-inverted .promo-lives-label {
-  color: #ffffff;
-}
-
-html.color-inverted .promo-life-shield {
-  fill: #ffffff;
-  stroke: #ffffff;
-}
-
-html.color-inverted .promo-life-shield.is-lost {
-  fill: transparent;
-  stroke: rgba(255, 255, 255, 0.55);
+html.color-inverted .practice-lives-indicator {
+  border-color: rgba(18, 59, 112, 0.2);
+  background: linear-gradient(135deg, #ffffff, #edf4fc);
+  color: #123b70;
 }
 
 html.color-inverted .practice-cooldown-notice {
@@ -5397,23 +5404,24 @@ html.color-inverted .practice-cooldown-notice {
 }
 
 @media (max-width: 380px) {
-  .promo-lives {
-    gap: 8px;
-    padding: 9px 12px;
+  .practice-lives-indicator {
+    top: 66px;
   }
 
-  .promo-lives-shields {
+  .practice-lives-indicator {
     gap: 3px;
+    min-height: 31px;
+    padding: 4px 6px;
+    font-size: 0.72rem;
   }
 
-  .promo-life-shield {
-    width: 21px;
-    height: 21px;
+  .practice-lives-shield {
+    width: 17px;
+    height: 17px;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .promo-life-shield {
-    transition: none;
+  .practice-lives-dots {
+    width: 13px;
+    height: 13px;
   }
 }

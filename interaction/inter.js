@@ -205,6 +205,48 @@ let lawItems = [];
 let functionResources = [];
 const keyPracticeLaunch = document.getElementById('keyPracticeLaunch');
 const normalizeText = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const practiceLivesStorageKey = 'learncpnb-practice-lives';
+const maxPracticeLives = 5;
+let practiceLivesRefreshTimeout;
+
+function updatePracticeLivesIndicator() {
+  const indicator = document.getElementById('practiceLivesIndicator');
+  const count = document.getElementById('practiceLivesCount');
+  if (!indicator || !count) return;
+
+  const saved = localStorage.getItem(practiceLivesStorageKey);
+  let state = { lives: maxPracticeLives, cooldownUntil: null };
+  if (saved) {
+    state = JSON.parse(saved);
+    if (
+      !state ||
+      !Number.isInteger(state.lives) ||
+      state.lives < 0 ||
+      state.lives > maxPracticeLives ||
+      (state.lives === 0 && state.cooldownUntil === null) ||
+      (state.lives > 0 && state.cooldownUntil !== null) ||
+      (state.cooldownUntil !== null &&
+        (!Number.isSafeInteger(state.cooldownUntil) || state.cooldownUntil < 0))
+    ) {
+      throw new Error('El registro de vidas de práctica no es válido.');
+    }
+  }
+
+  if (state.cooldownUntil !== null && state.cooldownUntil <= Date.now()) {
+    state = { lives: maxPracticeLives, cooldownUntil: null };
+    localStorage.setItem(practiceLivesStorageKey, JSON.stringify(state));
+  }
+
+  count.textContent = `${state.lives}/${maxPracticeLives}`;
+  indicator.setAttribute('aria-label', `Vidas: ${state.lives} de ${maxPracticeLives}`);
+  window.clearTimeout(practiceLivesRefreshTimeout);
+  if (state.cooldownUntil !== null) {
+    practiceLivesRefreshTimeout = window.setTimeout(
+      updatePracticeLivesIndicator,
+      Math.max(0, state.cooldownUntil - Date.now())
+    );
+  }
+}
 
 function createFunctionResourceIcon(kind) {
   const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -457,25 +499,8 @@ function renderPromoCatalog(promotions) {
   const archivedPromoIds = getArchivedPromos().map(promo => promo.id);
   const publishedPromotions = promotions.filter(item =>
     item.titulo.trim() && item.descripcion.trim()
-  );
-  const promotionsById = new Map(publishedPromotions.map(item => [item.promoId, item]));
-  const orderedPromotions = [];
-  const orderedPromoIds = new Set();
-  let nextPromoId = publishedPromotions.length
-    ? Math.min(...publishedPromotions.map(item => item.promoId))
-    : null;
-
-  while (nextPromoId !== null && !orderedPromoIds.has(nextPromoId)) {
-    const promo = promotionsById.get(nextPromoId);
-    if (!promo) break;
-    orderedPromotions.push(promo);
-    orderedPromoIds.add(nextPromoId);
-    nextPromoId = promo.siguiente === undefined ? nextPromoId + 1 : promo.siguiente;
-  }
-  publishedPromotions
-    .filter(item => !orderedPromoIds.has(item.promoId))
-    .sort((first, second) => first.promoId - second.promoId)
-    .forEach(item => orderedPromotions.push(item));
+  ).sort((first, second) => first.promoId - second.promoId);
+  const orderedPromotions = publishedPromotions;
 
   const practicePromotions = publishedPromotions.filter(item => {
     const url = safeHttpUrl(item.enlace.trim() || 'page/promo.html', document.baseURI);
@@ -484,6 +509,14 @@ function renderPromoCatalog(promotions) {
     return destination.origin === window.location.origin &&
       destination.pathname === new URL('page/promo.html', document.baseURI).pathname;
   });
+  const sectionIdsByCategory = new Map();
+  practicePromotions
+    .filter(item => !archivedPromoIds.includes(item.promoId))
+    .forEach(item => {
+      const categoryName = item.categoria?.trim() || 'Otras actividades';
+      if (!sectionIdsByCategory.has(categoryName)) sectionIdsByCategory.set(categoryName, []);
+      sectionIdsByCategory.get(categoryName).push(item.promoId);
+    });
   const completedPracticeCount = practicePromotions.filter(item =>
     completedPromoIds.includes(item.promoId) && !archivedPromoIds.includes(item.promoId)
   ).length;
@@ -498,6 +531,9 @@ function renderPromoCatalog(promotions) {
   orderedPromotions.forEach(item => {
     const promoId = item.promoId;
     if (archivedPromoIds.includes(promoId)) return;
+    const categoryName = item.categoria?.trim() || 'Otras actividades';
+    const sectionIds = sectionIdsByCategory.get(categoryName) || [];
+    const firstIncompletePromoId = sectionIds.find(id => !completedPromoIds.includes(id));
 
     const destinationUrl = safeHttpUrl(item.enlace.trim() || 'page/promo.html', document.baseURI);
     if (!destinationUrl) {
@@ -510,11 +546,19 @@ function renderPromoCatalog(promotions) {
     if (isPromoActivity) destination.searchParams.set('id', String(promoId));
 
     const isCompleted = isPromoActivity && completedPromoIds.includes(promoId);
+    const isLocked = isPromoActivity &&
+      !isCompleted &&
+      firstIncompletePromoId !== undefined &&
+      promoId !== firstIncompletePromoId;
+    if (isPromoActivity) {
+      destination.searchParams.set('sectionIds', sectionIds.join(','));
+      destination.searchParams.set('sectionName', categoryName);
+    }
     const card = document.createElement('article');
-    card.className = `promo-catalog-card${isCompleted ? ' promo-catalog-card--completed' : ''}`;
-    const action = document.createElement(isCompleted ? 'button' : 'a');
+    card.className = `promo-catalog-card${isCompleted ? ' promo-catalog-card--completed' : ''}${isLocked ? ' promo-catalog-card--locked' : ''}`;
+    const action = document.createElement(isCompleted || isLocked ? 'button' : 'a');
     action.className = 'promo-catalog-button';
-    if (isCompleted) {
+    if (isCompleted || isLocked) {
       action.type = 'button';
       action.disabled = true;
     } else {
@@ -531,7 +575,11 @@ function renderPromoCatalog(promotions) {
     description.textContent = item.descripcion;
     const label = document.createElement('span');
     label.className = 'promo-catalog-action';
-    label.textContent = isCompleted ? 'Actividad completada' : item.textoBoton;
+    label.textContent = isCompleted
+      ? 'Actividad completada'
+      : isLocked
+        ? 'Completa las anteriores'
+        : item.textoBoton;
     action.append(title, description, label);
     card.appendChild(action);
 
@@ -563,7 +611,6 @@ function renderPromoCatalog(promotions) {
       card.appendChild(archiveButton);
     }
 
-    const categoryName = item.categoria?.trim() || 'Otras actividades';
     if (!cardsByCategory.has(categoryName)) {
       cardsByCategory.set(categoryName, []);
       categoriesByName.set(categoryName, {
@@ -604,6 +651,8 @@ function renderPromoCatalog(promotions) {
 
     const group = document.createElement('details');
     group.className = 'promo-catalog-group';
+    group.dataset.sectionName = categoryName;
+    group.open = new URLSearchParams(window.location.search).get('section') === categoryName;
     const summary = document.createElement('summary');
     summary.className = 'promo-catalog-group-summary';
     const title = document.createElement('span');
@@ -2229,6 +2278,10 @@ function updateFontSize(fontSize) {
 updateFontSize(initialFontSize);
 invertColorsSetting.checked = localStorage.getItem(invertColorsStorageKey) === 'true';
 document.documentElement.classList.toggle('color-inverted', invertColorsSetting.checked);
+updatePracticeLivesIndicator();
+window.addEventListener('storage', event => {
+  if (event.key === practiceLivesStorageKey) updatePracticeLivesIndicator();
+});
 
 fontSizeSetting.addEventListener('input', () => {
   const fontSize = Number(fontSizeSetting.value);

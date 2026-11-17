@@ -7,10 +7,10 @@
   <meta name="theme-color" content="#0b1f4b">
   <meta name="description" content="Actividades y material de aprendizaje para funcionarios.">
   <title>Actividad | Tu learn | CPNB</title>
-  <link rel="stylesheet" href="style/css.css?v=106">
+  <link rel="stylesheet" href="style/css.css?v=110">
   <link rel="icon" type="image/png" href="icon.png">
   <script src="interaction/register-sw.js" defer></script>
-  <script src="interaction/promo.js?v=8" defer></script>
+  <script src="interaction/promo.js?v=11" defer></script>
   <script src="interaction/desktop-notice.js?v=2" defer></script>
 </head>
 <body>
@@ -26,6 +26,17 @@
       </a>
     </div>
   </header>
+  <div class="practice-lives-indicator" id="practiceLivesIndicator" role="status" aria-label="Vidas: 5 de 5">
+    <svg class="practice-lives-shield" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 2 20 6v5c0 5-3.5 8-8 11-4.5-2-8-6-8-11V6l8-4Z"></path>
+    </svg>
+    <span id="practiceLivesCount">5/5</span>
+    <svg class="practice-lives-dots" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <circle cx="5" cy="12" r="1.5"></circle>
+      <circle cx="12" cy="12" r="1.5"></circle>
+      <circle cx="19" cy="12" r="1.5"></circle>
+    </svg>
+  </div>
 
   <main class="app-main" id="promoContent"></main>
 

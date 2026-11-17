@@ -6,7 +6,6 @@ const completedPromosStorageKey = 'learncpnb-completed-promos';
 const practiceLivesStorageKey = 'learncpnb-practice-lives';
 const maxPracticeLives = 5;
 const practiceCooldownMs = 24 * 60 * 60 * 1000;
-let currentLifeMeter;
 
 function savePracticeLifeState(state) {
   localStorage.setItem(practiceLivesStorageKey, JSON.stringify(state));
@@ -37,37 +36,12 @@ function getPracticeLifeState() {
   return state;
 }
 
-function createShieldIcon(className) {
-  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  icon.classList.add('promo-life-shield');
-  if (className) icon.classList.add(className);
-  icon.setAttribute('viewBox', '0 0 24 24');
-  icon.setAttribute('aria-hidden', 'true');
-  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  path.setAttribute('d', 'M12 2 20 6v5c0 5-3.5 8-8 11-4.5-2-8-6-8-11V6l8-4Z');
-  icon.appendChild(path);
-  return icon;
-}
-
-function updateLifeMeter(meter, state) {
-  meter.setAttribute('aria-label', `${state.lives} de ${maxPracticeLives} vidas restantes`);
-  meter.querySelectorAll('.promo-life-shield').forEach((shield, index) => {
-    shield.classList.toggle('is-lost', index >= state.lives);
-  });
-}
-
-function createLifeMeter() {
-  const meter = createPromoElement('div', 'promo-lives');
-  meter.setAttribute('role', 'group');
-  const label = createPromoElement('span', 'promo-lives-label', 'Vidas');
-  const shields = createPromoElement('div', 'promo-lives-shields');
-  for (let index = 0; index < maxPracticeLives; index += 1) {
-    shields.appendChild(createShieldIcon(''));
-  }
-  meter.append(label, shields);
-  currentLifeMeter = meter;
-  updateLifeMeter(meter, getPracticeLifeState());
-  return meter;
+function updateLifeMeter(state) {
+  const indicator = document.getElementById('practiceLivesIndicator');
+  const count = document.getElementById('practiceLivesCount');
+  if (!indicator || !count) return;
+  count.textContent = `${state.lives}/${maxPracticeLives}`;
+  indicator.setAttribute('aria-label', `Vidas: ${state.lives} de ${maxPracticeLives}`);
 }
 
 function losePracticeLife() {
@@ -76,7 +50,7 @@ function losePracticeLife() {
   state.lives = Math.max(0, state.lives - 1);
   if (state.lives === 0) state.cooldownUntil = Date.now() + practiceCooldownMs;
   savePracticeLifeState(state);
-  if (currentLifeMeter) updateLifeMeter(currentLifeMeter, state);
+  updateLifeMeter(state);
   return state;
 }
 
@@ -143,7 +117,7 @@ function shufflePromoItems(items) {
   return shuffled;
 }
 
-function showQuizFeedback(isCorrect, onDismiss, detail) {
+function showQuizFeedback(isCorrect, onDismiss, detail, message) {
   window.clearTimeout(promoFeedbackTimeout);
   promoFeedbackElement?.remove();
 
@@ -162,7 +136,11 @@ function showQuizFeedback(isCorrect, onDismiss, detail) {
   if (!isCorrect) icon.setAttribute('aria-hidden', 'true');
   card.append(
     icon,
-    createPromoElement('p', 'promo-feedback-message', isCorrect ? '¡Correcto!' : 'Respuesta incorrecta'),
+    createPromoElement(
+      'p',
+      'promo-feedback-message',
+      message || (isCorrect ? '¡Correcto!' : 'Respuesta incorrecta')
+    ),
     ...(!isCorrect
       ? [createPromoElement('p', 'promo-feedback-hint', detail || 'Inténtalo de nuevo.')]
       : detail ? [createPromoElement('p', 'promo-feedback-hint', detail)] : [])
@@ -265,7 +243,7 @@ function renderOfferBlock(block, section) {
   appendExternalLink(section, block.url, 'la promoción', block.textoBoton || 'Ver promoción');
 }
 
-function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete) {
+function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete, completionContext) {
   if (!Array.isArray(block.preguntas) || !block.preguntas.length) {
     throw new Error(`El cuestionario ${blockIndex + 1} debe tener al menos una pregunta.`);
   }
@@ -405,21 +383,31 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete) {
     selectedAnswers.forEach(({ label }) => label.classList.add('is-correct'));
     submit.disabled = true;
     const activityCompleted = onComplete();
+    const sectionCompleted = activityCompleted && completionContext.isLastActivity;
     showQuizFeedback(true, () => {
       if (activityCompleted) {
-        loadNextPromo(nextPromoId).catch(error => {
-          console.error('No se pudo cargar la siguiente actividad.', error);
-          promoContent.replaceChildren(createPromoElement('p', 'content-status', error.message));
-        });
+        if (sectionCompleted) {
+          const catalogUrl = new URL('index.html', document.baseURI);
+          catalogUrl.searchParams.set('view', 'function');
+          catalogUrl.searchParams.set('promos', '1');
+          catalogUrl.searchParams.set('section', completionContext.sectionName);
+          window.location.assign(catalogUrl.href);
+        } else {
+          loadNextPromo(nextPromoId).catch(error => {
+            console.error('No se pudo cargar la siguiente actividad.', error);
+            promoContent.replaceChildren(createPromoElement('p', 'content-status', error.message));
+          });
+        }
       }
-    });
+    }, sectionCompleted ? 'Has completado todas las actividades de esta sección.' : undefined,
+    sectionCompleted ? `¡Completaste ${completionContext.sectionName}!` : undefined);
     status.textContent = `Resultado: ${block.preguntas.length} de ${block.preguntas.length} respuestas correctas.`;
   });
 
   section.appendChild(form);
 }
 
-function renderContentBlock(block, index, nextPromoId, onQuizComplete) {
+function renderContentBlock(block, index, nextPromoId, onQuizComplete, completionContext) {
   const supportedTypes = ['texto', 'imagen', 'video', 'enlace', 'promocion', 'quiz'];
   if (!block || !supportedTypes.includes(block.tipo)) {
     throw new Error(`El bloque ${index + 1} tiene un tipo no compatible.`);
@@ -445,7 +433,7 @@ function renderContentBlock(block, index, nextPromoId, onQuizComplete) {
       renderOfferBlock(block, section);
       break;
     case 'quiz':
-      renderQuizBlock(block, section, index, nextPromoId, onQuizComplete);
+      renderQuizBlock(block, section, index, nextPromoId, onQuizComplete, completionContext);
       break;
   }
 
@@ -459,7 +447,26 @@ function renderPromo(promo, promoId) {
   if (promo.contenido !== undefined && !Array.isArray(promo.contenido)) {
     throw new Error('El campo contenido debe ser una lista de bloques.');
   }
-  const nextPromoId = promo.siguiente === undefined ? promoId + 1 : promo.siguiente;
+  const params = new URLSearchParams(window.location.search);
+  const sectionName = params.get('sectionName');
+  const sectionIdsValue = params.get('sectionIds');
+  const sectionIds = sectionIdsValue === null
+    ? null
+    : sectionIdsValue.split(',').map(value => Number(value));
+  if (
+    (sectionName !== null && (!sectionName.trim() || sectionName.length > 80)) ||
+    (sectionIds !== null &&
+      (!sectionIds.length ||
+        sectionIds.some(id => !Number.isSafeInteger(id) || id < 1 || id > 999) ||
+        new Set(sectionIds).size !== sectionIds.length ||
+        !sectionIds.includes(promoId)))
+  ) {
+    throw new Error('El orden de actividades de esta sección no es válido.');
+  }
+  const sectionIndex = sectionIds?.indexOf(promoId) ?? -1;
+  const nextPromoId = sectionIds
+    ? sectionIds[sectionIndex + 1] ?? null
+    : promo.siguiente === undefined ? promoId + 1 : promo.siguiente;
   if (
     nextPromoId !== null &&
     (!Number.isSafeInteger(nextPromoId) || nextPromoId < 1 || nextPromoId > 999)
@@ -477,6 +484,10 @@ function renderPromo(promo, promoId) {
     .map((block, index) => block?.tipo === 'quiz' ? index : -1)
     .filter(index => index >= 0);
   const completedQuizBlocks = new Set();
+  const completionContext = {
+    isLastActivity: Boolean(sectionIds && sectionName && nextPromoId === null),
+    sectionName
+  };
   const onQuizComplete = blockIndex => {
     completedQuizBlocks.add(blockIndex);
     if (completedQuizBlocks.size !== quizBlocks.length) return false;
@@ -484,10 +495,9 @@ function renderPromo(promo, promoId) {
     return true;
   };
   const sections = (promo.contenido || []).map((block, index) =>
-    renderContentBlock(block, index, nextPromoId, onQuizComplete)
+    renderContentBlock(block, index, nextPromoId, onQuizComplete, completionContext)
   );
-  const hasQuizzes = quizBlocks.length > 0;
-  promoContent.replaceChildren(heading, ...(hasQuizzes ? [createLifeMeter()] : []), ...sections);
+  promoContent.replaceChildren(heading, ...sections);
 }
 
 async function loadKeyPracticeEntries() {
@@ -702,7 +712,7 @@ function renderKeyPracticePage(entries) {
   });
 
   showQuestion();
-  promoContent.replaceChildren(heading, createLifeMeter(), section);
+  promoContent.replaceChildren(heading, section);
 }
 
 async function loadPromo() {
@@ -711,6 +721,12 @@ async function loadPromo() {
     redirectToFunctionMaterial(lifeState.cooldownUntil);
     return;
   }
+  updateLifeMeter(lifeState);
+  window.addEventListener('storage', event => {
+    if (event.key === practiceLivesStorageKey) {
+      updateLifeMeter(getPracticeLifeState());
+    }
+  });
 
   const params = new URLSearchParams(window.location.search);
   if (params.get('practice') === 'keys') {
@@ -726,6 +742,41 @@ async function loadPromo() {
     window.location.replace('index.html?view=function&promos=1');
     return;
   }
+  const sectionIdsValue = params.get('sectionIds');
+  if (sectionIdsValue !== null) {
+    const sectionIds = sectionIdsValue.split(',').map(value => Number(value));
+    const sectionName = params.get('sectionName');
+    if (
+      !sectionName ||
+      !sectionName.trim() ||
+      sectionName.length > 80 ||
+      !sectionIds.length ||
+      sectionIds.some(sectionId => !Number.isSafeInteger(sectionId) || sectionId < 1 || sectionId > 999) ||
+      new Set(sectionIds).size !== sectionIds.length ||
+      !sectionIds.includes(id)
+    ) {
+      throw new Error('El orden de actividades de esta sección no es válido.');
+    }
+
+    const completedPromoIds = getCompletedPromoIds();
+    const firstIncompleteId = sectionIds.find(sectionId => !completedPromoIds.includes(sectionId));
+    if (firstIncompleteId !== undefined && firstIncompleteId !== id) {
+      const nextUrl = new URL('page/promo.html', document.baseURI);
+      nextUrl.searchParams.set('id', String(firstIncompleteId));
+      nextUrl.searchParams.set('sectionIds', sectionIds.join(','));
+      nextUrl.searchParams.set('sectionName', sectionName);
+      window.location.replace(nextUrl.href);
+      return;
+    }
+    if (firstIncompleteId === undefined) {
+      const catalogUrl = new URL('index.html', document.baseURI);
+      catalogUrl.searchParams.set('view', 'function');
+      catalogUrl.searchParams.set('promos', '1');
+      catalogUrl.searchParams.set('section', sectionName);
+      window.location.replace(catalogUrl.href);
+      return;
+    }
+  }
 
   const filename = new URL(
     `file/news/promo_${String(id).padStart(2, '0')}.json`,
@@ -737,35 +788,19 @@ async function loadPromo() {
 }
 
 async function loadNextPromo(nextPromoId) {
-  const completedPromoIds = getCompletedPromoIds();
-  const visitedPromoIds = new Set();
-  while (nextPromoId !== null && !visitedPromoIds.has(nextPromoId)) {
-    if (!Number.isSafeInteger(nextPromoId) || nextPromoId < 1 || nextPromoId > 999) {
-      throw new Error('El enlace a la siguiente actividad no es válido.');
-    }
-    visitedPromoIds.add(nextPromoId);
-
-    const filename = new URL(
-      `file/news/promo_${String(nextPromoId).padStart(2, '0')}.json`,
-      document.baseURI
-    );
-    const response = await fetch(filename);
-    if (response.status === 404) break;
-    if (!response.ok) {
-      throw new Error(`No se pudo cargar la siguiente actividad (${response.status}).`);
-    }
-
-    const promo = await response.json();
-    if (completedPromoIds.includes(nextPromoId)) {
-      nextPromoId = promo.siguiente === undefined ? nextPromoId + 1 : promo.siguiente;
-      continue;
-    }
-
-    await renderPromo(promo, nextPromoId);
+  if (nextPromoId === null) {
+    window.location.assign('index.html?view=function&promos=1');
     return;
   }
 
-  window.location.assign('index.html?view=function&promos=1');
+  if (!Number.isSafeInteger(nextPromoId) || nextPromoId < 1 || nextPromoId > 999) {
+    throw new Error('El enlace a la siguiente actividad no es válido.');
+  }
+  const nextUrl = new URL('page/promo.html', document.baseURI);
+  const params = new URLSearchParams(window.location.search);
+  params.set('id', String(nextPromoId));
+  nextUrl.search = params.toString();
+  window.location.assign(nextUrl.href);
 }
 
 loadPromo().catch(error => {

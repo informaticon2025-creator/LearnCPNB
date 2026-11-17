@@ -29,7 +29,7 @@
   <meta name="twitter:image" content="https://learncpnb.vercel.app/assets/cpnb-emblem.png">
 
   <!-- Estilos e Iconos -->
-  <link rel="stylesheet" href="style/css.css?v=107">
+  <link rel="stylesheet" href="style/css.css?v=110">
   <link rel="icon" type="image/png" href="./icon.png">
 
   <!-- Scripts -->
@@ -213,6 +213,17 @@
       </nav>
     </div>
   </header>
+  <div class="practice-lives-indicator" id="practiceLivesIndicator" role="status" aria-label="Vidas: 5 de 5">
+    <svg class="practice-lives-shield" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 2 20 6v5c0 5-3.5 8-8 11-4.5-2-8-6-8-11V6l8-4Z"></path>
+    </svg>
+    <span id="practiceLivesCount">5/5</span>
+    <svg class="practice-lives-dots" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <circle cx="5" cy="12" r="1.5"></circle>
+      <circle cx="12" cy="12" r="1.5"></circle>
+      <circle cx="19" cy="12" r="1.5"></circle>
+    </svg>
+  </div>
 
   <main class="app-main" aria-busy="true">
     <section class="home-view" id="homeView" aria-labelledby="homeHeading">
@@ -526,7 +537,7 @@ Tu espacio de entrenamiento y consulta técnica. Explora terminología clave, re
 <div id="container-f7a4cd18b482d3e1811e3157321aaf55" class="anunciado"></div>
   <script src="interaction/register-sw.js"></script>
   <script src="interaction/news-media.js?v=3"></script>
-  <script src="interaction/inter.js?v=13"></script>
+  <script src="interaction/inter.js?v=16"></script>
   <script>
 (function(orrx){
 var d = document,
