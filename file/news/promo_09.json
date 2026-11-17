@@ -1,6 +1,7 @@
 {
   "titulo": "El Oficio",
   "descripcion": "Comunicación escrita formal hacia organismos externos",
+  "categoria": "Actas y documentación policial",
   "fecha": "13/11/2026",
   "enlace": "page/promo.html",
   "siguiente": null,

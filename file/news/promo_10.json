@@ -1,6 +1,7 @@
 {
   "titulo": "El Memorando",
   "descripcion": "Comunicación escrita breve y directa de uso interno",
+  "categoria": "Actas y documentación policial",
   "fecha": "13/11/2026",
   "enlace": "page/promo.html",
   "siguiente": null,

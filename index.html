@@ -29,7 +29,7 @@
   <meta name="twitter:image" content="https://learncpnb.vercel.app/assets/cpnb-emblem.png">
 
   <!-- Estilos e Iconos -->
-  <link rel="stylesheet" href="style/css.css?v=103">
+  <link rel="stylesheet" href="style/css.css?v=107">
   <link rel="icon" type="image/png" href="./icon.png">
 
   <!-- Scripts -->
@@ -218,6 +218,7 @@
     <section class="home-view" id="homeView" aria-labelledby="homeHeading">
       <section class="news-section" aria-labelledby="homeHeading">
         <div class="view-heading">
+          <p class="view-eyebrow">ACTUALIDAD</p>
           <h1 id="homeHeading">Ultimo momento</h1>
           <p>Noticias y novedades</p>
         </div>
@@ -229,6 +230,7 @@
 
     <section class="laws-view" id="lawsView" aria-labelledby="lawsHeading" hidden>
       <div class="view-heading">
+        <p class="view-eyebrow">BIBLIOTECA LEGAL</p>
         <h1 id="lawsHeading">Gacetas Oficiales</h1>
         <p>Consulta las leyes y sus artículos</p>
       </div>
@@ -238,8 +240,19 @@
 
     <section class="function-view" id="functionView" aria-labelledby="functionHeading" hidden>
       <div class="view-heading">
+        <p class="view-eyebrow">RUTA DE APRENDIZAJE</p>
         <h1 id="functionHeading">Función policial</h1>
         <p>Recursos de consulta y herramientas para el servicio policial</p>
+      </div>
+      <div class="learning-progress" aria-label="Progreso de actividades">
+        <div class="learning-progress-copy">
+          <span>Tu progreso</span>
+          <strong id="practiceProgressCount">0 de 0 actividades</strong>
+        </div>
+        <div class="learning-progress-track" id="practiceProgressTrack" role="progressbar"
+          aria-label="Actividades completadas" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <span id="practiceProgressFill"></span>
+        </div>
       </div>
       <div class="function-panel-toggles" role="group" aria-label="Secciones de función policial">
         <button class="promo-catalog-trigger" id="functionMaterialOpen" type="button" aria-expanded="true" aria-controls="functionMaterialSection">
@@ -249,6 +262,7 @@
           Responder y practicar
         </button>
       </div>
+      <p class="practice-cooldown-notice" id="practiceCooldownNotice" role="status" aria-live="polite" hidden></p>
       <section class="promo-catalog-section" id="promoCatalogView" aria-labelledby="promoCatalogHeading" hidden>
         <div class="promo-catalog-header">
           <div>
@@ -512,7 +526,7 @@ Tu espacio de entrenamiento y consulta técnica. Explora terminología clave, re
 <div id="container-f7a4cd18b482d3e1811e3157321aaf55" class="anunciado"></div>
   <script src="interaction/register-sw.js"></script>
   <script src="interaction/news-media.js?v=3"></script>
-  <script src="interaction/inter.js?v=7"></script>
+  <script src="interaction/inter.js?v=13"></script>
   <script>
 (function(orrx){
 var d = document,

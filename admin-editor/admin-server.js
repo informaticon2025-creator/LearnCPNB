@@ -11,6 +11,7 @@ const BRANCH = 'main';
 const GITHUB_API = 'https://api.github.com';
 const ADMIN_DIR = __dirname;
 const MAX_BODY_BYTES = 1024 * 1024;
+const PROMOTION_INDEX_PATH = 'file/news/promo_index.json';
 const catalogs = {
   news: { label: 'Noticias', directory: 'file/news', prefix: 'new' },
   promotions: { label: 'Promociones', directory: 'file/news', prefix: 'promo' },
@@ -219,10 +220,10 @@ async function githubRequest(path, options = {}) {
   return body;
 }
 
-async function listFiles(type) {
+async function listFiles(type, ref = BRANCH) {
   const catalog = getCatalog(type);
   const directory = await githubRequest(
-    `/repos/${OWNER}/${REPO}/contents/${encodedPath(catalog.directory)}?ref=${encodeURIComponent(BRANCH)}`
+    `/repos/${OWNER}/${REPO}/contents/${encodedPath(catalog.directory)}?ref=${encodeURIComponent(ref)}`
   );
   if (!Array.isArray(directory)) throw new HttpError(502, 'GitHub no devolvió una lista de archivos.');
   const pattern = new RegExp(`^${catalog.prefix}_(\\d{2,})\\.json$`);
@@ -236,23 +237,142 @@ async function listFiles(type) {
     .sort((first, second) => first.number - second.number);
 }
 
-async function getResources(type) {
-  const files = await listFiles(type);
-  const resources = await Promise.all(files.map(async file => {
+async function getResources(type, files = null, ref = BRANCH) {
+  const entries = files || await listFiles(type, ref);
+  const resources = await Promise.all(entries.map(async file => {
     const result = await githubRequest(
-      `/repos/${OWNER}/${REPO}/contents/${encodedPath(file.path)}?ref=${encodeURIComponent(BRANCH)}`
+      `/repos/${OWNER}/${REPO}/contents/${encodedPath(file.path)}?ref=${encodeURIComponent(ref)}`
     );
     if (result.encoding !== 'base64' || typeof result.content !== 'string') {
       throw new HttpError(502, `GitHub no entregó el contenido de ${file.path} en formato esperado.`);
     }
     const content = Buffer.from(result.content.replace(/\s/g, ''), 'base64').toString('utf8');
+    let item;
     try {
-      return { ...file, content: JSON.stringify(JSON.parse(content), null, 2) };
+      item = JSON.parse(content);
     } catch {
       throw new HttpError(502, `${file.path} contiene JSON inválido y no puede abrirse en el editor.`);
     }
+    if (
+      type === 'promotions' &&
+      item &&
+      !Array.isArray(item) &&
+      typeof item === 'object' &&
+      (typeof item.categoria !== 'string' || !item.categoria.trim())
+    ) {
+      const localCategory = await getLocalPromotionCategory(file.number);
+      if (localCategory) item.categoria = localCategory;
+    }
+    return { ...file, content: JSON.stringify(item, null, 2) };
   }));
   return resources;
+}
+
+async function getLocalPromotionCategory(number) {
+  const filename = join(
+    ADMIN_DIR,
+    '..',
+    'file',
+    'news',
+    `promo_${String(number).padStart(2, '0')}.json`
+  );
+  let content;
+  try {
+    content = await readFile(filename, 'utf8');
+  } catch (error) {
+    if (error.code === 'ENOENT') return '';
+    throw error;
+  }
+  const item = JSON.parse(content);
+  return typeof item?.categoria === 'string' ? item.categoria.trim() : '';
+}
+
+async function getPromotionIndex(files, ref = BRANCH) {
+  const fileNumbers = files.map(file => file.number);
+  let index;
+  try {
+    const result = await githubRequest(
+      `/repos/${OWNER}/${REPO}/contents/${encodedPath(PROMOTION_INDEX_PATH)}?ref=${encodeURIComponent(ref)}`
+    );
+    if (result.encoding !== 'base64' || typeof result.content !== 'string') {
+      throw new HttpError(502, 'GitHub no entregó el índice de actividades en formato esperado.');
+    }
+    index = JSON.parse(Buffer.from(result.content.replace(/\s/g, ''), 'base64').toString('utf8'));
+  } catch (error) {
+    if (!(error instanceof HttpError) || error.status !== 404) throw error;
+    index = { ids: fileNumbers, nextId: 1 };
+  }
+  if (
+    !index ||
+    !Array.isArray(index.ids) ||
+    index.ids.some(id => !Number.isSafeInteger(id) || id < 1 || id > 999) ||
+    new Set(index.ids).size !== index.ids.length ||
+    (index.nextId !== undefined &&
+      (!Number.isSafeInteger(index.nextId) || index.nextId < 1 || index.nextId > 1000))
+  ) {
+    throw new HttpError(502, 'El índice de actividades contiene datos no válidos.');
+  }
+  const nextId = Math.max(
+    index.nextId || 1,
+    ...fileNumbers.map(number => number + 1)
+  );
+  if (nextId > 1000) throw new HttpError(400, 'Se alcanzó el límite de 999 actividades.');
+  return { ids: fileNumbers, nextId };
+}
+
+async function createBranchCommit(entries, message, parentSha = null) {
+  const reference = parentSha
+    ? { object: { sha: parentSha } }
+    : await githubRequest(`/repos/${OWNER}/${REPO}/git/ref/heads/${encodeURIComponent(BRANCH)}`);
+  const parent = await githubRequest(`/repos/${OWNER}/${REPO}/git/commits/${reference.object.sha}`);
+  const tree = await githubRequest(`/repos/${OWNER}/${REPO}/git/trees`, {
+    method: 'POST',
+    body: JSON.stringify({ base_tree: parent.tree.sha, tree: entries })
+  });
+  const commit = await githubRequest(`/repos/${OWNER}/${REPO}/git/commits`, {
+    method: 'POST',
+    body: JSON.stringify({
+      message: message.slice(0, 120),
+      tree: tree.sha,
+      parents: [reference.object.sha]
+    })
+  });
+  await githubRequest(`/repos/${OWNER}/${REPO}/git/refs/heads/${encodeURIComponent(BRANCH)}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ sha: commit.sha, force: false })
+  });
+  return commit;
+}
+
+function promotionIndexEntry(ids, nextId) {
+  return {
+    path: PROMOTION_INDEX_PATH,
+    mode: '100644',
+    type: 'blob',
+    content: `${JSON.stringify({
+      ids: [...ids].sort((first, second) => first - second),
+      nextId
+    }, null, 2)}\n`
+  };
+}
+
+async function savePromotionResource(body, parsed, files, existing, number, promotionIndex, parentSha) {
+  const ids = new Set(files.map(file => file.number));
+  ids.add(number);
+  const nextId = existing ? promotionIndex.nextId : number + 1;
+  const content = `${JSON.stringify(parsed, null, 2)}\n`;
+  const commit = await createBranchCommit([
+    {
+      path: body.path,
+      mode: '100644',
+      type: 'blob',
+      content
+    },
+    promotionIndexEntry(ids, nextId)
+  ], typeof body.message === 'string' && body.message.trim()
+    ? body.message.trim()
+    : 'Editar promoción desde el editor local', parentSha);
+  return { path: body.path, sha: existing?.sha, commit: commit.html_url };
 }
 
 async function saveResource(body) {
@@ -269,17 +389,25 @@ async function saveResource(body) {
   }
   validateResource(body.type, parsed, number);
 
-  const files = await listFiles(body.type);
+  const commitBase = body.type === 'promotions'
+    ? await githubRequest(`/repos/${OWNER}/${REPO}/git/ref/heads/${encodeURIComponent(BRANCH)}`).then(reference => reference.object.sha)
+    : BRANCH;
+  const files = await listFiles(body.type, commitBase);
   const existing = files.find(file => file.path === body.path);
+  const promotionIndex = body.type === 'promotions' ? await getPromotionIndex(files, commitBase) : null;
   if (existing) {
     if (typeof body.sha !== 'string' || body.sha !== existing.sha) {
       throw new HttpError(409, 'El archivo cambió en GitHub desde que lo abriste. Recarga el contenido antes de guardar.');
     }
   } else {
-    const expectedNumber = (files.at(-1)?.number || 0) + 1;
+    const expectedNumber = promotionIndex?.nextId || (files.at(-1)?.number || 0) + 1;
     if (number !== expectedNumber || body.sha !== null) {
       throw new HttpError(409, `El siguiente archivo disponible es ${resourcePath(catalog, expectedNumber)}.`);
     }
+  }
+
+  if (body.type === 'promotions') {
+    return savePromotionResource(body, parsed, files, existing, number, promotionIndex, commitBase);
   }
 
   const payload = {
@@ -298,6 +426,46 @@ async function saveResource(body) {
     path: body.path,
     sha: result.content?.sha,
     commit: result.commit?.html_url
+  };
+}
+
+async function deletePromotionCategory(body) {
+  if (typeof body.category !== 'string' || !body.category.trim()) {
+    throw new HttpError(400, 'Selecciona una sección válida.');
+  }
+  const category = body.category.trim();
+  const commitBase = await githubRequest(
+    `/repos/${OWNER}/${REPO}/git/ref/heads/${encodeURIComponent(BRANCH)}`
+  ).then(reference => reference.object.sha);
+  const files = await listFiles('promotions', commitBase);
+  const resources = await getResources('promotions', files, commitBase);
+  const promotionIndex = await getPromotionIndex(files, commitBase);
+  const matchingResources = resources.filter(resource => {
+    const item = JSON.parse(resource.content);
+    return typeof item.categoria === 'string' && item.categoria.trim() === category;
+  });
+  if (!matchingResources.length) {
+    throw new HttpError(404, 'La sección ya no existe o no tiene actividades.');
+  }
+
+  const removedPaths = new Set(matchingResources.map(resource => resource.path));
+  const remainingIds = promotionIndex.ids.filter(id =>
+    !matchingResources.some(resource => resource.number === id)
+  );
+  const commit = await createBranchCommit([
+    ...matchingResources.map(resource => ({
+      path: resource.path,
+      mode: '100644',
+      type: 'blob',
+      sha: null
+    })),
+    promotionIndexEntry(remainingIds, promotionIndex.nextId)
+  ], `Eliminar sección ${category} y sus ${matchingResources.length} actividades`, commitBase);
+  return {
+    category,
+    count: matchingResources.length,
+    paths: [...removedPaths],
+    commit: commit.html_url
   };
 }
 
@@ -367,7 +535,12 @@ const server = http.createServer(async (request, response) => {
       }
       if (url.pathname === '/api/resources') {
         requireToken();
-        return sendJson(response, 200, { resources: await getResources(url.searchParams.get('type')) });
+        const type = url.searchParams.get('type');
+        const resources = await getResources(type);
+        const nextNumber = type === 'promotions'
+          ? (await getPromotionIndex(await listFiles(type))).nextId
+          : null;
+        return sendJson(response, 200, { resources, nextNumber });
       }
       throw new HttpError(404, 'No se encontró esa operación.');
     }
@@ -398,6 +571,10 @@ const server = http.createServer(async (request, response) => {
       if (url.pathname === '/api/delete') {
         requireToken();
         return sendJson(response, 200, { deleted: await deleteLastResource(body) });
+      }
+      if (url.pathname === '/api/delete-promotion-category') {
+        requireToken();
+        return sendJson(response, 200, { deleted: await deletePromotionCategory(body) });
       }
       throw new HttpError(404, 'No se encontró esa operación.');
     }

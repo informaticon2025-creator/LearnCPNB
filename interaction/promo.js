@@ -3,6 +3,98 @@ document.body.classList.add('promo-page');
 let promoFeedbackTimeout;
 let promoFeedbackElement;
 const completedPromosStorageKey = 'learncpnb-completed-promos';
+const practiceLivesStorageKey = 'learncpnb-practice-lives';
+const maxPracticeLives = 5;
+const practiceCooldownMs = 24 * 60 * 60 * 1000;
+let currentLifeMeter;
+
+function savePracticeLifeState(state) {
+  localStorage.setItem(practiceLivesStorageKey, JSON.stringify(state));
+}
+
+function getPracticeLifeState() {
+  const saved = localStorage.getItem(practiceLivesStorageKey);
+  if (!saved) return { lives: maxPracticeLives, cooldownUntil: null };
+
+  const state = JSON.parse(saved);
+  if (
+    !state ||
+    !Number.isInteger(state.lives) ||
+    state.lives < 0 ||
+    state.lives > maxPracticeLives ||
+    (state.lives === 0 && state.cooldownUntil === null) ||
+    (state.lives > 0 && state.cooldownUntil !== null) ||
+    (state.cooldownUntil !== null &&
+      (!Number.isSafeInteger(state.cooldownUntil) || state.cooldownUntil < 0))
+  ) {
+    throw new Error('El registro de vidas de práctica no es válido.');
+  }
+  if (state.cooldownUntil !== null && state.cooldownUntil <= Date.now()) {
+    const restoredState = { lives: maxPracticeLives, cooldownUntil: null };
+    savePracticeLifeState(restoredState);
+    return restoredState;
+  }
+  return state;
+}
+
+function createShieldIcon(className) {
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  icon.classList.add('promo-life-shield');
+  if (className) icon.classList.add(className);
+  icon.setAttribute('viewBox', '0 0 24 24');
+  icon.setAttribute('aria-hidden', 'true');
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', 'M12 2 20 6v5c0 5-3.5 8-8 11-4.5-2-8-6-8-11V6l8-4Z');
+  icon.appendChild(path);
+  return icon;
+}
+
+function updateLifeMeter(meter, state) {
+  meter.setAttribute('aria-label', `${state.lives} de ${maxPracticeLives} vidas restantes`);
+  meter.querySelectorAll('.promo-life-shield').forEach((shield, index) => {
+    shield.classList.toggle('is-lost', index >= state.lives);
+  });
+}
+
+function createLifeMeter() {
+  const meter = createPromoElement('div', 'promo-lives');
+  meter.setAttribute('role', 'group');
+  const label = createPromoElement('span', 'promo-lives-label', 'Vidas');
+  const shields = createPromoElement('div', 'promo-lives-shields');
+  for (let index = 0; index < maxPracticeLives; index += 1) {
+    shields.appendChild(createShieldIcon(''));
+  }
+  meter.append(label, shields);
+  currentLifeMeter = meter;
+  updateLifeMeter(meter, getPracticeLifeState());
+  return meter;
+}
+
+function losePracticeLife() {
+  const state = getPracticeLifeState();
+  if (state.cooldownUntil !== null) return state;
+  state.lives = Math.max(0, state.lives - 1);
+  if (state.lives === 0) state.cooldownUntil = Date.now() + practiceCooldownMs;
+  savePracticeLifeState(state);
+  if (currentLifeMeter) updateLifeMeter(currentLifeMeter, state);
+  return state;
+}
+
+function getLifeLossMessage(state) {
+  if (state.lives === 0) {
+    return 'Perdiste tus 5 vidas. Ponte a investigar en Material de función policial. Podrás volver a jugar en 24 horas.';
+  }
+  return `Te queda${state.lives === 1 ? '' : 'n'} ${state.lives} ${state.lives === 1 ? 'vida' : 'vidas'}.`;
+}
+
+function redirectToFunctionMaterial(cooldownUntil) {
+  const url = new URL('index.html', document.baseURI);
+  url.searchParams.set('view', 'function');
+  url.searchParams.set('material', '1');
+  url.searchParams.set('exhausted', '1');
+  url.searchParams.set('until', String(cooldownUntil));
+  window.location.replace(url.href);
+}
 
 function getCompletedPromoIds() {
   const saved = localStorage.getItem(completedPromosStorageKey);
@@ -72,7 +164,7 @@ function showQuizFeedback(isCorrect, onDismiss, detail) {
     icon,
     createPromoElement('p', 'promo-feedback-message', isCorrect ? '¡Correcto!' : 'Respuesta incorrecta'),
     ...(!isCorrect
-      ? [createPromoElement('p', 'promo-feedback-hint', 'Inténtalo de nuevo.')]
+      ? [createPromoElement('p', 'promo-feedback-hint', detail || 'Inténtalo de nuevo.')]
       : detail ? [createPromoElement('p', 'promo-feedback-hint', detail)] : [])
   );
   backdrop.appendChild(card);
@@ -84,7 +176,7 @@ function showQuizFeedback(isCorrect, onDismiss, detail) {
     promoFeedbackElement = undefined;
     promoFeedbackTimeout = undefined;
     if (onDismiss) onDismiss();
-  }, detail ? 2500 : 1500);
+  }, detail ? 3000 : 1500);
 }
 
 function promoUrl(value, label) {
@@ -229,6 +321,31 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete) {
     form.appendChild(fieldset);
   });
 
+  const progress = createPromoElement('div', 'promo-lesson-progress');
+  const progressLabel = createPromoElement(
+    'span',
+    'promo-lesson-progress-label',
+    `Reto ${blockIndex + 1} · ${block.preguntas.length} ${block.preguntas.length === 1 ? 'pregunta' : 'preguntas'}`
+  );
+  const progressTrack = createPromoElement('div', 'promo-lesson-progress-track');
+  progressTrack.setAttribute('role', 'progressbar');
+  progressTrack.setAttribute('aria-label', 'Preguntas respondidas');
+  progressTrack.setAttribute('aria-valuemin', '0');
+  progressTrack.setAttribute('aria-valuemax', String(block.preguntas.length));
+  progressTrack.setAttribute('aria-valuenow', '0');
+  const progressFill = createPromoElement('span', 'promo-lesson-progress-fill');
+  progressTrack.appendChild(progressFill);
+  progress.append(progressLabel, progressTrack);
+
+  const updateProgress = () => {
+    const answered = [...form.querySelectorAll('.promo-question')].filter(fieldset =>
+      fieldset.querySelector('input:checked')
+    ).length;
+    progressTrack.setAttribute('aria-valuenow', String(answered));
+    progressFill.style.width = `${(answered / block.preguntas.length) * 100}%`;
+  };
+  form.addEventListener('change', updateProgress);
+
   const submit = createPromoElement('button', 'promo-action promo-action--icon-only');
   submit.type = 'submit';
   submit.setAttribute('aria-label', 'Verificar respuestas');
@@ -237,6 +354,7 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete) {
   const status = createPromoElement('p', 'promo-quiz-status');
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
+  form.prepend(progress);
   form.append(submit, status);
   form.addEventListener('submit', event => {
     event.preventDefault();
@@ -268,15 +386,19 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete) {
       selectedAnswers.forEach(({ label, correct }) => {
         label.classList.add(correct ? 'is-correct' : 'is-incorrect');
       });
-      showQuizFeedback(false, () => {
-        incorrectFieldsets.forEach(fieldset => {
-          fieldset.querySelectorAll('.promo-option').forEach(optionLabel => {
-            const input = optionLabel.querySelector('input');
-            input.checked = false;
-            optionLabel.classList.remove('is-selected', 'is-incorrect', 'is-correct');
-          });
-        });
-      });
+      const state = losePracticeLife();
+      const onDismiss = state.lives === 0
+        ? () => redirectToFunctionMaterial(state.cooldownUntil)
+        : () => {
+            incorrectFieldsets.forEach(fieldset => {
+              fieldset.querySelectorAll('.promo-option').forEach(optionLabel => {
+                const input = optionLabel.querySelector('input');
+                input.checked = false;
+                optionLabel.classList.remove('is-selected', 'is-incorrect', 'is-correct');
+              });
+            });
+          };
+      showQuizFeedback(false, onDismiss, getLifeLossMessage(state));
       return;
     }
 
@@ -364,7 +486,8 @@ function renderPromo(promo, promoId) {
   const sections = (promo.contenido || []).map((block, index) =>
     renderContentBlock(block, index, nextPromoId, onQuizComplete)
   );
-  promoContent.replaceChildren(heading, ...sections);
+  const hasQuizzes = quizBlocks.length > 0;
+  promoContent.replaceChildren(heading, ...(hasQuizzes ? [createLifeMeter()] : []), ...sections);
 }
 
 async function loadKeyPracticeEntries() {
@@ -557,7 +680,14 @@ function renderKeyPracticePage(entries) {
     const selectedLabel = form.querySelectorAll('.promo-option')[selected];
     if (!option.correcta) {
       selectedLabel.classList.add('is-incorrect');
-      showQuizFeedback(false, () => showQuestion(currentQuestion));
+      const state = losePracticeLife();
+      showQuizFeedback(
+        false,
+        state.lives === 0
+          ? () => redirectToFunctionMaterial(state.cooldownUntil)
+          : () => showQuestion(currentQuestion),
+        getLifeLossMessage(state)
+      );
       return;
     }
 
@@ -572,10 +702,16 @@ function renderKeyPracticePage(entries) {
   });
 
   showQuestion();
-  promoContent.replaceChildren(heading, section);
+  promoContent.replaceChildren(heading, createLifeMeter(), section);
 }
 
 async function loadPromo() {
+  const lifeState = getPracticeLifeState();
+  if (lifeState.cooldownUntil !== null) {
+    redirectToFunctionMaterial(lifeState.cooldownUntil);
+    return;
+  }
+
   const params = new URLSearchParams(window.location.search);
   if (params.get('practice') === 'keys') {
     renderKeyPracticePage(await loadKeyPracticeEntries());

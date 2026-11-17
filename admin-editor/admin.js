@@ -10,6 +10,15 @@ const elements = {
   create: document.getElementById('newButton'),
   meta: document.getElementById('fileMeta'),
   fields: document.getElementById('editorFields'),
+  promotionCategoryField: document.getElementById('promotionCategoryField'),
+  promotionCategorySelect: document.getElementById('promotionCategorySelect'),
+  newPromotionCategoryField: document.getElementById('newPromotionCategoryField'),
+  promotionCategoryInput: document.getElementById('promotionCategoryInput'),
+  promotionCategoryManager: document.getElementById('promotionCategoryManager'),
+  promotionCategoryCount: document.getElementById('promotionCategoryCount'),
+  promotionCategoryList: document.getElementById('promotionCategoryList'),
+  deletePromotionCategorySelect: document.getElementById('deletePromotionCategorySelect'),
+  deletePromotionCategoryButton: document.getElementById('deletePromotionCategoryButton'),
   form: document.getElementById('editorForm'),
   commit: document.getElementById('commitInput'),
   remove: document.getElementById('deleteButton'),
@@ -18,10 +27,12 @@ const elements = {
 };
 
 let resources = [];
+let nextPromotionNumber = 1;
 let currentResource = null;
 let connected = false;
 let isCreating = false;
 let editorData = null;
+let addingNewPromotionCategory = false;
 
 const fieldLabels = {
   titulo: 'Título',
@@ -62,45 +73,83 @@ const inputLabels = {
   functions: 'artículo'
 };
 
-const promotionCategories = [
-  'Actas y documentación policial',
-  'Actuación operativa',
-  'Investigación y consulta policial',
-  'Uso progresivo y control de la fuerza',
-  'Fundamentos jurídicos',
-  'Claves y códigos policiales'
-];
-
-const legacyPromotionCategories = new Map([
-  [1, 'Actuación operativa'],
-  [2, 'Actuación operativa'],
-  [3, 'Fundamentos jurídicos'],
-  [4, 'Investigación y consulta policial'],
-  [5, 'Actas y documentación policial'],
-  [6, 'Actas y documentación policial'],
-  [7, 'Actas y documentación policial'],
-  [8, 'Actas y documentación policial'],
-  [9, 'Actas y documentación policial'],
-  [10, 'Actas y documentación policial'],
-  [11, 'Fundamentos jurídicos'],
-  [12, 'Actas y documentación policial'],
-  [13, 'Uso progresivo y control de la fuerza'],
-  [14, 'Actuación operativa'],
-  [15, 'Uso progresivo y control de la fuerza'],
-  [16, 'Investigación y consulta policial']
-]);
-
 function getPromotionCategoryOptions() {
-  const categories = new Set(promotionCategories);
+  const categories = new Set();
   for (const resource of resources) {
     const item = JSON.parse(resource.content);
-    const number = Number(resource.path.match(/promo_(\d+)\.json$/)?.[1]);
-    const category = typeof item.categoria === 'string'
-      ? item.categoria.trim()
-      : legacyPromotionCategories.get(number);
-    if (category) categories.add(category);
+    if (typeof item.categoria === 'string' && item.categoria.trim()) {
+      categories.add(item.categoria.trim());
+    }
   }
   return [...categories];
+}
+
+function getPromotionCategoryCounts() {
+  const counts = new Map();
+  for (const resource of resources) {
+    const item = JSON.parse(resource.content);
+    const category = typeof item.categoria === 'string' ? item.categoria.trim() : '';
+    if (category) counts.set(category, (counts.get(category) || 0) + 1);
+  }
+  return counts;
+}
+
+function renderPromotionCategoryManager() {
+  const isPromotion = elements.collection.value === 'promotions';
+  elements.promotionCategoryManager.hidden = !isPromotion;
+  if (!isPromotion) return;
+
+  const counts = getPromotionCategoryCounts();
+  const categories = [...counts.entries()].sort(([first], [second]) => first.localeCompare(second, 'es'));
+  elements.promotionCategoryCount.textContent = `${categories.length} ${categories.length === 1 ? 'sección' : 'secciones'}`;
+  elements.promotionCategoryList.replaceChildren();
+  if (!categories.length) {
+    const empty = document.createElement('li');
+    empty.textContent = 'Aún no hay secciones guardadas.';
+    elements.promotionCategoryList.append(empty);
+  } else {
+    for (const [category, count] of categories) {
+      const item = document.createElement('li');
+      item.textContent = `${category} — ${count} ${count === 1 ? 'actividad' : 'actividades'}`;
+      elements.promotionCategoryList.append(item);
+    }
+  }
+
+  const selectedCategory = elements.deletePromotionCategorySelect.value;
+  elements.deletePromotionCategorySelect.replaceChildren(
+    new Option('Selecciona una sección', ''),
+    ...categories.map(([category, count]) =>
+      new Option(`${category} (${count} ${count === 1 ? 'actividad' : 'actividades'})`, category)
+    )
+  );
+  if (counts.has(selectedCategory)) elements.deletePromotionCategorySelect.value = selectedCategory;
+  elements.deletePromotionCategoryButton.disabled =
+    !connected || !elements.deletePromotionCategorySelect.value;
+}
+
+function updatePromotionCategoryField() {
+  const isPromotion = elements.collection.value === 'promotions';
+  elements.promotionCategoryField.hidden = !isPromotion;
+  renderPromotionCategoryManager();
+  if (!isPromotion) return;
+
+  const categories = getPromotionCategoryOptions();
+  const currentCategory = typeof editorData?.categoria === 'string' ? editorData.categoria.trim() : '';
+  if (currentCategory && !categories.includes(currentCategory)) categories.push(currentCategory);
+  elements.promotionCategorySelect.replaceChildren(
+    new Option('Selecciona una sección desplegable', ''),
+    ...categories.map(category => new Option(category, category)),
+    new Option('＋ Agregar nueva sección desplegable', '__new_category__')
+  );
+  if (addingNewPromotionCategory) {
+    elements.promotionCategorySelect.value = '__new_category__';
+    elements.newPromotionCategoryField.hidden = false;
+    elements.promotionCategoryInput.value = currentCategory;
+  } else {
+    elements.newPromotionCategoryField.hidden = true;
+    elements.promotionCategoryInput.value = '';
+    elements.promotionCategorySelect.value = currentCategory;
+  }
 }
 
 async function api(path, options = {}) {
@@ -136,6 +185,7 @@ function setConnected(value) {
   elements.resource.disabled = !value || resources.length === 0;
   if (!value) {
     resources = [];
+    nextPromotionNumber = 1;
     currentResource = null;
     isCreating = false;
     editorData = null;
@@ -164,18 +214,9 @@ function updateEditorState() {
 function setCurrentResource(resource) {
   currentResource = resource;
   isCreating = false;
+  addingNewPromotionCategory = false;
   elements.resource.value = resource?.path || '';
   editorData = resource ? JSON.parse(resource.content) : null;
-  if (
-    elements.collection.value === 'promotions' &&
-    editorData &&
-    typeof editorData === 'object' &&
-    !Array.isArray(editorData) &&
-    !editorData.categoria
-  ) {
-    const number = Number(resource.path.match(/promo_(\d+)\.json$/)?.[1]);
-    editorData.categoria = legacyPromotionCategories.get(number) || '';
-  }
   renderEditor();
   elements.commit.value = resource
     ? `Actualizar ${resource.path.split('/').pop()} desde el editor local`
@@ -190,6 +231,9 @@ async function loadResources(selectedPath = '') {
   try {
     const result = await api(`/api/resources?type=${encodeURIComponent(elements.collection.value)}`);
     resources = result.resources;
+    if (elements.collection.value === 'promotions') {
+      nextPromotionNumber = result.nextNumber || (resources.at(-1)?.number || 0) + 1;
+    }
     elements.resource.replaceChildren();
     if (!resources.length) {
       elements.resource.add(new Option('No hay archivos en esta colección', ''));
@@ -316,6 +360,7 @@ function itemLabel(key, index) {
 
 function renderEditor() {
   elements.form.replaceChildren();
+  updatePromotionCategoryField();
   if (!editorData || typeof editorData !== 'object' || Array.isArray(editorData)) {
     elements.form.append(Object.assign(document.createElement('p'), {
       className: 'empty-form',
@@ -325,7 +370,10 @@ function renderEditor() {
   }
   const grid = document.createElement('div');
   grid.className = 'editor-grid';
-  renderObjectFields(editorData, [], grid, (key, value) => {
+  const fields = elements.collection.value === 'promotions'
+    ? Object.fromEntries(Object.entries(editorData).filter(([key]) => key !== 'categoria'))
+    : editorData;
+  renderObjectFields(fields, [], grid, (key, value) => {
     editorData[key] = value;
   });
   elements.form.append(grid);
@@ -488,7 +536,9 @@ function nextResourcePath() {
     functions: ['file/funcion', 'fuc']
   };
   const [directory, prefix] = prefixByType[elements.collection.value];
-  const number = (resources.at(-1)?.number || 0) + 1;
+  const number = elements.collection.value === 'promotions'
+    ? nextPromotionNumber
+    : (resources.at(-1)?.number || 0) + 1;
   return `${directory}/${prefix}_${String(number).padStart(2, '0')}.json`;
 }
 
@@ -585,19 +635,71 @@ async function removeLast() {
 elements.connect.addEventListener('click', connect);
 elements.disconnect.addEventListener('click', disconnect);
 elements.refresh.addEventListener('click', () => loadResources(currentResource?.path));
-elements.collection.addEventListener('change', () => loadResources());
+elements.collection.addEventListener('change', () => {
+  updatePromotionCategoryField();
+  loadResources();
+});
 elements.resource.addEventListener('change', () => {
   setCurrentResource(resources.find(resource => resource.path === elements.resource.value) || null);
 });
 elements.create.addEventListener('click', () => {
   currentResource = null;
   isCreating = true;
+  addingNewPromotionCategory = false;
   elements.resource.value = '';
   editorData = blankResource(elements.collection.value);
   renderEditor();
-  elements.commit.value = `Agregar a ${elements.collection.options[elements.collection.selectedIndex].text}`;
   updateEditorState();
+  elements.commit.value = `Agregar a ${elements.collection.options[elements.collection.selectedIndex].text}`;
   setStatus(`Nuevo registro. Se guardará en ${nextResourcePath()}.`);
+});
+elements.promotionCategorySelect.addEventListener('change', () => {
+  const selectedCategory = elements.promotionCategorySelect.value;
+  addingNewPromotionCategory = selectedCategory === '__new_category__';
+  elements.newPromotionCategoryField.hidden = !addingNewPromotionCategory;
+  if (editorData && typeof editorData === 'object' && !Array.isArray(editorData)) {
+    editorData.categoria = addingNewPromotionCategory ? '' : selectedCategory;
+  }
+  if (addingNewPromotionCategory) elements.promotionCategoryInput.focus();
+});
+elements.promotionCategoryInput.addEventListener('input', () => {
+  if (editorData && typeof editorData === 'object' && !Array.isArray(editorData)) {
+    editorData.categoria = elements.promotionCategoryInput.value;
+  }
+});
+elements.deletePromotionCategorySelect.addEventListener('change', () => {
+  elements.deletePromotionCategoryButton.disabled =
+    !connected || !elements.deletePromotionCategorySelect.value;
+});
+elements.deletePromotionCategoryButton.addEventListener('click', async () => {
+  const category = elements.deletePromotionCategorySelect.value;
+  const count = getPromotionCategoryCounts().get(category) || 0;
+  if (!category || !count) return;
+  const confirmed = window.confirm(
+    `¿Borrar permanentemente la sección «${category}» y sus ${count} actividades? ` +
+    'Se eliminarán sus archivos JSON y no se puede deshacer desde el editor.'
+  );
+  if (!confirmed) return;
+
+  elements.deletePromotionCategoryButton.disabled = true;
+  setStatus(`Eliminando la sección «${category}» y sus actividades...`);
+  try {
+    const result = await api('/api/delete-promotion-category', {
+      method: 'POST',
+      body: JSON.stringify({ category })
+    });
+    elements.deletePromotionCategorySelect.value = '';
+    await loadResources();
+    setStatus(
+      `Se eliminó la sección «${result.deleted.category}» y ${result.deleted.count} actividades.` +
+      (result.deleted.commit ? ` Commit: ${result.deleted.commit}` : ''),
+      'success'
+    );
+  } catch (error) {
+    setStatus(error.message, 'error');
+  } finally {
+    renderPromotionCategoryManager();
+  }
 });
 elements.save.addEventListener('click', save);
 elements.remove.addEventListener('click', removeLast);

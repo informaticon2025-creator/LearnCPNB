@@ -1,6 +1,7 @@
 {
   "titulo": "Acta de Investigación Penal",
   "descripcion": "Preguntas de Procedimiento Policial",
+  "categoria": "Actas y documentación policial",
   "fecha": "10/11/2026",
   "enlace": "page/promo.html",
   "siguiente": null,

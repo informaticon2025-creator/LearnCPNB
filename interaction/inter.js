@@ -206,6 +206,27 @@ let functionResources = [];
 const keyPracticeLaunch = document.getElementById('keyPracticeLaunch');
 const normalizeText = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
+function createFunctionResourceIcon(kind) {
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  icon.classList.add('function-category-icon');
+  icon.setAttribute('viewBox', '0 0 24 24');
+  icon.setAttribute('aria-hidden', 'true');
+  icon.setAttribute('focusable', 'false');
+
+  const paths = {
+    actas: ['M7 3h7l4 4v14H7z', 'M14 3v5h5', 'M10 12h5', 'M10 16h5'],
+    documento: ['M12 2 20 6v5c0 5-3.5 8-8 11-4.5-2-8-6-8-11V6z', 'm9 12 2 2 4-4'],
+    claves: ['M12 5a7 7 0 0 1 0 14', 'M12 8a4 4 0 0 1 0 8', 'M12 11a1 1 0 0 1 0 2', 'M5 8 3 6m2 10-2 2'],
+    minuta: ['M4 5h16v12H9l-5 4z', 'M8 9h8', 'M8 13h5']
+  };
+  (paths[kind] || paths.documento).forEach(pathData => {
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', pathData);
+    icon.appendChild(path);
+  });
+  return icon;
+}
+
 function showView(view) {
   const activePage = view === 'keys' || view === 'search' ? currentPage : view;
   document.getElementById('homeView').hidden = view !== 'home';
@@ -422,16 +443,6 @@ function renderPromoCatalog(promotions) {
   const container = document.getElementById('promoCatalog');
   const status = document.getElementById('promoCatalogStatus');
   container.replaceChildren();
-  const legacyCategories = [
-    { title: 'Actas y documentación policial', promoIds: [5, 6, 7, 8, 9, 10, 12] },
-    { title: 'Actuación operativa', promoIds: [1, 2, 14] },
-    { title: 'Investigación y consulta policial', promoIds: [4, 16] },
-    { title: 'Uso progresivo y control de la fuerza', promoIds: [13, 15] },
-    { title: 'Fundamentos jurídicos', promoIds: [3, 11] }
-  ];
-  const legacyCategoryByPromoId = new Map(
-    legacyCategories.flatMap(category => category.promoIds.map(promoId => [promoId, category.title]))
-  );
   const categoriesByName = new Map();
   const cardsByCategory = new Map();
 
@@ -465,6 +476,24 @@ function renderPromoCatalog(promotions) {
     .filter(item => !orderedPromoIds.has(item.promoId))
     .sort((first, second) => first.promoId - second.promoId)
     .forEach(item => orderedPromotions.push(item));
+
+  const practicePromotions = publishedPromotions.filter(item => {
+    const url = safeHttpUrl(item.enlace.trim() || 'page/promo.html', document.baseURI);
+    if (!url) return false;
+    const destination = new URL(url);
+    return destination.origin === window.location.origin &&
+      destination.pathname === new URL('page/promo.html', document.baseURI).pathname;
+  });
+  const completedPracticeCount = practicePromotions.filter(item =>
+    completedPromoIds.includes(item.promoId) && !archivedPromoIds.includes(item.promoId)
+  ).length;
+  const progressPercent = practicePromotions.length
+    ? Math.round((completedPracticeCount / practicePromotions.length) * 100)
+    : 0;
+  document.getElementById('practiceProgressCount').textContent =
+    `${completedPracticeCount} de ${practicePromotions.length} actividades`;
+  document.getElementById('practiceProgressTrack').setAttribute('aria-valuenow', String(progressPercent));
+  document.getElementById('practiceProgressFill').style.width = `${progressPercent}%`;
 
   orderedPromotions.forEach(item => {
     const promoId = item.promoId;
@@ -534,7 +563,7 @@ function renderPromoCatalog(promotions) {
       card.appendChild(archiveButton);
     }
 
-    const categoryName = item.categoria?.trim() || legacyCategoryByPromoId.get(promoId) || 'Otras actividades';
+    const categoryName = item.categoria?.trim() || 'Otras actividades';
     if (!cardsByCategory.has(categoryName)) {
       cardsByCategory.set(categoryName, []);
       categoriesByName.set(categoryName, {
@@ -675,18 +704,51 @@ function validatePromotion(item, number) {
   }
 }
 
+async function fetchPromotionFiles() {
+  const indexResponse = await fetch('file/news/promo_index.json', { cache: 'no-store' });
+  if (indexResponse.status === 404) {
+    const entries = await fetchNumberedJson('file/news', 'promo', validatePromotion);
+    return entries.map((item, index) => ({ ...item, promoId: index + 1 }));
+  }
+  if (!indexResponse.ok) {
+    throw new Error(`No se pudo cargar el índice de actividades (HTTP ${indexResponse.status}).`);
+  }
+
+  const index = await indexResponse.json();
+  if (
+    !index ||
+    !Array.isArray(index.ids) ||
+    index.ids.some(id => !Number.isSafeInteger(id) || id < 1 || id > 999) ||
+    new Set(index.ids).size !== index.ids.length ||
+    (index.nextId !== undefined &&
+      (!Number.isSafeInteger(index.nextId) || index.nextId < 1 || index.nextId > 1000))
+  ) {
+    throw new Error('El índice de actividades no contiene una lista válida de identificadores.');
+  }
+  const ids = [...index.ids].sort((first, second) => first - second);
+  return Promise.all(ids.map(async id => {
+    const response = await fetch(`file/news/promo_${String(id).padStart(2, '0')}.json`, { cache: 'no-store' });
+    if (!response.ok) {
+      throw new Error(`No se pudo cargar la actividad ${id} indicada en el índice (HTTP ${response.status}).`);
+    }
+    const item = await response.json();
+    validatePromotion(item, id);
+    return { ...item, promoId: id };
+  }));
+}
+
 async function loadNews() {
   const status = document.getElementById('newsStatus');
   const promoStatus = document.getElementById('promoCatalogStatus');
   try {
     const [entries, promotions] = await Promise.all([
       fetchNumberedJson('file/news', 'new', validateNews),
-      fetchNumberedJson('file/news', 'promo', validatePromotion)
+      fetchPromotionFiles()
     ]);
     newsItems = entries
       .map((item, index) => ({ ...item, id: index + 1 }))
       .reverse();
-    promoItems = promotions.map((item, index) => ({ ...item, promoId: index + 1 }));
+    promoItems = promotions;
     renderNews(newsItems);
     renderPromoCatalog(promoItems);
     refreshCurrentSearch();
@@ -848,7 +910,7 @@ function renderFunctionResources(resources) {
       const toggleDescription = document.createElement('span');
       toggleDescription.className = 'function-category-description';
       toggleDescription.textContent = 'Practica y verifica las claves radiofónicas.';
-      toggle.append(toggleTitle, toggleDescription);
+      toggle.append(createFunctionResourceIcon('claves'), toggleTitle, toggleDescription);
 
       const minutaLink = document.createElement('a');
       minutaLink.className = 'function-category function-minuta-link';
@@ -859,7 +921,7 @@ function renderFunctionResources(resources) {
       const minutaDescription = document.createElement('span');
       minutaDescription.className = 'function-category-description';
       minutaDescription.textContent = 'Crea y guíate con minutas de mensajería para reportes por comunicación de red.';
-      minutaLink.append(minutaTitle, minutaDescription);
+      minutaLink.append(createFunctionResourceIcon('minuta'), minutaTitle, minutaDescription);
 
       const actions = document.createElement('div');
       resource.categoria.forEach(category => {
@@ -908,6 +970,7 @@ function renderFunctionResources(resources) {
         ? 'Herramientas de un Policía'
         : resource.titulo;
     section.setAttribute('aria-labelledby', heading.id);
+    section.appendChild(createFunctionResourceIcon(resource.tipo));
     const openResource = () => openFunctionResource(resource);
 
     section.addEventListener('click', openResource);
@@ -1835,7 +1898,33 @@ promoCatalogOpen.addEventListener('click', () => {
 });
 functionMaterialOpen.addEventListener('click', () => toggleFunctionPanel('material'));
 
-if (new URLSearchParams(window.location.search).get('promos') === '1') {
+const initialParams = new URLSearchParams(window.location.search);
+if (initialParams.get('material') === '1') {
+  showFunctionPanel('material');
+  if (initialParams.get('exhausted') === '1') {
+    const notice = document.getElementById('practiceCooldownNotice');
+    const cooldownUntil = Number(initialParams.get('until'));
+    if (!Number.isSafeInteger(cooldownUntil) || cooldownUntil < 0) {
+      console.error('La fecha de recuperación de vidas no es válida.');
+      notice.textContent = 'Ponte a investigar en Material de función policial.';
+      notice.hidden = false;
+    } else {
+      const updateCooldownNotice = () => {
+        const remaining = Math.max(0, cooldownUntil - Date.now());
+        const hours = Math.floor(remaining / 3600000);
+        const minutes = Math.floor((remaining % 3600000) / 60000);
+        const seconds = Math.floor((remaining % 60000) / 1000);
+        notice.textContent = remaining
+          ? `Ponte a investigar en Material de función policial. Podrás volver a jugar en ${hours} h ${minutes} min ${seconds} s.`
+          : 'Tus 5 vidas se han restaurado. Ya puedes volver a practicar.';
+        notice.hidden = false;
+      };
+      updateCooldownNotice();
+      window.setInterval(updateCooldownNotice, 1000);
+    };
+  }
+  window.setTimeout(() => functionMaterialSection.scrollIntoView({ behavior: 'smooth' }), 100);
+} else if (initialParams.get('promos') === '1') {
   openPromoCatalog();
 }
 
@@ -2166,9 +2255,10 @@ document.getElementById('searchInput').addEventListener('input', () => {
 
 renderCards([]);
 const requestedView = new URLSearchParams(window.location.search).get('view') || window.location.hash.slice(1);
-const initialView = ['home', 'laws', 'function'].includes(requestedView) ? requestedView : 'home';
+const initialView = ['home', 'laws', 'function'].includes(requestedView) ? requestedView : 'function';
 currentPage = initialView;
 showView(initialView);
+if (initialView === 'function') loadFunctionResources();
 updateSearchPlaceholder();
 const initialSearch = new URLSearchParams(window.location.search).get('search');
 if (initialSearch) {

@@ -2130,6 +2130,16 @@ body {
   width: 100%;
 }
 
+.function-view > .view-heading {
+  text-align: center;
+}
+
+.function-view > .view-heading p {
+  max-width: 34rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .function-catalog-help {
   margin: -8px 0 14px;
   color: var(--text-muted);
@@ -4464,6 +4474,278 @@ body.promo-page .site-header .topbar {
   }
 }
 
+.view-eyebrow {
+  margin-bottom: 5px;
+  color: var(--accent-gold);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.function-view > .view-heading {
+  margin-bottom: 2px;
+}
+
+.function-view > .view-heading h1 {
+  font-size: clamp(1.7rem, 5vw, 2.2rem);
+  letter-spacing: -0.04em;
+}
+
+.learning-progress {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  background: var(--card-bg);
+  box-shadow: 0 8px 22px rgba(25, 53, 89, 0.06);
+}
+
+.learning-progress-copy {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.learning-progress-copy strong {
+  color: var(--accent-color);
+  font-size: 0.88rem;
+}
+
+.learning-progress-track,
+.promo-lesson-progress-track {
+  overflow: hidden;
+  height: 9px;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: var(--bg-color);
+}
+
+.learning-progress-track span,
+.promo-lesson-progress-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent-color), var(--accent-hover), var(--accent-gold));
+  transition: width 240ms ease;
+}
+
+.function-categories {
+  counter-reset: function-step;
+  gap: 12px;
+}
+
+.function-category {
+  position: relative;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 14px;
+  min-height: 84px;
+  padding: 17px 20px;
+  border-radius: 20px;
+  text-align: left;
+}
+
+.function-category-icon {
+  display: block;
+  grid-row: span 2;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 13px;
+  background: var(--bg-color);
+  color: var(--accent-gold);
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.function-category {
+  counter-increment: none;
+}
+
+.function-category-icon + .function-category-title,
+.function-category-icon + h3 {
+  grid-column: 2;
+}
+
+.function-category h3,
+.function-category > .function-category-title,
+.function-category > .function-category-description {
+  grid-column: 2;
+}
+
+.function-key-actions {
+  margin: 0 0 4px 54px;
+  padding-left: 18px;
+  border-left: 2px dashed var(--accent-gold);
+}
+
+.function-keys-toggle::after {
+  right: 20px;
+}
+
+.news-card,
+.law-card {
+  border-radius: 18px;
+}
+
+.news-content {
+  gap: 11px;
+  padding: 20px;
+}
+
+.news-date {
+  width: fit-content;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: var(--badge-bg);
+  color: var(--accent-color);
+  font-weight: 700;
+}
+
+.law-card {
+  position: relative;
+  min-height: 128px;
+  align-content: center;
+  padding: 20px 22px;
+  border-radius: 18px;
+}
+
+.law-card::after {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  color: var(--accent-gold);
+  content: "Abrir artículos  →";
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.promo-catalog-section {
+  border-radius: 24px;
+}
+
+.promo-catalog-group {
+  border-radius: 18px;
+}
+
+.promo-catalog-group-summary {
+  min-height: 66px;
+  padding: 14px 18px;
+}
+
+.promo-catalog-group-count {
+  padding: 5px 9px;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: var(--card-bg);
+}
+
+.promo-page #promoContent {
+  counter-reset: lesson-block;
+}
+
+.promo-page .promo-heading {
+  min-height: 240px;
+  align-content: center;
+  border-radius: 28px;
+}
+
+.promo-page .promo-heading::before {
+  content: "RUTA DE APRENDIZAJE · CPNB";
+}
+
+.promo-page .promo-section {
+  border-radius: 22px;
+}
+
+.promo-page .promo-section-title {
+  counter-increment: lesson-block;
+}
+
+.promo-page .promo-section-title::before {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--accent-gold);
+  content: "RETO " counter(lesson-block);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.promo-page .promo-quiz {
+  counter-reset: quiz-question;
+}
+
+.promo-page .promo-lesson-progress {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.promo-page .promo-lesson-progress-label {
+  color: var(--accent-color);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.promo-page .promo-lesson-progress-track {
+  width: 100%;
+}
+
+.promo-page .promo-question {
+  counter-increment: quiz-question;
+  border-radius: 20px;
+}
+
+.promo-page .promo-question legend::before {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--accent-gold);
+  content: "PREGUNTA " counter(quiz-question);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+@media (max-width: 480px) {
+  .function-category {
+    grid-template-columns: 36px minmax(0, 1fr);
+    min-height: 76px;
+    padding: 15px 16px;
+  }
+
+  .function-category-icon {
+    width: 34px;
+    height: 34px;
+    padding: 6px;
+  }
+
+  .function-key-actions {
+    margin-left: 44px;
+  }
+
+  .promo-page .promo-heading {
+    min-height: 210px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .learning-progress-track span,
+  .promo-lesson-progress-fill {
+    transition: none;
+  }
+}
+
 .promo-catalog-trigger,
 .promo-catalog-back,
 .promo-catalog-archive {
@@ -4709,7 +4991,23 @@ body.promo-page .site-header .topbar {
 
 @media (max-width: 480px) {
   .function-panel-toggles {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .function-panel-toggles .promo-catalog-trigger {
+    position: relative;
+    justify-content: center;
+    min-height: 54px;
+    padding: 8px 26px 8px 10px;
+    font-size: 0.88rem;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .function-panel-toggles .promo-catalog-trigger::after {
+    position: absolute;
+    right: 9px;
   }
 
   .promo-catalog-section {
@@ -4743,4 +5041,379 @@ body.promo-page .site-header .topbar {
   border-radius: 10px;
   text-align: center;
   margin: 0 auto;
+}
+
+.promo-catalog-group-list {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  width: min(100%, 560px);
+  margin-inline: auto;
+  padding: 12px 12px 0;
+  counter-reset: lesson-step;
+}
+
+.promo-catalog-card {
+  position: relative;
+  grid-template-columns: 54px minmax(0, 1fr);
+  align-items: stretch;
+  gap: 12px;
+  padding-bottom: 22px;
+  counter-increment: lesson-step;
+}
+
+.promo-catalog-card::before {
+  z-index: 1;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  align-self: center;
+  place-items: center;
+  border: 3px solid var(--accent-gold);
+  border-radius: 50%;
+  background: var(--bg-color);
+  color: var(--accent-color);
+  content: counter(lesson-step);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.promo-catalog-card::after {
+  position: absolute;
+  top: 50%;
+  bottom: 0;
+  left: 23px;
+  border-left: 3px dashed var(--accent-gold);
+  content: "";
+}
+
+.promo-catalog-card:last-child {
+  padding-bottom: 0;
+}
+
+.promo-catalog-card:last-child::after {
+  content: none;
+}
+
+.promo-catalog-button {
+  grid-column: 2;
+  min-height: 106px;
+  align-content: center;
+  padding: 18px 20px;
+  border-radius: 18px;
+}
+
+.promo-catalog-card--completed::before {
+  border-color: #21834f;
+  background: #edf8f1;
+  color: #176b3a;
+  content: "✓";
+}
+
+.promo-catalog-archive {
+  grid-column: 2;
+  justify-self: start;
+}
+
+html.color-inverted .promo-catalog-card::before {
+  background: #0b1f4b;
+  color: #ffffff;
+}
+
+@media (max-width: 480px) {
+  .promo-catalog-group-list {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .promo-catalog-card {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 9px;
+    padding-bottom: 18px;
+  }
+
+  .promo-catalog-card::before {
+    width: 40px;
+    height: 40px;
+  }
+
+  .promo-catalog-card::after {
+    left: 19px;
+  }
+
+  .promo-catalog-button {
+    min-height: 100px;
+    padding: 15px;
+  }
+}
+
+.promo-page .promo-section {
+  border-color: rgba(255, 255, 255, 0.2);
+  background:
+    radial-gradient(circle at 92% 10%, rgba(255, 255, 255, 0.12) 0 4rem, transparent 4.1rem),
+    linear-gradient(140deg, #0d2b52 0%, #123b70 58%, #245c9e 100%);
+  box-shadow: 0 16px 38px rgba(18, 59, 112, 0.18);
+  color: #ffffff;
+}
+
+.promo-page .promo-section:hover {
+  border-color: rgba(255, 255, 255, 0.38);
+  box-shadow: 0 20px 44px rgba(18, 59, 112, 0.24);
+}
+
+.promo-page .promo-section-title {
+  color: #ffffff;
+}
+
+.promo-page .promo-copy {
+  color: rgba(239, 246, 255, 0.9);
+}
+
+.promo-page .promo-price {
+  color: #f2cf79;
+}
+
+.promo-page .promo-quiz-progress,
+.promo-page .promo-lesson-progress-label {
+  color: #e4efff;
+}
+
+.promo-page .promo-lesson-progress-track {
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.promo-page .promo-question {
+  border-color: rgba(255, 255, 255, 0.24);
+  background:
+    radial-gradient(circle at 100% 0, rgba(255, 255, 255, 0.1) 0 3rem, transparent 3.1rem),
+    linear-gradient(145deg, #173f70, #123b70);
+}
+
+.promo-page .promo-question legend {
+  color: #ffffff;
+}
+
+.promo-page .promo-question legend::before {
+  color: #f2cf79;
+}
+
+.promo-lives {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 10px 16px;
+  border: 1px solid rgba(18, 59, 112, 0.14);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffffff, #edf4fc);
+  box-shadow: 0 8px 22px rgba(18, 59, 112, 0.1);
+}
+
+.promo-lives-label {
+  color: #123b70;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.promo-lives-shields {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.promo-life-shield {
+  width: 23px;
+  height: 23px;
+  fill: #245c9e;
+  stroke: #123b70;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+  transition: opacity 180ms ease, fill 180ms ease, transform 180ms ease;
+}
+
+.promo-life-shield.is-lost {
+  fill: transparent;
+  opacity: 0.28;
+  transform: scale(0.88);
+}
+
+.practice-cooldown-notice {
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  background: linear-gradient(130deg, #0d2b52, #245c9e);
+  box-shadow: 0 10px 24px rgba(18, 59, 112, 0.15);
+  color: #ffffff;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.practice-cooldown-notice[hidden] {
+  display: none;
+}
+
+html.color-inverted .promo-page .promo-section {
+  border-color: rgba(18, 59, 112, 0.2);
+  background:
+    radial-gradient(circle at 92% 10%, rgba(18, 59, 112, 0.08) 0 4rem, transparent 4.1rem),
+    linear-gradient(140deg, #ffffff, #f3f7fc);
+  color: #123b70;
+}
+
+html.color-inverted body.promo-page {
+  background: linear-gradient(180deg, #0b1f4b 0%, #123b70 45rem);
+}
+
+html.color-inverted .promo-page .promo-heading {
+  border-color: rgba(18, 59, 112, 0.2);
+  background:
+    radial-gradient(circle at 88% 18%, rgba(18, 59, 112, 0.08) 0 5rem, transparent 5.1rem),
+    linear-gradient(130deg, #ffffff 0%, #f3f7fc 100%);
+  box-shadow: 0 20px 46px rgba(0, 0, 0, 0.16);
+  color: #123b70;
+}
+
+html.color-inverted .promo-page .promo-heading::before {
+  border-color: rgba(18, 59, 112, 0.2);
+  background: rgba(18, 59, 112, 0.08);
+  color: #123b70;
+}
+
+html.color-inverted .promo-page .promo-heading h1 {
+  color: #123b70;
+}
+
+html.color-inverted .promo-page .promo-heading p {
+  color: #526b8b;
+}
+
+html.color-inverted .promo-page .promo-home-button {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: #123b70;
+  color: #ffffff;
+}
+
+html.color-inverted .promo-page .promo-section-title,
+html.color-inverted .promo-page .promo-copy,
+html.color-inverted .promo-page .promo-quiz-progress,
+html.color-inverted .promo-page .promo-lesson-progress-label {
+  color: #123b70;
+}
+
+html.color-inverted .promo-page .promo-price,
+html.color-inverted .promo-page .promo-section-title::before,
+html.color-inverted .promo-page .promo-question legend::before {
+  color: #8c6919;
+}
+
+html.color-inverted .promo-page .promo-question {
+  border-color: rgba(18, 59, 112, 0.2);
+  background:
+    radial-gradient(circle at 100% 0, rgba(18, 59, 112, 0.08) 0 3rem, transparent 3.1rem),
+    linear-gradient(145deg, #ffffff, #f3f7fc);
+}
+
+html.color-inverted .promo-page .promo-question legend {
+  color: #123b70;
+}
+
+html.color-inverted .promo-page .promo-option {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: #123b70;
+  color: #ffffff;
+}
+
+html.color-inverted .promo-page .promo-option:hover,
+html.color-inverted .promo-page .promo-option:focus-within,
+html.color-inverted .promo-page .promo-option.is-selected {
+  border-color: #245c9e;
+  background: #245c9e;
+  color: #ffffff;
+}
+
+html.color-inverted .promo-page .promo-option.is-incorrect,
+html.color-inverted .promo-page .promo-option.is-incorrect:hover,
+html.color-inverted .promo-page .promo-option.is-incorrect:focus-within {
+  border-color: #c94b3b;
+  background: #fff0ed;
+  color: #a33b2f;
+}
+
+html.color-inverted .promo-page .promo-option.is-correct,
+html.color-inverted .promo-page .promo-option.is-correct:hover,
+html.color-inverted .promo-page .promo-option.is-correct:focus-within {
+  border-color: #21834f;
+  background: #edf8f1;
+  color: #176b3a;
+}
+
+html.color-inverted .promo-page .promo-action {
+  border-color: rgba(18, 59, 112, 0.2);
+  background: linear-gradient(135deg, #ffffff, #edf4fc);
+  color: #123b70;
+}
+
+html.color-inverted .promo-page .promo-action:hover {
+  background: linear-gradient(135deg, #eaf1fa, #dce8f6);
+  color: #123b70;
+}
+
+html.color-inverted .promo-page .promo-lesson-progress-track {
+  border-color: rgba(18, 59, 112, 0.25);
+  background: rgba(18, 59, 112, 0.1);
+}
+
+html.color-inverted .promo-page .promo-lesson-progress-fill {
+  background: linear-gradient(90deg, #123b70, #245c9e, #c49a3a);
+}
+
+html.color-inverted .promo-lives {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: linear-gradient(135deg, #123b70, #0b1f4b);
+}
+
+html.color-inverted .promo-lives-label {
+  color: #ffffff;
+}
+
+html.color-inverted .promo-life-shield {
+  fill: #ffffff;
+  stroke: #ffffff;
+}
+
+html.color-inverted .promo-life-shield.is-lost {
+  fill: transparent;
+  stroke: rgba(255, 255, 255, 0.55);
+}
+
+html.color-inverted .practice-cooldown-notice {
+  border-color: rgba(18, 59, 112, 0.2);
+  background: linear-gradient(130deg, #ffffff, #f3f7fc);
+  color: #123b70;
+}
+
+@media (max-width: 380px) {
+  .promo-lives {
+    gap: 8px;
+    padding: 9px 12px;
+  }
+
+  .promo-lives-shields {
+    gap: 3px;
+  }
+
+  .promo-life-shield {
+    width: 21px;
+    height: 21px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-life-shield {
+    transition: none;
+  }
 }

@@ -71,6 +71,38 @@
       <div class="file-meta" id="fileMeta" hidden></div>
       <fieldset id="editorFields" class="editor-fields" disabled>
         <legend class="sr-only">Formulario de contenido</legend>
+        <div id="promotionCategoryField" class="editor-field editor-field-wide promotion-category-field" hidden>
+          <label for="promotionCategorySelect">Categoría de actividad</label>
+          <select id="promotionCategorySelect">
+            <option value="">Selecciona una sección desplegable</option>
+            <option value="__new_category__">＋ Agregar nueva sección desplegable</option>
+          </select>
+          <div id="newPromotionCategoryField" class="new-promotion-category" hidden>
+            <label for="promotionCategoryInput">Nombre de la nueva sección</label>
+            <input id="promotionCategoryInput" type="text" maxlength="80"
+              placeholder="Escribe el nombre de la nueva sección">
+          </div>
+          <small class="field-help">Selecciona una sección existente o elige «Agregar nueva sección desplegable».</small>
+        </div>
+        <section id="promotionCategoryManager" class="array-editor editor-field editor-field-wide promotion-category-manager" hidden aria-labelledby="promotionCategoryManagerTitle">
+          <div class="array-heading">
+            <h3 id="promotionCategoryManagerTitle">Secciones desplegables existentes</h3>
+            <span id="promotionCategoryCount" class="category-total"></span>
+          </div>
+          <p class="field-help">Lista de solo lectura. Eliminar una sección borra permanentemente todos sus archivos de actividad.</p>
+          <ul id="promotionCategoryList" class="promotion-category-list"></ul>
+          <div class="category-delete-row">
+            <div>
+              <label for="deletePromotionCategorySelect">Sección que deseas borrar</label>
+              <select id="deletePromotionCategorySelect">
+                <option value="">Selecciona una sección</option>
+              </select>
+            </div>
+            <button id="deletePromotionCategoryButton" class="button button-danger" type="button" disabled>
+              Eliminar sección y actividades
+            </button>
+          </div>
+        </section>
         <div id="editorForm" class="editor-form">
           <p class="empty-form">Conecta y selecciona un archivo para editar sus campos.</p>
         </div>
