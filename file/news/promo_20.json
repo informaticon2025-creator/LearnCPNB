@@ -1,0 +1,43 @@
+{
+  "titulo": "Allanamiento y Recintos Privados",
+  "descripcion": "Respuestas de un Funcionario",
+  "categoria": "Fundamentos jurídicos",
+  "fecha": "18/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 2,
+  "textoBoton": "Responde",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿Qué artículo de la CRBV consagra la inviolabilidad del hogar doméstico y establece que solo puede ser allanado mediante orden judicial o para impedir la perpetración de un delito?",
+          "opciones": [
+            {
+              "texto": "Artículo 47",
+              "correcta": true
+            },
+            {
+              "texto": "Artículo 48",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 50",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 82",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El artículo 47 protege la inviolabilidad del hogar y todo recinto privado, fijando los supuestos legales para un allanamiento policial."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "titulo": "Jerarquías: Nivel Táctico",
+  "descripcion": "Respuestas de un Funcionario",
+  "categoria": "Jerarquías policiales",
+  "fecha": "18/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 2,
+  "textoBoton": "Responde",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿Qué jerarquías integran el Nivel Táctico y qué labor cumplen en el servicio policial?",
+          "opciones": [
+            {
+              "texto": "Inspector, Primer Inspector e Inspector Jefe; coordinan operaciones específicas y supervisan equipos en el terreno",
+              "correcta": true
+            },
+            {
+              "texto": "Oficial, Primer Oficial y Oficial Jefe; dirigen la alta gerencia y políticas nacionales",
+              "correcta": false
+            },
+            {
+              "texto": "Comisario, Primer Comisario y Comisario Jefe; realizan patrullaje preventivo en calle",
+              "correcta": false
+            },
+            {
+              "texto": "Comisario General, Comisario Mayor y Comisario Superior; cumplen funciones de guardia de prevención",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El Nivel Táctico comprende a Inspector, Primer Inspector e Inspector Jefe, quienes coordinan operaciones específicas y supervisan equipos en el terreno."
+        }
+      ]
+    }
+  ]
+}

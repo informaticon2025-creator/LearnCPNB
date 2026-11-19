@@ -1,0 +1,43 @@
+{
+  "titulo": "Uso de la Fuerza Policial",
+  "descripcion": "Respuestas de un Funcionario",
+  "categoria": "Fundamentos jurídicos",
+  "fecha": "18/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 2,
+  "textoBoton": "Responde",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿Cuál artículo de la CRBV establece que el uso de armas o sustancias tóxicas por parte del funcionariado policial está limitado por los principios de necesidad, conveniencia, oportunidad y proporcionalidad?",
+          "opciones": [
+            {
+              "texto": "Artículo 55",
+              "correcta": true
+            },
+            {
+              "texto": "Artículo 43",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 60",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 112",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El artículo 55 consagra el derecho a la protección ciudadana y regula los principios que limitan el uso de armas o sustancias tóxicas por parte del funcionariado policial."
+        }
+      ]
+    }
+  ]
+}

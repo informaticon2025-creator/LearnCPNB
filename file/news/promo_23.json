@@ -1,0 +1,43 @@
+{
+  "titulo": "Jerarquías: Nivel Estratégico",
+  "descripcion": "Respuestas de un Funcionario",
+  "categoria": "Jerarquías policiales",
+  "fecha": "18/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 2,
+  "textoBoton": "Responde",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿Cuáles son los rangos del Nivel Estratégico y en qué se centra su actuación dentro de la institución?",
+          "opciones": [
+            {
+              "texto": "Comisario, Primer Comisario y Comisario Jefe; se centran en la planificación, supervisión de unidades y toma de decisiones estratégicas",
+              "correcta": true
+            },
+            {
+              "texto": "Oficial, Primer Oficial y Oficial Jefe; se centran en la atención directa al ciudadano en vía pública",
+              "correcta": false
+            },
+            {
+              "texto": "Inspector, Primer Inspector e Inspector Jefe; se centran en la emisión de políticas interinstitucionales",
+              "correcta": false
+            },
+            {
+              "texto": "Comisario Mayor y Comisario Superior; se centran únicamente en rondas de vigilancia",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El Nivel Estratégico abarca Comisario, Primer Comisario y Comisario Jefe, enfocado en la planificación, supervisión de unidades y toma de decisiones estratégicas."
+        }
+      ]
+    }
+  ]
+}

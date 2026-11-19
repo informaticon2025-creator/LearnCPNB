@@ -1,0 +1,43 @@
+{
+  "titulo": "Jerarquías: Alta Dirección",
+  "descripcion": "Respuestas de un Funcionario",
+  "categoria": "Jerarquías policiales",
+  "fecha": "18/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 2,
+  "textoBoton": "Responde",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿Qué rangos conforman la Alta Dirección y cuál es el rol de este nivel dentro del CPNB?",
+          "opciones": [
+            {
+              "texto": "Comisario General, Comisario Mayor y Comisario Superior; dirige la institución y establece políticas, estrategias y coordinación con otros organismos de seguridad",
+              "correcta": true
+            },
+            {
+              "texto": "Oficial, Primer Oficial y Oficial Jefe; ejecuta patrullaje y atención directa al ciudadano",
+              "correcta": false
+            },
+            {
+              "texto": "Inspector, Primer Inspector e Inspector Jefe; supervisa escuadras operativas en campo",
+              "correcta": false
+            },
+            {
+              "texto": "Comisario y Primer Comisario; gestiona exclusivamente trámites administrativos locales",
+              "correcta": false
+            }
+          ],
+          "explicacion": "La Alta Dirección incluye Comisario General, Comisario Mayor y Comisario Superior, encargándose de dirigir la institución, fijar políticas y estrategias, y coordinar con otros órganos de seguridad."
+        }
+      ]
+    }
+  ]
+}

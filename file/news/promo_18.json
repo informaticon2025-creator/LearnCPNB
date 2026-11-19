@@ -1,0 +1,43 @@
+{
+  "titulo": "Seguridad Ciudadana y Carácter Civil",
+  "descripcion": "Respuestas de un Funcionario",
+  "categoria": "Fundamentos jurídicos",
+  "fecha": "18/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 2,
+  "textoBoton": "Responde",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿Qué artículo de la CRBV determina la organización de los órganos de seguridad ciudadana y establece su carácter civil?",
+          "opciones": [
+            {
+              "texto": "Artículo 332",
+              "correcta": true
+            },
+            {
+              "texto": "Artículo 328",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 156",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 253",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El artículo 332 define los órganos de seguridad ciudadana para mantener y restablecer el orden público, destacando su naturaleza civil."
+        }
+      ]
+    }
+  ]
+}

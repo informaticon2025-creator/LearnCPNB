@@ -1,0 +1,43 @@
+{
+  "titulo": "Jerarquías: Nivel Operacional",
+  "descripcion": "Respuestas de un Funcionario",
+  "categoria": "Jerarquías policiales",
+  "fecha": "18/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 2,
+  "textoBoton": "Responde",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿Cuáles jerarquías conforman el Nivel Operacional del CPNB y cuáles son sus funciones principales?",
+          "opciones": [
+            {
+              "texto": "Oficial, Primer Oficial y Oficial Jefe; encargados de patrullaje, vigilancia y atención directa al ciudadano",
+              "correcta": true
+            },
+            {
+              "texto": "Inspector, Primer Inspector e Inspector Jefe; encargados de planificación estratégica institucional",
+              "correcta": false
+            },
+            {
+              "texto": "Comisario, Primer Comisario y Comisario Jefe; encargados de supervisar equipos en el terreno",
+              "correcta": false
+            },
+            {
+              "texto": "Comisario General, Comisario Mayor y Comisario Superior; encargados de la vigilancia vecinal",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El Nivel Operacional está integrado por Oficial, Primer Oficial y Oficial Jefe, y cumple funciones de patrullaje, vigilancia y atención directa al ciudadano."
+        }
+      ]
+    }
+  ]
+}

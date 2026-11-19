@@ -1,0 +1,43 @@
+{
+  "titulo": "Responsabilidad del Funcionario",
+  "descripcion": "Respuestas de un Funcionario",
+  "categoria": "Fundamentos jurídicos",
+  "fecha": "18/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 2,
+  "textoBoton": "Responde",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿Cuál artículo establece que los funcionarios públicos que ordenen o ejecuten un acto que viole los derechos constitucionales incurren en responsabilidad penal, civil y administrativa, sin que les sirvan de excusa órdenes superiores?",
+          "opciones": [
+            {
+              "texto": "Artículo 25",
+              "correcta": true
+            },
+            {
+              "texto": "Artículo 19",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 139",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 141",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El artículo 25 establece la nulidad de los actos que violen derechos garantizados por la Constitución y la responsabilidad individual del funcionario sin excusa de órdenes superiores."
+        }
+      ]
+    }
+  ]
+}

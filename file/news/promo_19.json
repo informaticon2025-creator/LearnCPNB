@@ -1,0 +1,43 @@
+{
+  "titulo": "Control de Manifestaciones",
+  "descripcion": "Respuestas de un Funcionario",
+  "categoria": "Fundamentos jurídicos",
+  "fecha": "18/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 2,
+  "textoBoton": "Responde",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Aprende y Busca los articulos competentes basandose en las leyes."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Opciones Respuesta",
+      "preguntas": [
+        {
+          "pregunta": "¿Cuál artículo constitucional prohíbe el uso de armas de fuego y sustancias tóxicas en el control de manifestaciones pacíficas?",
+          "opciones": [
+            {
+              "texto": "Artículo 68",
+              "correcta": true
+            },
+            {
+              "texto": "Artículo 53",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 62",
+              "correcta": false
+            },
+            {
+              "texto": "Artículo 132",
+              "correcta": false
+            }
+          ],
+          "explicacion": "El artículo 68 garantiza el derecho a manifestar pacíficamente y prohíbe expresamente el uso de armas de fuego y sustancias tóxicas en su control."
+        }
+      ]
+    }
+  ]
+}
