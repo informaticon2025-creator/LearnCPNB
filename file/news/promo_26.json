@@ -1,0 +1,78 @@
+{
+  "titulo": "Hechos Punibles: Delitos y Faltas",
+  "descripcion": "Clasificación de los hechos punibles en delitos y faltas, gravedad de la conducta y sanciones en el derecho penal",
+  "categoria": "Actuación operativa",
+  "fecha": "19/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "imagen",
+      "url": "https://aprendix.org/wp-content/uploads/que-es-un-hecho-punible-y-cual-es-su-significado-legal.jpg",
+      "alt": "Clasificación de los hechos punibles en delitos y faltas"
+    },
+    {
+      "tipo": "texto",
+      "titulo": "Los hechos punibles se dividen en delitos y faltas. Los delitos son conductas que perturban el orden público y que, al ser tipificadas por la ley, pueden ser objeto de sanciones. Las faltas, por otro lado, son conductas menos graves que los delitos y se castigan con penas más leves. La clasificación de los hechos punibles en delitos y faltas es un aspecto fundamental del derecho penal, ya que permite establecer la gravedad de la conducta y la sanción correspondiente."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Selecciona la opción correcta sobre los hechos punibles",
+      "preguntas": [
+        {
+          "pregunta": "1: ¿Qué es un hecho punible?",
+          "opciones": [
+            {
+              "texto": "Una recomendación moral sin consecuencias legales ni castigo establecido",
+              "correcta": false
+            },
+            {
+              "texto": "Una conducta tipificada por la ley que perturba el orden o las normas y es objeto de una sanción penal, dividiéndose en delitos y faltas",
+              "correcta": true
+            },
+            {
+              "texto": "Un acuerdo privado entre particulares que se resuelve únicamente mediante conciliación vecinal",
+              "correcta": false
+            },
+            {
+              "texto": "Una norma administrativa interna exclusiva para el personal administrativo de los tribunales",
+              "correcta": false
+            },
+            {
+              "texto": "Cualquier acción cotidiana que no está contemplada ni regulada en el ordenamiento jurídico",
+              "correcta": false
+            }
+          ],
+          "explicacion": "Un hecho punible es toda conducta prevista y tipificada por la ley penal que conlleva una sanción, clasificándose según su gravedad en delitos y faltas."
+        },
+        {
+          "pregunta": "2: ¿Cuál es la diferencia principal entre delito y falta?",
+          "opciones": [
+            {
+              "texto": "El delito no recibe ningún tipo de castigo legal, mientras que la falta siempre conlleva la pena máxima",
+              "correcta": false
+            },
+            {
+              "texto": "Los delitos son conductas más graves que perturban el orden público y conllevan sanciones mayores, mientras que las faltas son menos graves y se castigan con penas más leves",
+              "correcta": true
+            },
+            {
+              "texto": "Los delitos solo pueden cometerlos funcionarios públicos y las faltas únicamente ciudadanos particulares",
+              "correcta": false
+            },
+            {
+              "texto": "Las faltas perturban gravemente el orden público, mientras que los delitos son infracciones leves sin importancia penal",
+              "correcta": false
+            },
+            {
+              "texto": "No existe diferencia alguna en el derecho penal, ya que ambos reciben exactamente la misma sanción",
+              "correcta": false
+            }
+          ],
+          "explicacion": "La distinción radica en la gravedad de la conducta y la magnitud de la pena: los delitos son infracciones graves contra el orden público, mientras que las faltas son conductas de menor gravedad sancionadas con penas más leves."
+        }
+      ]
+    }
+  ]
+}
