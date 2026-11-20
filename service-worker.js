@@ -1,4 +1,4 @@
-const CACHE_NAME = 'learncpnb-v148';
+const CACHE_NAME = 'learncpnb-v149';
 const APP_SHELL = [
   'index.html?v=133',
   'page/news.html?v=103',
@@ -10,10 +10,11 @@ const APP_SHELL = [
   'page/actas.html',
   'page/minuta.html',
   'file/terminos-app.html',
+  'file/gacetas/ley_index.json',
+  'file/funcion/fuc_index.json',
+  'file/guias/guia_index.json',
+  'file/news/new_index.json',
   'assets/document.svg',
-  'assets/app-preview-news.png',
-  'assets/app-preview-laws.png',
-  'assets/app-preview-function.png',
   'assets/cpnb-emblem.png',
   'assets/apk1.mp4',
   'assets/apk2.mp4',
@@ -35,7 +36,18 @@ const APP_SHELL = [
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_SHELL))
+      .then(async cache => {
+        await Promise.all(APP_SHELL.map(async resource => {
+          try {
+            const response = await fetch(resource, { cache: 'no-store' });
+            if (response.ok) {
+              await cache.put(resource, response);
+            }
+          } catch (error) {
+            console.warn(`No se pudo guardar en caché ${resource}.`, error);
+          }
+        }));
+      })
       .then(() => self.skipWaiting())
   );
 });

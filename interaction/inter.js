@@ -684,6 +684,36 @@ function renderPromoCatalog(promotions) {
 async function fetchNumberedJson(folder, prefix, validate) {
   const entries = [];
 
+  const indexResponse = await fetch(`${folder}/${prefix}_index.json`, { cache: 'no-store' });
+  if (indexResponse.ok) {
+    let index;
+    try {
+      index = await indexResponse.json();
+    } catch (error) {
+      throw new Error(`El índice ${folder}/${prefix}_index.json no contiene JSON válido.`, { cause: error });
+    }
+    if (
+      !index ||
+      !Array.isArray(index.ids) ||
+      index.ids.some(number => !Number.isSafeInteger(number) || number < 1 || number > 999) ||
+      new Set(index.ids).size !== index.ids.length
+    ) {
+      throw new Error(`El índice ${folder}/${prefix}_index.json no contiene una lista válida de identificadores.`);
+    }
+
+    for (const number of [...index.ids].sort((first, second) => first - second)) {
+      const filename = `${prefix}_${String(number).padStart(2, '0')}.json`;
+      const response = await fetch(`${folder}/${filename}`);
+      if (!response.ok) {
+        throw new Error(`No se pudo cargar ${folder}/${filename} (${response.status}).`);
+      }
+      const entry = await response.json();
+      validate(entry, number);
+      entries.push(entry);
+    }
+    return entries;
+  }
+
   for (let number = 1; number <= 999; number += 1) {
     const filename = `${prefix}_${String(number).padStart(2, '0')}.json`;
     const response = await fetch(`${folder}/${filename}`);
@@ -2004,7 +2034,26 @@ async function loadGuides() {
   guideLinks.replaceChildren();
   let guideCount = 0;
 
-  for (let index = 1; ; index += 1) {
+  let guideIds = [];
+  try {
+    const indexResponse = await fetch('file/guias/guia_index.json', { cache: 'no-store' });
+    if (indexResponse.ok) {
+      const index = await indexResponse.json();
+      if (
+        index &&
+        Array.isArray(index.ids) &&
+        index.ids.every(id => Number.isSafeInteger(id) && id >= 1 && id <= 999) &&
+        new Set(index.ids).size === index.ids.length
+      ) {
+        guideIds = [...index.ids].sort((first, second) => first - second);
+      }
+    }
+  } catch (error) {
+    console.error('No se pudo cargar el índice de guías.', error);
+  }
+
+  if (guideIds.length === 0) {
+    for (let index = 1; ; index += 1) {
     const filename = `file/guias/guia_${String(index).padStart(2, '0')}.json`;
     let response;
     try {
@@ -2084,6 +2133,67 @@ async function loadGuides() {
     link.append(title, downloadIcon);
     guideLinks.appendChild(link);
     guideCount += 1;
+    }
+  } else {
+    for (const index of guideIds) {
+      const filename = `file/guias/guia_${String(index).padStart(2, '0')}.json`;
+      const response = await fetch(filename, { cache: 'no-cache' });
+      if (!response.ok) {
+        console.error(`No se pudo cargar ${filename}: HTTP ${response.status}.`);
+        guideLinks.textContent = 'No se pudieron cargar las guías.';
+        return;
+      }
+      const guide = await response.json();
+      if (
+        !guide ||
+        typeof guide !== 'object' ||
+        Array.isArray(guide) ||
+        typeof guide.titulo !== 'string' ||
+        typeof guide.enlace !== 'string' ||
+        (!guide.titulo.trim() && !guide.enlace.trim())
+      ) {
+        continue;
+      }
+      if (!guide.titulo.trim() || !guide.enlace.trim()) {
+        console.error(`${filename} debe incluir "titulo" y "enlace".`);
+        guideLinks.textContent = `Completa "titulo" y "enlace" en ${filename}.`;
+        return;
+      }
+      let url;
+      try {
+        url = new URL(guide.enlace, document.baseURI);
+      } catch (error) {
+        console.error(`${filename} contiene un enlace inválido.`, error);
+        guideLinks.textContent = `Revisa el enlace en ${filename}.`;
+        return;
+      }
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        console.error(`${filename} debe usar un enlace HTTP o HTTPS.`);
+        guideLinks.textContent = `Revisa el enlace en ${filename}.`;
+        return;
+      }
+      const link = document.createElement('a');
+      link.className = 'guides-dialog-item';
+      link.href = url.href;
+      link.setAttribute('rel', 'noopener noreferrer');
+      if (url.origin === window.location.origin) {
+        const downloadFilename = url.pathname.split('/').pop() || 'guia.pdf';
+        link.setAttribute('download', downloadFilename);
+      } else {
+        link.target = '_blank';
+      }
+      const title = document.createElement('span');
+      title.className = 'guides-dialog-item-title';
+      title.textContent = guide.titulo.trim();
+      const downloadIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      downloadIcon.setAttribute('viewBox', '0 0 24 24');
+      downloadIcon.setAttribute('aria-hidden', 'true');
+      downloadIcon.setAttribute('focusable', 'false');
+      downloadIcon.innerHTML = '<path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"></path>';
+      link.append(title, downloadIcon);
+      guideLinks.appendChild(link);
+      guideCount += 1;
+    }
   }
 
   if (guideCount === 0) {
