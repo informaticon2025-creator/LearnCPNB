@@ -1,0 +1,178 @@
+{
+  "tipo": "documento",
+  "num": "05",
+  "titulo": "Reglamento Disciplinario de la Función Policial",
+  "descripcion": "Síntesis deduplicada del régimen disciplinario policial: principios, medidas, procedimiento y sanciones.",
+  "categoria": [
+    {
+      "nombre": "DISPOSICIONES GENERALES",
+      "subcategorias": [
+        {
+          "nombre": "Objeto y principios",
+          "articulos": [
+            {
+              "numART": "1",
+              "tituloART": "Objeto del Reglamento",
+              "parrafoART": "Desarrolla las normas rectoras del régimen disciplinario contenido en el Decreto con Rango, Valor y Fuerza de Ley del Estatuto de la Función Policial y se aplica a los funcionarios y funcionarias policiales activos de los cuerpos de policía."
+            },
+            {
+              "numART": "2",
+              "tituloART": "Principios rectores",
+              "parrafoART": "El régimen disciplinario se orienta por los principios de legalidad, debido proceso, función correctiva, orden, disciplina, honestidad, transparencia, oralidad, eficiencia e inmediación."
+            },
+            {
+              "numART": "3",
+              "tituloART": "Autoridad y falta disciplinaria",
+              "parrafoART": "La autoridad disciplinaria es quien tiene capacidad legal para corregir faltas mediante medidas individuales o colectivas. Una falta disciplinaria es toda conducta tipificada en la ley con una consecuencia jurídica determinada."
+            }
+          ]
+        },
+        {
+          "nombre": "Derechos en el procedimiento",
+          "articulos": [
+            {
+              "numART": "4",
+              "tituloART": "Derechos del investigado",
+              "parrafoART": "El funcionario o funcionaria tiene derecho a ser notificado de los hechos, formular alegatos y defensa, solicitar ser oído, ofrecer pruebas conducentes, acceder a las pruebas de cargo, examinar las diligencias, impugnar decisiones y designar un defensor o defensora."
+            },
+            {
+              "numART": "5",
+              "tituloART": "Responsabilidad por atribuciones",
+              "parrafoART": "Las autoridades y sujetos del Sistema Disciplinario Policial responden penal, civil, administrativa y disciplinariamente por el ejercicio de sus atribuciones y el cumplimiento de sus funciones."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "ÓRGANOS E INSTANCIAS",
+      "subcategorias": [
+        {
+          "nombre": "Autoridades competentes",
+          "articulos": [
+            {
+              "numART": "6",
+              "tituloART": "Órgano Rector",
+              "parrafoART": "El Órgano Rector dirige y supervisa la disciplina de los cuerpos de policía. Puede avocar una causa de manera directa y excepcional cuando la autoridad correspondiente omita, obstaculice o retrase el procedimiento."
+            },
+            {
+              "numART": "7",
+              "tituloART": "Consejo Disciplinario de Policía",
+              "parrafoART": "Conoce los procedimientos de destitución y se constituye válidamente con tres miembros principales. Las decisiones se aprueban por mayoría y sus sesiones deben quedar documentadas en actas."
+            },
+            {
+              "numART": "8",
+              "tituloART": "Inspectoría y Oficina de Investigación",
+              "parrafoART": "La Inspectoría controla la actuación policial y dirige averiguaciones graves. La Oficina de Investigación de las Desviaciones Policiales ejecuta diligencias e incorpora las resultas al expediente."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "REGLAS DE PROCEDIMIENTO",
+      "subcategorias": [
+        {
+          "nombre": "Prescripción y acumulación",
+          "articulos": [
+            {
+              "numART": "9",
+              "tituloART": "Prescripción",
+              "parrafoART": "Las faltas graves prescriben a los ocho meses y las faltas más leves, leves y menos graves a los seis meses. El lapso comienza desde que se tuvo conocimiento del hecho y no se inició el procedimiento. Se interrumpe con la notificación al investigado."
+            },
+            {
+              "numART": "10",
+              "tituloART": "Concurso de faltas",
+              "parrafoART": "Las faltas idénticas se acumulan para decidir un solo procedimiento. Si las medidas son distintas, prevalece el criterio de la relación entre los hechos y la falta de mayor gravedad."
+            },
+            {
+              "numART": "11",
+              "tituloART": "Graduación",
+              "parrafoART": "Para graduar una falta se consideran la proporcionalidad, la razonabilidad y la adecuación entre la intención del funcionario y la entidad de la medida, además de las circunstancias atenuantes y agravantes."
+            }
+          ]
+        },
+        {
+          "nombre": "Medidas correctivas",
+          "articulos": [
+            {
+              "numART": "12",
+              "tituloART": "Llamado de Atención",
+              "parrafoART": "Lo aplica de inmediato el supervisor directo ante una falta más leve. Debe oír al funcionario, explicar la afectación al servicio y dejar constancia escrita dentro de las veinticuatro horas siguientes."
+            },
+            {
+              "numART": "13",
+              "tituloART": "Asistencia Voluntaria",
+              "parrafoART": "Se aplica ante faltas leves mediante procedimiento iniciado por el supervisor inmediato. Incluye notificación, verificación, audiencia oral y decisión inmediata, con un programa de supervisión correctiva de hasta ocho horas."
+            },
+            {
+              "numART": "14",
+              "tituloART": "Asistencia Obligatoria",
+              "parrafoART": "Se aplica ante faltas menos graves por iniciativa de la Inspectoría. Comprende notificación, verificación, audiencia oral y decisión inmediata, con un programa intensivo de supervisión correctiva."
+            },
+            {
+              "numART": "15",
+              "tituloART": "Medidas cautelares",
+              "parrafoART": "Además de las medidas taxativas, el Órgano Rector, el Director del cuerpo o la Inspectoría pueden imponer medidas cautelares innominadas para resguardar los intereses institucionales, respetando proporcionalidad y racionalidad."
+            }
+          ]
+        },
+        {
+          "nombre": "Averiguación e investigación",
+          "articulos": [
+            {
+              "numART": "16",
+              "tituloART": "Inicio de la averiguación",
+              "parrafoART": "Ante una presunta falta grave, la Inspectoría abre la averiguación mediante auto motivado a solicitud del supervisor inmediato, por denuncia escrita o de oficio."
+            },
+            {
+              "numART": "17",
+              "tituloART": "Diligencias investigativas",
+              "parrafoART": "La Oficina de Investigación realiza las diligencias necesarias para determinar indicios, asegura los elementos objetivos relacionados con el hecho y remite sus actuaciones a la Inspectoría para continuar la instrucción."
+            },
+            {
+              "numART": "18",
+              "tituloART": "Plena prueba",
+              "parrafoART": "Existe plena prueba cuando las diligencias acreditan completamente la veracidad del hecho irregular, sin duda razonable y con suficiente instrucción del expediente."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "IMPARCIALIDAD Y SANCIONES",
+      "subcategorias": [
+        {
+          "nombre": "Inhibición y recusación",
+          "articulos": [
+            {
+              "numART": "19",
+              "tituloART": "Causales de inhibición",
+              "parrafoART": "Procede inhibición o recusación por parentesco, amistad o enemistad manifiesta, interés directo en el resultado, comunicaciones indebidas sobre el asunto, opinión previa o cualquier causa grave que afecte la imparcialidad."
+            },
+            {
+              "numART": "20",
+              "tituloART": "Trámite y continuidad",
+              "parrafoART": "La inhibición o recusación se presenta por escrito ante la autoridad correspondiente. Si no procede, el funcionario continúa conociendo el asunto y la solicitud no suspende automáticamente el procedimiento."
+            }
+          ]
+        },
+        {
+          "nombre": "Destitución",
+          "articulos": [
+            {
+              "numART": "21",
+              "tituloART": "Ejecución de la destitución",
+              "parrafoART": "Cuando el Consejo declara procedente la destitución, el Director o Directora dispone el retiro inmediato y asegura la entrega del servicio, credencial, arma orgánica, uniforme y demás dotación."
+            },
+            {
+              "numART": "22",
+              "tituloART": "Efectos personales",
+              "parrafoART": "La destitución conlleva el retiro del funcionario o funcionaria del Sistema Integrado de Policía y exige actualizar su expediente personal y gestionar la liquidación laboral correspondiente."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "titulo": "Prescripción y Concurso de Faltas",
+  "descripcion": "Lapsos de prescripción, acumulación y graduación",
+  "categoria": "Régimen disciplinario policial",
+  "fecha": "20/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 29,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Las faltas graves prescriben a los ocho meses y las faltas más leves, leves y menos graves a los seis meses, contados desde que se conoció el hecho y no se inició el procedimiento. La prescripción se interrumpe al notificar al investigado. Varias faltas se acumulan según sean de igual o distinta medida, prevaleciendo la mayor gravedad."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Calcula los efectos disciplinarios",
+      "preguntas": [
+        {
+          "pregunta": "¿Cuándo se interrumpe la prescripción disciplinaria?",
+          "opciones": [
+            {"texto": "Al registrar una novedad informal", "correcta": false},
+            {"texto": "Al notificarse al funcionario investigado", "correcta": true},
+            {"texto": "Al vencerse el turno", "correcta": false},
+            {"texto": "Solo al dictarse una sanción", "correcta": false}
+          ],
+          "explicacion": "El artículo 37 establece que la prescripción se interrumpe con la notificación al investigado."
+        },
+        {
+          "pregunta": "¿Qué criterio prevalece si faltas distintas se acumulan?",
+          "opciones": [
+            {"texto": "La fecha más antigua", "correcta": false},
+            {"texto": "La cantidad de denuncias", "correcta": false},
+            {"texto": "La falta de mayor gravedad", "correcta": true},
+            {"texto": "La jerarquía del denunciante", "correcta": false}
+          ],
+          "explicacion": "Cuando las faltas merecen medidas distintas se acumulan atendiendo a la relación entre los hechos y prevalece la falta de mayor gravedad."
+        }
+      ]
+    }
+  ]
+}

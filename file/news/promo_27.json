@@ -1,0 +1,41 @@
+{
+  "titulo": "Principios y Derechos Disciplinarios",
+  "descripcion": "Legitimidad, defensa y garantías del procedimiento policial",
+  "categoria": "Régimen disciplinario policial",
+  "fecha": "20/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 28,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "El régimen disciplinario policial debe aplicarse con legalidad, debido proceso, función correctiva, transparencia, oralidad, eficiencia e inmediación. El funcionario investigado tiene derecho a ser notificado, formular defensa, ofrecer y conocer pruebas, examinar las diligencias, impugnar decisiones y designar defensor."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Aplica las garantías disciplinarias",
+      "preguntas": [
+        {
+          "pregunta": "¿Cuál es el principio que exige decidir conforme a la ley, sin actuaciones arbitrarias?",
+          "opciones": [
+            {"texto": "Oralidad", "correcta": false},
+            {"texto": "Legalidad", "correcta": true},
+            {"texto": "Avocación", "correcta": false},
+            {"texto": "Foliatura", "correcta": false}
+          ],
+          "explicacion": "El principio de legalidad exige apegar el procedimiento y la sanción a las normas aplicables."
+        },
+        {
+          "pregunta": "¿Qué derecho permite al funcionario conocer las pruebas existentes en su contra?",
+          "opciones": [
+            {"texto": "Acceder a las pruebas", "correcta": true},
+            {"texto": "Suspender el expediente", "correcta": false},
+            {"texto": "Recusar sin motivos", "correcta": false},
+            {"texto": "Omitir la defensa", "correcta": false}
+          ],
+          "explicacion": "El acceso a las pruebas es una garantía expresamente reconocida en el artículo 41 del Reglamento."
+        }
+      ]
+    }
+  ]
+}

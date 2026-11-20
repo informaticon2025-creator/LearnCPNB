@@ -1,0 +1,41 @@
+{
+  "titulo": "Averiguación Disciplinaria",
+  "descripcion": "Inicio, diligencias e instrucción del expediente",
+  "categoria": "Régimen disciplinario policial",
+  "fecha": "20/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 31,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Una averiguación disciplinaria se abre mediante auto motivado ante una presunta falta grave. La Oficina de Investigación de las Desviaciones Policiales practica diligencias para determinar indicios, conserva elementos objetivos y remite sus actuaciones a la Inspectoría para continuar la instrucción del expediente."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Comprende la averiguación",
+      "preguntas": [
+        {
+          "pregunta": "¿Qué acto permite el inicio formal de una averiguación por falta grave?",
+          "opciones": [
+            {"texto": "Un llamado telefónico informal", "correcta": false},
+            {"texto": "Un auto motivado de apertura", "correcta": true},
+            {"texto": "Una asistencia voluntaria", "correcta": false},
+            {"texto": "Una decisión final sin investigación", "correcta": false}
+          ],
+          "explicacion": "La apertura exige un auto motivado dictado por la Inspectoría ante una presunta falta grave."
+        },
+        {
+          "pregunta": "¿Qué debe hacer la Oficina de Investigación al concluir sus actuaciones?",
+          "opciones": [
+            {"texto": "Dictar la sanción definitiva", "correcta": false},
+            {"texto": "Remitirlas a la Inspectoría para instruir el expediente", "correcta": true},
+            {"texto": "Archivarlas sin registro", "correcta": false},
+            {"texto": "Notificarlas únicamente al denunciante", "correcta": false}
+          ],
+          "explicacion": "Las actuaciones culminadas se remiten a la Inspectoría, que continúa la instrucción del expediente."
+        }
+      ]
+    }
+  ]
+}

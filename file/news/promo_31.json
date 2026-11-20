@@ -1,0 +1,41 @@
+{
+  "titulo": "Recusación, Inhibición y Destitución",
+  "descripcion": "Imparcialidad, sustitución y ejecución de la sanción",
+  "categoria": "Régimen disciplinario policial",
+  "fecha": "20/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": null,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "Los integrantes de instancias disciplinarias deben inhibirse ante parentesco, amistad o enemistad manifiesta, interés directo, comunicación indebida, opinión previa o cualquier causa grave que afecte su imparcialidad. La recusación se tramita por escrito y no suspende automáticamente el procedimiento. Si la destitución es procedente, se ordena el retiro inmediato y la entrega de credencial, arma orgánica, uniforme y dotación."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Protege la imparcialidad y ejecuta la decisión",
+      "preguntas": [
+        {
+          "pregunta": "¿Qué debe hacer un integrante ante una causal de inhibición?",
+          "opciones": [
+            {"texto": "Esperar la recusación", "correcta": false},
+            {"texto": "Inhibirse sin esperar recusación", "correcta": true},
+            {"texto": "Modificar el expediente", "correcta": false},
+            {"texto": "Delegar la decisión al denunciante", "correcta": false}
+          ],
+          "explicacion": "El artículo 66 obliga a inhibirse directamente cuando concurra una causal aplicable."
+        },
+        {
+          "pregunta": "¿Qué consecuencia inmediata produce una destitución procedente?",
+          "opciones": [
+            {"texto": "El retiro inmediato y entrega de dotación", "correcta": true},
+            {"texto": "Solo una advertencia verbal", "correcta": false},
+            {"texto": "Una nueva averiguación automática", "correcta": false},
+            {"texto": "El cambio a otro cargo sin registro", "correcta": false}
+          ],
+          "explicacion": "El reglamento ordena el retiro inmediato y la entrega de credencial, arma orgánica, uniforme y demás dotación."
+        }
+      ]
+    }
+  ]
+}

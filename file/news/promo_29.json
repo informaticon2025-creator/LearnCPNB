@@ -1,0 +1,41 @@
+{
+  "titulo": "Medidas Disciplinarias Correctivas",
+  "descripcion": "Diferencias entre llamado de atención y asistencias",
+  "categoria": "Régimen disciplinario policial",
+  "fecha": "20/11/2026",
+  "enlace": "page/promo.html",
+  "siguiente": 30,
+  "textoBoton": "Responder",
+  "contenido": [
+    {
+      "tipo": "texto",
+      "titulo": "El llamado de atención corresponde a faltas más leves y lo aplica de inmediato el supervisor directo, previa interpelación y decisión escrita dentro de las siguientes veinticuatro horas. La asistencia voluntaria corresponde a faltas leves y exige inicio, verificación, audiencia y decisión; la obligatoria corresponde a faltas menos graves y la inicia la Inspectoría."
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Identifica la medida correcta",
+      "preguntas": [
+        {
+          "pregunta": "¿Quién aplica el llamado de atención?",
+          "opciones": [
+            {"texto": "El supervisor o supervisora directo", "correcta": true},
+            {"texto": "El Consejo Disciplinario", "correcta": false},
+            {"texto": "La oficina de recursos humanos", "correcta": false},
+            {"texto": "Cualquier compañero de servicio", "correcta": false}
+          ],
+          "explicacion": "El supervisor directo verifica la falta más leve, escucha al funcionario y decide sobre el llamado de atención."
+        },
+        {
+          "pregunta": "¿Qué autoridad inicia una asistencia obligatoria?",
+          "opciones": [
+            {"texto": "La Inspectoría para el Control de la Actuación Policial", "correcta": true},
+            {"texto": "El ciudadano denunciante", "correcta": false},
+            {"texto": "El supervisor directo únicamente", "correcta": false},
+            {"texto": "El secretario del Consejo", "correcta": false}
+          ],
+          "explicacion": "Para faltas menos graves, la Inspectoría inicia el procedimiento de asistencia obligatoria."
+        }
+      ]
+    }
+  ]
+}
