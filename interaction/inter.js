@@ -1988,12 +1988,40 @@ const promoCatalogOpen = document.getElementById('promoCatalogOpen');
 const functionMaterialOpen = document.getElementById('functionMaterialOpen');
 const promoCatalogView = document.getElementById('promoCatalogView');
 const functionMaterialSection = document.getElementById('functionMaterialSection');
+const functionPanelAnimations = new WeakMap();
+
+function setFunctionPanelVisibility(panel, visible) {
+  const activeAnimation = functionPanelAnimations.get(panel);
+  if (activeAnimation) {
+    activeAnimation.cancel();
+    functionPanelAnimations.delete(panel);
+  }
+
+  panel.hidden = !visible;
+  if (!visible) {
+    panel.style.removeProperty('overflow');
+    return;
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  panel.style.overflow = 'hidden';
+  const animation = panel.animate([
+    { height: '0px', opacity: 0, transform: 'translateY(-6px)' },
+    { height: `${panel.scrollHeight}px`, opacity: 1, transform: 'translateY(0)' }
+  ], { duration: 220, easing: 'ease-out' });
+  functionPanelAnimations.set(panel, animation);
+  animation.addEventListener('finish', () => {
+    if (functionPanelAnimations.get(panel) !== animation) return;
+    functionPanelAnimations.delete(panel);
+    panel.style.removeProperty('overflow');
+  }, { once: true });
+}
 
 function showFunctionPanel(panel) {
   const showPromos = panel === 'promos';
   const showMaterial = panel === 'material';
-  promoCatalogView.hidden = !showPromos;
-  functionMaterialSection.hidden = !showMaterial;
+  setFunctionPanelVisibility(promoCatalogView, showPromos);
+  setFunctionPanelVisibility(functionMaterialSection, showMaterial);
   promoCatalogOpen.setAttribute('aria-expanded', String(showPromos));
   functionMaterialOpen.setAttribute('aria-expanded', String(showMaterial));
 }
@@ -2019,6 +2047,8 @@ function openPromoCatalog() {
   loadPromoCatalog();
   document.getElementById('promoCatalogHeading').focus();
 }
+
+showFunctionPanel(null);
 
 promoCatalogOpen.addEventListener('click', () => {
   if (currentPage !== 'function') openPromoCatalog();
