@@ -2242,75 +2242,72 @@ body.function-view-active .learning-progress {
   line-height: 1.45;
 }
 
+.practice-comments-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(11, 31, 75, 0.48);
+  backdrop-filter: blur(5px);
+  animation: promo-feedback-appear 180ms ease-out both;
+}
+
 .practice-comments {
   display: grid;
-  gap: 12px;
-  width: 100%;
-  margin-top: 8px;
-  padding: 20px;
-  border: 2px solid #dce7f4;
-  border-bottom-width: 5px;
+  position: relative;
+  gap: 16px;
+  width: min(420px, 100%);
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 22px;
   background: #ffffff;
-  box-shadow: 0 10px 24px rgba(25, 53, 89, 0.08);
+  box-shadow: 0 24px 70px rgba(8, 24, 48, 0.28);
+  text-align: center;
+  animation: promo-feedback-pop 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .practice-comments-title {
   color: var(--accent-color);
-  font-size: 1.08rem;
+  font-size: clamp(1.15rem, 5vw, 1.35rem);
 }
 
-.practice-comments-description,
-.practice-comments-status,
-.practice-comments-empty {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
+.practice-comments-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #eef4fb;
+  color: var(--text-main);
+  font: inherit;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
 }
 
-.practice-comments-list,
 .practice-comments-form {
   display: grid;
-  gap: 10px;
-}
-
-.practice-comment,
-.practice-comments-empty {
-  padding: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  background: #f8fbff;
-}
-
-.practice-comment-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  color: var(--accent-color);
-}
-
-.practice-comment-header time {
-  color: var(--text-muted);
-  font-size: 0.78rem;
-}
-
-.practice-comment-text {
-  margin-top: 6px;
-  line-height: 1.55;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
+  gap: 12px;
+  text-align: left;
 }
 
 .practice-comment-field {
   display: grid;
-  gap: 6px;
+  gap: 8px;
   color: var(--text-main);
   font-weight: 700;
+  line-height: 1.45;
 }
 
 .practice-comment-input {
   width: 100%;
-  padding: 11px 12px;
+  padding: 12px;
   border: 2px solid #dce7f4;
   border-radius: 12px;
   background: #ffffff;
@@ -2324,31 +2321,53 @@ body.function-view-active .learning-progress {
 }
 
 .practice-comment-textarea {
+  min-height: 120px;
   resize: vertical;
 }
 
+.practice-comments-status {
+  min-height: 1.5em;
+  color: #a33b2f;
+  font-size: 0.88rem;
+}
+
 .practice-comment-submit {
-  display: grid;
-  width: 48px;
-  height: 48px;
-  place-items: center;
-  justify-self: end;
+  min-height: 44px;
   border: 0;
-  border-radius: 50%;
+  border-radius: 12px;
   background: var(--accent-color);
   color: #ffffff;
+  font: inherit;
+  font-weight: 800;
   cursor: pointer;
   box-shadow: 0 8px 18px rgba(18, 59, 112, 0.18);
 }
 
-.practice-comment-submit svg {
-  width: 21px;
-  height: 21px;
+.practice-comments-success-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto;
+  padding: 11px;
+  border: 7px solid #e4f5eb;
+  border-radius: 50%;
+  background: #21834f;
   fill: none;
-  stroke: currentColor;
+  stroke: #ffffff;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.8;
+  stroke-width: 2.5;
+}
+
+.practice-comments-success-title {
+  color: #176b3a;
+  font-size: clamp(1.25rem, 5vw, 1.45rem);
+  font-weight: 800;
+}
+
+.practice-comments-success-text {
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .section-menu {
