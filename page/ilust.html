@@ -844,7 +844,9 @@
       }
 
       .presentation-box {
-        padding: clamp(14px, 4vw, 22px);
+        align-items: center;
+        overflow: hidden;
+        padding: clamp(14px, 4vw, 22px) clamp(10px, 3vw, 18px) calc(58px + env(safe-area-inset-bottom));
         border-radius: 22px;
       }
 
@@ -855,7 +857,8 @@
 
       .phone-frame {
         width: clamp(126px, 34vw, 190px);
-        height: clamp(250px, 54vh, 390px);
+        height: auto;
+        aspect-ratio: 248 / 472;
         padding: 7px;
         border-radius: 28px;
       }
@@ -885,6 +888,12 @@
       .accent-info-card {
         padding: 10px 11px;
       }
+
+      .presentation-download-button {
+        min-height: 40px;
+        padding: 9px 16px;
+        white-space: nowrap;
+      }
     }
 
     @media (max-width: 380px) {
@@ -894,7 +903,8 @@
 
       .phone-frame {
         width: 116px;
-        height: clamp(230px, 48vh, 300px);
+        height: auto;
+        aspect-ratio: 248 / 472;
       }
     }
 

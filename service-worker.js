@@ -1,4 +1,4 @@
-const CACHE_NAME = 'learncpnb-v145';
+const CACHE_NAME = 'learncpnb-v148';
 const APP_SHELL = [
   'index.html?v=133',
   'page/news.html?v=103',
