@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="../">
+  <title>LearnCPNB — Presentación Maestra</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* ========================================================================
+       ESTILOS Y VARIABLES INSTITUCIONALES BASADOS EN css.css (LearnCPNB)
+       ======================================================================== */
+    :root {
+      font-size: var(--app-font-size, 16px);
+      --bg-color: #f1f5fb;
+      --card-bg: #ffffff;
+      --accent-color: #123b70;
+      --accent-hover: #245c9e;
+      --accent-gold: #c59a48;
+      --text-main: #1c2a3d;
+      --text-muted: #63748a;
+      --border-color: #dce5f0;
+      --badge-bg: #e8f1fc;
+    }
+
+    html.color-inverted {
+      --bg-color: #0b1f4b;
+      --card-bg: #123b70;
+      --accent-color: #ffffff;
+      --accent-hover: #dce7f5;
+      --accent-gold: #f2cf79;
+      --text-main: #ffffff;
+      --text-muted: #dce7f5;
+      --border-color: rgba(255, 255, 255, 0.24);
+      --badge-bg: rgba(255, 255, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse at 50% 0, rgba(220, 233, 250, 0.72), transparent 38rem),
+        var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      transition: background-color 240ms ease, color 240ms ease;
+    }
+
+    html.color-inverted body {
+      background:
+        radial-gradient(ellipse at 50% 0, rgba(36, 92, 158, 0.35), transparent 38rem),
+        #0b1f4b;
+    }
+
+    /* Encabezado superior estilo .site-header */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 110;
+      width: 100%;
+      max-width: 960px;
+      min-height: 62px;
+      padding: 8px 14px;
+      background: var(--card-bg);
+      border: 1px solid rgba(220, 229, 240, 0.9);
+      border-top: 0;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 8px 24px rgba(25, 53, 89, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    html.color-inverted .site-header {
+      border-color: rgba(255, 255, 255, 0.24);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    }
+
+    .icon-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 38px;
+      padding: 6px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      background: #edf2f8;
+      color: var(--accent-color);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    html.color-inverted .icon-button {
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+    }
+
+    .icon-button:hover,
+    .icon-button:focus-visible {
+      background: var(--badge-bg);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    /* Contenedor principal de la presentación por clic */
+    .app-main {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      max-width: 1220px;
+      flex: 1;
+      min-height: calc(100dvh - 28px);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .app-main::before,
+    .app-main::after {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+      width: min(86vw, 1080px);
+      height: min(72dvh, 720px);
+      border: 1px solid rgba(18, 59, 112, 0.13);
+      border-radius: 42px;
+      content: "";
+      pointer-events: none;
+      animation: floatingFrameOne 16s ease-in-out infinite;
+    }
+
+    .app-main::after {
+      width: min(78vw, 980px);
+      height: min(64dvh, 640px);
+      border-color: rgba(197, 154, 72, 0.2);
+      border-radius: 54px;
+      animation: floatingFrameTwo 20s ease-in-out infinite;
+    }
+
+    @keyframes floatingFrameOne {
+      0%,
+      100% {
+        transform: translate(-50%, -50%) rotate(-1.5deg) scale(0.98);
+      }
+
+      50% {
+        transform: translate(calc(-50% + 12px), calc(-50% - 8px)) rotate(1.5deg) scale(1.02);
+      }
+    }
+
+    @keyframes floatingFrameTwo {
+      0%,
+      100% {
+        transform: translate(-50%, -50%) rotate(1.5deg) scale(1.02);
+      }
+
+      50% {
+        transform: translate(calc(-50% - 10px), calc(-50% + 9px)) rotate(-1.5deg) scale(0.98);
+      }
+    }
+
+    .phone-cover-panel {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #ffffff;
+    }
+
+    .phone-cover-panel img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .phone-screen {
+      position: relative;
+    }
+
+    .phone-screen.is-presentation-slide > .phone-screen-topbar,
+    .phone-screen.is-presentation-slide > .phone-screen-footer {
+      display: none !important;
+    }
+
+    .phone-gesture {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      overflow: hidden;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .phone-gesture-hand {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: clamp(48px, 24%, 68px);
+      height: auto;
+      overflow: visible;
+      opacity: 0;
+      filter: drop-shadow(0 5px 5px rgba(11, 31, 75, 0.26));
+      transform: translate(-50%, -42%);
+    }
+
+    .phone-gesture-ripple {
+      position: absolute;
+      top: 42%;
+      left: 50%;
+      width: 22px;
+      aspect-ratio: 1;
+      border: 2px solid rgba(197, 154, 72, 0.95);
+      border-radius: 50%;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.35);
+    }
+
+    .phone-gesture.is-active[data-gesture="tap"] .phone-gesture-hand {
+      animation: handTap 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .phone-gesture.is-active[data-gesture="tap"] .phone-gesture-ripple {
+      animation: tapRipple 1.35s ease-out both;
+    }
+
+    .phone-gesture.is-active[data-gesture="swipe-right"] .phone-gesture-hand {
+      animation: handSwipeRight 1.5s cubic-bezier(0.35, 0.05, 0.25, 1) both;
+    }
+
+    .phone-gesture.is-active[data-gesture="swipe-right"] .phone-gesture-ripple {
+      animation: rippleSwipeRight 1.5s ease-in-out both;
+    }
+
+    .phone-gesture.is-active[data-gesture="swipe-left"] .phone-gesture-hand {
+      animation: handSwipeLeft 1.5s cubic-bezier(0.35, 0.05, 0.25, 1) both;
+    }
+
+    .phone-gesture.is-active[data-gesture="swipe-left"] .phone-gesture-ripple {
+      animation: rippleSwipeLeft 1.5s ease-in-out both;
+    }
+
+    .phone-gesture.is-active[data-gesture="double-tap"] .phone-gesture-hand {
+      animation: handDoubleTap 1.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .phone-gesture.is-active[data-gesture="double-tap"] .phone-gesture-ripple {
+      animation: doubleTapRipple 1.7s ease-out both;
+    }
+
+    @keyframes handTap {
+      0% { opacity: 0; transform: translate(-50%, calc(-42% + 24px)) scale(1.05); }
+      20% { opacity: 1; transform: translate(-50%, -42%) scale(1); }
+      34% { transform: translate(-50%, calc(-42% + 9px)) scale(0.94); }
+      48% { transform: translate(-50%, -42%) scale(1); }
+      76% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, calc(-42% - 5px)) scale(0.98); }
+    }
+
+    @keyframes handSwipeRight {
+      0% { opacity: 0; transform: translate(calc(-50% - 62px), -42%) rotate(-7deg); }
+      16% { opacity: 1; }
+      24% { transform: translate(calc(-50% - 48px), -42%) rotate(0); }
+      76% { opacity: 1; }
+      100% { opacity: 0; transform: translate(calc(-50% + 64px), -42%) rotate(7deg); }
+    }
+
+    @keyframes handSwipeLeft {
+      0% { opacity: 0; transform: translate(calc(-50% + 62px), -42%) rotate(7deg); }
+      16% { opacity: 1; }
+      24% { transform: translate(calc(-50% + 48px), -42%) rotate(0); }
+      76% { opacity: 1; }
+      100% { opacity: 0; transform: translate(calc(-50% - 64px), -42%) rotate(-7deg); }
+    }
+
+    @keyframes handDoubleTap {
+      0%, 100% { opacity: 0; transform: translate(-50%, calc(-42% + 18px)) scale(1); }
+      12%, 42% { opacity: 1; transform: translate(-50%, -42%) scale(1); }
+      23%, 53% { opacity: 1; transform: translate(-50%, calc(-42% + 8px)) scale(0.94); }
+      31%, 62% { opacity: 1; transform: translate(-50%, -42%) scale(1); }
+      78% { opacity: 1; }
+    }
+
+    @keyframes tapRipple {
+      0%, 18% { opacity: 0; transform: translate(-50%, -50%) scale(0.35); }
+      30% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.65); }
+      52%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
+    }
+
+    @keyframes rippleSwipeRight {
+      0% { opacity: 0; transform: translate(calc(-50% - 62px), -50%) scale(0.45); }
+      18% { opacity: 0.85; }
+      78% { opacity: 0.75; transform: translate(calc(-50% + 62px), -50%) scale(0.75); }
+      100% { opacity: 0; transform: translate(calc(-50% + 72px), -50%) scale(1.15); }
+    }
+
+    @keyframes rippleSwipeLeft {
+      0% { opacity: 0; transform: translate(calc(-50% + 62px), -50%) scale(0.45); }
+      18% { opacity: 0.85; }
+      78% { opacity: 0.75; transform: translate(calc(-50% - 62px), -50%) scale(0.75); }
+      100% { opacity: 0; transform: translate(calc(-50% - 72px), -50%) scale(1.15); }
+    }
+
+    @keyframes doubleTapRipple {
+      0%, 10%, 40%, 70%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.35); }
+      22%, 52% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.7); }
+      34%, 64% { opacity: 0; transform: translate(-50%, -50%) scale(1.45); }
+    }
+
+    .phone-cover-panel.is-exiting {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex !important;
+      pointer-events: none;
+      animation: coverExit 800ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes coverExit {
+      from {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+
+      to {
+        opacity: 0;
+        transform: scale(0.88);
+        filter: blur(8px);
+      }
+    }
+
+    body.is-opening-cover .phone-cover-panel {
+      display: flex;
+    }
+
+    body.is-opening-cover .phone-screen > .flex,
+    body.is-opening-cover .phone-intro-copy,
+    body.is-opening-cover .phone-view-panel {
+      display: none !important;
+    }
+
+    .site-header,
+    body.is-opening-cover .site-header,
+    body.is-opening-cover .slide-controls,
+    body.is-opening-cover .bottom-nav {
+      display: none !important;
+    }
+
+    .presentation-box {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: clamp(18px, 4vw, 48px);
+      border: 1px solid rgba(220, 229, 240, 0.92);
+      border-radius: 28px;
+      background:
+        radial-gradient(ellipse at 18% 8%, rgba(197, 154, 72, 0.09), transparent 28rem),
+        linear-gradient(145deg, #ffffff 0%, #fbfdff 100%);
+      box-shadow: 0 28px 80px rgba(25, 53, 89, 0.14), 0 3px 12px rgba(25, 53, 89, 0.05);
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 350ms ease, box-shadow 500ms ease, background 350ms ease;
+    }
+
+    html.color-inverted .presentation-box {
+      border-color: rgba(255, 255, 255, 0.24);
+      background:
+        radial-gradient(ellipse at 18% 8%, rgba(197, 154, 72, 0.13), transparent 28rem),
+        linear-gradient(145deg, #123b70 0%, #0d2b52 100%);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+    }
+
+    /* Fila principal de cada diapositiva: teléfono + texto/círculos opuestos */
+    .slide-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      width: 100%;
+      gap: 24px;
+      align-items: center;
+      perspective: 1200px;
+    }
+
+    .slide-layout.is-intro {
+      display: flex;
+      justify-content: center;
+    }
+
+    .slide-layout.is-intro .info-column {
+      display: none;
+    }
+
+    .phone-intro-copy {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+      padding: 14px 10px;
+    }
+
+    .slide-layout.is-intro .phone-intro-copy {
+      display: flex;
+    }
+
+    .slide-layout.is-intro .phone-view-panel {
+      display: none;
+    }
+
+    .phone-intro-copy > * {
+      margin: 0 !important;
+    }
+
+    .phone-intro-copy .view-eyebrow {
+      font-size: clamp(0.52rem, 1.3vw, 0.68rem);
+      line-height: 1.45;
+    }
+
+    .phone-intro-copy .slide-heading-line {
+      color: #123b70 !important;
+      font-size: clamp(1.15rem, 2.8vw, 1.65rem);
+      line-height: 1.16;
+    }
+
+    .phone-intro-copy #slideDescription {
+      color: #465a72 !important;
+      font-size: clamp(0.74rem, 1.45vw, 0.92rem);
+      line-height: 1.55;
+    }
+
+    .slide-layout.is-intro .phone-frame {
+      width: min(260px, 68vw, calc((100dvh - 60px) * 0.525));
+      height: auto;
+      aspect-ratio: 248 / 472;
+      transition: width 850ms cubic-bezier(0.22, 1, 0.36, 1),
+        height 850ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 850ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 500ms ease;
+    }
+
+    .slide-layout.phone-on-left .info-column {
+      order: 2;
+    }
+
+    .slide-layout.phone-on-left .phone-column {
+      order: 1;
+    }
+
+    .slide-layout.is-transitioning .info-column {
+      animation: infoReveal 850ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+    }
+
+    .slide-layout.is-transitioning.is-copy-transitioning .info-column {
+      animation: none;
+    }
+
+    .slide-layout.is-transitioning .circle-box-item {
+      animation: moduleReveal 650ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+    }
+
+    .slide-layout.is-transitioning .circle-box-item:nth-child(2) {
+      animation-delay: 100ms;
+    }
+
+    .slide-layout.is-transitioning .circle-box-item:nth-child(3) {
+      animation-delay: 200ms;
+    }
+
+    .slide-layout.is-transitioning .slide-heading-line::after {
+      animation: underlineReveal 700ms cubic-bezier(0.2, 0.75, 0.25, 1) 250ms both;
+    }
+
+    @media (min-width: 768px) {
+      .slide-layout {
+        grid-template-columns: minmax(0, 1.15fr) minmax(270px, 0.85fr);
+        gap: 28px;
+      }
+
+    }
+
+    @keyframes infoReveal {
+      from {
+        opacity: 0;
+        transform: translate3d(calc(var(--slide-direction, 1) * 54px), 18px, 0) scale(0.985);
+        filter: blur(7px);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes moduleReveal {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.86);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes underlineReveal {
+      from {
+        transform: scaleX(0);
+        transform-origin: left center;
+      }
+      to {
+        transform: scaleX(1);
+        transform-origin: left center;
+      }
+    }
+
+    .view-eyebrow {
+      color: var(--accent-gold);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .slide-heading-line::after {
+      display: block;
+      width: 44px;
+      height: 3.5px;
+      margin-top: 8px;
+      border-radius: 3px;
+      background: var(--accent-gold);
+      content: "";
+      transform-origin: left center;
+    }
+
+    .accent-info-card {
+      padding: 14px 16px;
+      border-left: 0;
+      border-top: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      border-radius: 0 14px 14px 0;
+      background: var(--bg-color);
+    }
+
+    html.color-inverted .accent-info-card {
+      background: rgba(11, 31, 75, 0.5);
+    }
+
+    /* ========================================================================
+       3 CAJAS CIRCULARES (border-radius: 100%) CON <img src=""> VACÍOS
+       ======================================================================== */
+    .circle-boxes-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      justify-items: center;
+      padding-top: 6px;
+    }
+
+    .circle-box-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .circle-img-box {
+      width: 84px;
+      height: 84px;
+      border-radius: 100%;
+      border: 2.5px solid var(--accent-gold);
+      background: var(--bg-color);
+      box-shadow: 0 8px 20px rgba(18, 59, 112, 0.12);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (min-width: 640px) {
+      .circle-img-box {
+        width: 96px;
+        height: 96px;
+      }
+    }
+
+    .circle-img-box img {
+      width: 100%;
+      height: 100%;
+      border-radius: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Indicador discreto cuando src está vacío para que el usuario ubique fácilmente cada caja */
+    .circle-img-box img[src=""] {
+      opacity: 0;
+    }
+
+    .circle-box-fallback-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .circle-img-box img:not([src=""]) + .circle-box-fallback-label {
+      display: none;
+    }
+
+    .circle-boxes-row.is-hidden {
+      display: none;
+    }
+
+    .circle-box-item.is-active .circle-img-box {
+      border-color: #123b70;
+      background: #123b70;
+      box-shadow: 0 8px 20px rgba(18, 59, 112, 0.28);
+    }
+
+    .circle-box-item.is-active .circle-box-fallback-label,
+    .circle-box-item.is-active > span {
+      color: #123b70;
+    }
+
+    .circle-box-item.is-active .circle-box-fallback-label {
+      color: #ffffff;
+    }
+
+    /* ========================================================================
+       TELÉFONO LIMPIO (SIN MANOS) QUE CAMBIA DE POSICIÓN EN CADA CLIC
+       ======================================================================== */
+    .phone-column {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+    }
+
+    .presentation-download-button {
+      position: fixed;
+      bottom: max(10px, env(safe-area-inset-bottom));
+      left: 50%;
+      z-index: 120;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: #123b70;
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(18, 59, 112, 0.28);
+    }
+
+    body.is-opening-cover .presentation-download-button {
+      display: none;
+    }
+
+    .phone-frame {
+      width: 248px;
+      height: 472px;
+      padding: 9px;
+      border-radius: 36px;
+      background: linear-gradient(155deg, #0d2b52 0%, #123b70 55%, #091d3a 100%);
+      border: 2px solid rgba(197, 154, 72, 0.7);
+      box-shadow: 0 20px 44px rgba(11, 31, 75, 0.24);
+      transform: translateX(var(--phone-shift-x, 0px)) rotate(var(--phone-angle, 0deg));
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease;
+      will-change: transform;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 28px;
+      background:
+        radial-gradient(ellipse at 50% 0, rgba(220, 233, 250, 0.75), transparent 15rem),
+        #f1f5fb;
+      color: #1c2a3d;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      overflow: hidden;
+    }
+
+    .phone-screen.is-inverted {
+      background: #0b1f4b;
+      color: #ffffff;
+    }
+
+    .phone-view-panel {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      padding: 6px 2px;
+    }
+
+    .phone-view-panel.active {
+      display: flex;
+      animation: panelReveal 0.32s ease;
+    }
+
+    .phone-finale-panel {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(160deg, #ffffff 0%, #eef4fb 100%);
+    }
+
+    .phone-finale-logo {
+      width: 68%;
+      max-width: 240px;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: contain;
+      margin: 0 auto 12px;
+    }
+
+    .phone-finale-title {
+      color: #123b70;
+      font-size: clamp(20px, 7vw, 34px);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .phone-finale-subtitle {
+      color: #63748a;
+      font-size: clamp(11px, 3.5vw, 16px);
+      line-height: 1.35;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .phone-view-panel .phone-slide-image {
+      display: block;
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      border-radius: 14px;
+      object-fit: contain;
+    }
+
+    .phone-view-panel .phone-slide-image[src=""] {
+      visibility: hidden;
+    }
+
+    .phone-screen.is-presentation-slide {
+      padding: 0;
+    }
+
+    .phone-screen.is-presentation-slide .phone-view-panel.active {
+      position: absolute;
+      inset: 0;
+      padding: 0;
+      gap: 0;
+    }
+
+    .phone-screen.is-presentation-slide .phone-view-panel.active .phone-slide-image {
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      border-radius: 0;
+      object-fit: fill;
+    }
+
+    .phone-screen.is-presentation-slide .phone-view-panel.active .phone-slide-video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      object-fit: fill;
+    }
+
+    .phone-video-error {
+      position: absolute;
+      z-index: 2;
+      inset: 50% 12px auto;
+      transform: translateY(-50%);
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.96);
+      color: #8b1e1e;
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    @keyframes panelReveal {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (max-width: 767px) {
+      body {
+        padding: 10px;
+      }
+
+      .app-main {
+        min-height: calc(100dvh - 20px);
+      }
+
+      .presentation-box {
+        padding: clamp(14px, 4vw, 22px);
+        border-radius: 22px;
+      }
+
+      .slide-layout {
+        grid-template-columns: minmax(0, 1fr) minmax(126px, 0.56fr);
+        gap: clamp(8px, 2.5vw, 18px);
+      }
+
+      .phone-frame {
+        width: clamp(126px, 34vw, 190px);
+        height: clamp(250px, 54vh, 390px);
+        padding: 7px;
+        border-radius: 28px;
+      }
+
+      .phone-screen {
+        border-radius: 21px;
+        padding: 7px;
+      }
+
+      .circle-boxes-row {
+        gap: 5px;
+      }
+
+      .circle-img-box {
+        width: clamp(42px, 14vw, 66px);
+        height: clamp(42px, 14vw, 66px);
+      }
+
+      .circle-box-item {
+        gap: 3px;
+      }
+
+      .info-column {
+        gap: 0.7rem !important;
+      }
+
+      .accent-info-card {
+        padding: 10px 11px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .slide-layout {
+        grid-template-columns: minmax(0, 1fr) minmax(112px, 0.52fr);
+      }
+
+      .phone-frame {
+        width: 116px;
+        height: clamp(230px, 48vh, 300px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Barra inferior fija de navegación por clic estilo .bottom-nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: max(10px, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 110;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      width: min(960px, calc(100vw - 24px));
+      padding: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 18px;
+      background: var(--accent-color);
+      box-shadow: 0 12px 32px rgba(20, 42, 72, 0.18);
+    }
+
+    html.color-inverted .bottom-nav {
+      background: #ffffff;
+      border-color: rgba(18, 59, 112, 0.2);
+    }
+
+    .bottom-nav-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 6px 10px;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      color: #dce7f5;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 180ms ease, color 180ms ease;
+    }
+
+    html.color-inverted .bottom-nav-button {
+      color: #123b70;
+    }
+
+    .bottom-nav-button.active-pill {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+    }
+
+    html.color-inverted .bottom-nav-button.active-pill {
+      background: rgba(18, 59, 112, 0.12);
+      color: #123b70;
+    }
+
+    .bottom-nav-button:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    .bottom-nav-download {
+      display: flex;
+      text-decoration: none;
+      background: #c59a48;
+      color: #123b70;
+    }
+
+    html.color-inverted .bottom-nav-download {
+      background: #c59a48;
+      color: #123b70;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Contenedor principal -->
+  <main class="app-main">
+    <!-- Caja interactiva de diapositiva: un clic avanza al siguiente paso -->
+    <section id="slideStageCard" class="presentation-box" onclick="handleStageClick(event)" onkeydown="handleStageKeydown(event)" tabindex="0" role="button" aria-label="Avanzar a la siguiente diapositiva">
+      <div id="slideLayout" class="slide-layout">
+
+        <!-- COLUMNA DE INFORMACIÓN: TÍTULO, EXPLICACIÓN Y 3 CAJAS CIRCULARES -->
+        <div class="info-column space-y-4">
+          <div>
+            <p id="slideKicker" class="view-eyebrow">Aprende Funcionario</p>
+            <h1 id="slideTitle" class="slide-heading-line text-2xl sm:text-3xl font-bold" style="color: var(--accent-color);">
+              Aplicación LearnCPNB
+            </h1>
+          </div>
+
+          <p id="slideDescription" class="text-sm sm:text-base leading-relaxed" style="color: var(--text-muted);">
+            LearnCPNB reúne noticias, consultas legales y recursos de formación policial en una sola app.
+          </p>
+
+          <div class="accent-info-card space-y-1.5">
+            <p id="slideHighlightTitle" class="text-xs font-bold uppercase tracking-wider" style="color: var(--accent-color);">
+              Recursos en un solo lugar
+            </p>
+            <p id="slideHighlightText" class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-main);">
+              Explora actualidad, leyes y herramientas para repasar procedimientos y conocimientos policiales.
+            </p>
+          </div>
+
+          <!-- Apartados principales de la aplicación -->
+          <div class="circle-boxes-row">
+            <div class="circle-box-item" data-circle-index="1">
+              <div class="circle-img-box">
+                <img src="" alt="Sección de noticias" />
+                <span class="circle-box-fallback-label">N</span>
+              </div>
+              <span class="text-[11px] font-bold" style="color: var(--text-muted);">Noticias</span>
+            </div>
+
+            <div class="circle-box-item" data-circle-index="2">
+              <div class="circle-img-box">
+                <img src="" alt="Sección de leyes" />
+                <span class="circle-box-fallback-label">L</span>
+              </div>
+              <span class="text-[11px] font-bold" style="color: var(--text-muted);">Leyes</span>
+            </div>
+
+            <div class="circle-box-item" data-circle-index="3">
+              <div class="circle-img-box">
+                <img src="" alt="Sección de práctica policial" />
+                <span class="circle-box-fallback-label">P</span>
+              </div>
+              <span class="text-[11px] font-bold" style="color: var(--text-muted);">Práctica</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- COLUMNA DEL TELÉFONO LIMPIO (SIN MANOS) -->
+        <div class="phone-column">
+          <div id="phoneFrame" class="phone-frame">
+            <div id="phoneScreen" class="phone-screen">
+
+            <div id="phoneGesture" class="phone-gesture" aria-hidden="true">
+              <span class="phone-gesture-ripple"></span>
+              <img class="phone-gesture-hand" src="assets/mn.png" alt="" aria-hidden="true" />
+            </div>
+
+              <!-- Barra superior del teléfono -->
+              <div class="phone-screen-topbar flex items-center justify-between px-2 py-1 rounded-xl text-[10px] font-bold" style="background: rgba(18, 59, 112, 0.08);">
+                <span style="color: #123b70;">CPNB</span>
+                <span class="px-2 py-0.5 rounded-full text-white text-[9px]" style="background: #123b70;">LearnCPNB</span>
+                <span style="color: #c59a48;">●</span>
+              </div>
+
+              <div id="phoneIntroCopy" class="phone-intro-copy"></div>
+
+              <!-- Vista 1 dentro del teléfono: Inicio -->
+              <div class="phone-view-panel active" data-phone-panel="0">
+                <video id="introVideo" class="phone-slide-video" src="assets/apk1.mp4" muted playsinline preload="auto" aria-label="Presentación en video de LearnCPNB"></video>
+                <p id="introVideoError" class="phone-video-error" role="alert" hidden></p>
+              </div>
+
+              <!-- Vista 2 dentro del teléfono: Noticias -->
+              <div class="phone-view-panel" data-phone-panel="1">
+                <video id="newsVideo" class="phone-slide-video" src="assets/apk2.mp4" muted playsinline preload="auto" aria-label="Noticias y novedades en LearnCPNB"></video>
+                <p id="newsVideoError" class="phone-video-error" role="alert" hidden></p>
+              </div>
+
+              <!-- Vista 3 dentro del teléfono: Leyes -->
+              <div class="phone-view-panel" data-phone-panel="2">
+                <video id="lawsVideo" class="phone-slide-video" src="assets/apk3.mp4" muted playsinline preload="auto" aria-label="Leyes y artículos en LearnCPNB"></video>
+                <p id="lawsVideoError" class="phone-video-error" role="alert" hidden></p>
+              </div>
+
+              <!-- Vista 4 dentro del teléfono: Material y práctica -->
+              <div class="phone-view-panel" data-phone-panel="3">
+                <video id="materialVideo" class="phone-slide-video" src="assets/apk4.mp4" muted playsinline preload="auto" aria-label="Material y práctica policial en LearnCPNB"></video>
+                <p id="materialVideoError" class="phone-video-error" role="alert" hidden></p>
+              </div>
+
+              <!-- Vista 5 dentro del teléfono: Cierre -->
+              <div class="phone-view-panel phone-finale-panel" data-phone-panel="4">
+                <img class="phone-finale-logo" src="assets/cpnb-emblem.png" alt="Emblema LearnCPNB" />
+                <div>
+                  <h2 class="phone-finale-title">LearnPnb</h2>
+                  <p class="phone-finale-subtitle">Tu Aprendes Funcionario.</p>
+                </div>
+              </div>
+
+              <!-- Barra inferior interna del teléfono -->
+              <div class="phone-screen-footer px-2 py-1.5 rounded-xl bg-[#123b70] text-white flex justify-around text-[9px] font-bold">
+                <span id="phoneTabLabel">Inicio</span>
+                <span>·</span>
+                <span class="text-[#f2cf79]">CPNB</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <a id="btnDownload" href="file/dowload/LearnPNB.apk" download="LearnPNB.apk" class="presentation-download-button" aria-label="Descargar la aplicación LearnPNB">
+    Descargar APK
+  </a>
+
+  <script>
+    // ========================================================================
+    // DATOS DE CADA PASO (TRANSICIONES 100% POR CLIC, SIN TEMPORIZADORES)
+    // ========================================================================
+    const slideData = [
+      {
+        kicker: "LEARNPNB",
+        title: "Aplicación LearnCPNB",
+        description: "LearnCPNB reúne noticias, consultas legales y recursos de formación policial en una sola app.",
+        highlightTitle: "Recursos en un solo lugar",
+        highlightText: "Explora actualidad, leyes y herramientas para repasar procedimientos y conocimientos policiales.",
+        phoneTab: "Inicio",
+        phoneOnLeft: false,
+        shiftX: "0px",
+        angle: "0deg",
+        invertScreen: false
+      },
+      {
+        kicker: "LEARNPNB",
+        title: "Noticias y novedades",
+        description: "Consulta publicaciones recientes con imágenes y accede a su fuente para ampliar la información.",
+        highlightTitle: "Información a tu alcance",
+        highlightText: "Explora novedades desde la sección Inicio y encuentra rápidamente el contenido que buscas.",
+        phoneTab: "Noticias",
+        phoneOnLeft: true,
+        shiftX: "0px",
+        angle: "0deg",
+        invertScreen: false
+      },
+      {
+        kicker: "LEARNPNB",
+        title: "Leyes y artículos",
+        description: "Consulta referencias de la CRBV, el COPP y la Ley de Transporte Terrestre desde un mismo espacio.",
+        highlightTitle: "Consulta organizada",
+        highlightText: "Busca artículos y revisa sus textos para apoyar tu estudio y orientación legal.",
+        phoneTab: "Leyes",
+        phoneOnLeft: false,
+        shiftX: "0px",
+        angle: "0deg",
+        invertScreen: false
+      },
+      {
+        kicker: "LEARNPNB",
+        title: "Material y práctica",
+        description: "Revisa guías, claves y recursos policiales; completa actividades interactivas para reforzar lo aprendido.",
+        highlightTitle: "Aprender y poner en práctica",
+        highlightText: "Avanza en ejercicios sobre procedimientos y fundamentos legales con preguntas y seguimiento de progreso.",
+        phoneTab: "Función",
+        phoneOnLeft: true,
+        shiftX: "0px",
+        angle: "0deg",
+        invertScreen: false
+      },
+      {
+        kicker: "LEARNPNB",
+        title: "LearnPnb",
+        description: "Tu Aprendes Funcionario.",
+        highlightTitle: "Aprendizaje policial",
+        highlightText: "Continúa desarrollando tus conocimientos y fortalece tu formación.",
+        phoneTab: "Inicio",
+        phoneOnLeft: false,
+        shiftX: "0px",
+        angle: "12deg",
+        invertScreen: false
+      }
+    ];
+
+    let currentIndex = 0;
+
+    const slideLayout = document.getElementById("slideLayout");
+    const slideKicker = document.getElementById("slideKicker");
+    const slideTitle = document.getElementById("slideTitle");
+    const slideDescription = document.getElementById("slideDescription");
+    const slideHighlightTitle = document.getElementById("slideHighlightTitle");
+    const slideHighlightText = document.getElementById("slideHighlightText");
+    const phoneFrame = document.getElementById("phoneFrame");
+    const phoneScreen = document.getElementById("phoneScreen");
+    const phoneGesture = document.getElementById("phoneGesture");
+    const phoneGestureHand = phoneGesture.querySelector(".phone-gesture-hand");
+    const phoneTabLabel = document.getElementById("phoneTabLabel");
+    const phonePanels = document.querySelectorAll(".phone-view-panel");
+    const introVideo = document.getElementById("introVideo");
+    const newsVideo = document.getElementById("newsVideo");
+    const lawsVideo = document.getElementById("lawsVideo");
+    const materialVideo = document.getElementById("materialVideo");
+    const slideVideos = new Map([
+      [0, { video: introVideo, error: document.getElementById("introVideoError"), filename: "apk1.mp4", duration: 3 }],
+      [1, { video: newsVideo, error: document.getElementById("newsVideoError"), filename: "apk2.mp4", duration: 3 }],
+      [2, { video: lawsVideo, error: document.getElementById("lawsVideoError"), filename: "apk3.mp4", duration: 5 }],
+      [3, { video: materialVideo, error: document.getElementById("materialVideoError"), filename: "apk4.mp4", duration: 5 }]
+    ]);
+    const btnDownload = document.getElementById("btnDownload");
+    const phoneColumn = document.querySelector(".phone-column");
+    const infoColumn = document.querySelector(".info-column");
+    const phoneIntroCopy = document.getElementById("phoneIntroCopy");
+    const circleBoxesRow = document.querySelector(".circle-boxes-row");
+    const circleBoxItems = document.querySelectorAll(".circle-box-item");
+    const slideHeadingGroup = slideTitle.parentElement;
+    const highlightCard = slideHighlightTitle.parentElement;
+    const introCopyElements = [slideHeadingGroup, slideDescription];
+    const typewriterTargets = [slideKicker, slideTitle, slideDescription, slideHighlightTitle, slideHighlightText];
+    let hasRenderedSlide = false;
+    let typingRun = 0;
+    let typingTimers = [];
+    let phoneMoveAnimation = null;
+    let phoneTiltAnimation = null;
+    let slideVideoRun = 0;
+    const completedVideoSlides = new Set();
+    let introCopyAnimations = [];
+    let presentationStarted = false;
+    let transitionInProgress = false;
+    const gestureBySlide = ["tap", "swipe-right", "swipe-left", "double-tap"];
+
+    function showText(element, text, speed, delay, run) {
+      element.setAttribute("aria-label", text);
+      element.textContent = text;
+      const reservedHeight = element.getBoundingClientRect().height;
+      element.style.minHeight = `${reservedHeight}px`;
+      element.textContent = "";
+
+      let character = 0;
+      const typeNextCharacter = () => {
+        if (run !== typingRun) return;
+        character += 1;
+        element.textContent = text.slice(0, character);
+        if (character < text.length) {
+          typingTimers.push(setTimeout(typeNextCharacter, speed));
+        } else {
+          element.style.minHeight = "";
+        }
+      };
+
+      typingTimers.push(setTimeout(typeNextCharacter, delay));
+    }
+
+    function stopSlideVideos() {
+      slideVideoRun += 1;
+      slideVideos.forEach(({ video }) => {
+        video.pause();
+        video.ontimeupdate = null;
+      });
+    }
+
+    function updateCircleIndicators(index) {
+      circleBoxesRow.classList.toggle("is-hidden", index === 0);
+      circleBoxItems.forEach((item) => {
+        const sectionIndex = Number(item.dataset.circleIndex);
+        item.classList.toggle(
+          "is-active",
+          index === 4 || sectionIndex === index
+        );
+      });
+    }
+
+    function startSlideVideo(index) {
+      const clip = slideVideos.get(index);
+      if (!clip) return;
+      stopSlideVideos();
+      completedVideoSlides.delete(index);
+      clip.error.hidden = true;
+      clip.error.textContent = "";
+      clip.video.currentTime = 0;
+      const currentRun = slideVideoRun;
+      clip.video.ontimeupdate = () => {
+        if (currentRun !== slideVideoRun || clip.video.currentTime < clip.duration) return;
+        clip.video.pause();
+        clip.video.currentTime = clip.duration;
+        clip.video.ontimeupdate = null;
+        completedVideoSlides.add(index);
+        nextSlide();
+      };
+      clip.video.play().catch(error => {
+        if (currentRun !== slideVideoRun) return;
+        clip.video.ontimeupdate = null;
+        completedVideoSlides.add(index);
+        clip.error.textContent = `No se pudo reproducir el video. Comprueba que ${clip.filename} esté junto a la presentación.`;
+        clip.error.hidden = false;
+        console.error(`No se pudo reproducir el video ${clip.filename}.`, error);
+      });
+    }
+
+    function setSlide(index, direction, forceTransition = false) {
+      if (index < 0 || index >= slideData.length) return;
+      if (presentationStarted && slideVideos.has(currentIndex) && !completedVideoSlides.has(currentIndex) && index !== currentIndex) return;
+      const previousIndex = currentIndex;
+      const shouldAnimate = hasRenderedSlide && (index !== previousIndex || forceTransition);
+      const isIntro = slideLayout.classList.contains("is-intro");
+      const enteringIntro = index === 0 && !isIntro;
+      const leavingIntro = index !== 0 && isIntro;
+      const shouldMoveIntroCopy = enteringIntro || leavingIntro;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const showIntro = index === 0 && !presentationStarted;
+      phoneMoveAnimation?.cancel();
+      phoneMoveAnimation = null;
+      phoneTiltAnimation?.cancel();
+      phoneTiltAnimation = null;
+      introCopyAnimations.forEach(animation => animation.cancel());
+      introCopyAnimations = [];
+      const phoneStart = shouldAnimate ? phoneColumn.getBoundingClientRect() : null;
+      const introCopyStart = shouldAnimate && shouldMoveIntroCopy
+        ? introCopyElements.map(element => element.getBoundingClientRect())
+        : null;
+      typingTimers.forEach(clearTimeout);
+      typingTimers = [];
+      typingRun += 1;
+      typewriterTargets.forEach(element => {
+        element.style.minHeight = "";
+      });
+      const currentTypingRun = typingRun;
+      currentIndex = index;
+      const item = slideData[currentIndex];
+
+      slideLayout.classList.remove("is-transitioning");
+      slideLayout.classList.remove("is-copy-transitioning");
+      slideLayout.style.setProperty(
+        "--slide-direction",
+        direction || (index >= previousIndex ? "1" : "-1")
+      );
+      if (shouldAnimate) {
+        void slideLayout.offsetWidth;
+        slideLayout.classList.add("is-transitioning");
+      }
+      if (shouldAnimate && shouldMoveIntroCopy) {
+        slideLayout.classList.add("is-copy-transitioning");
+      }
+
+      if (showIntro) {
+        phoneIntroCopy.append(slideHeadingGroup, slideDescription);
+      } else {
+        infoColumn.insertBefore(slideHeadingGroup, infoColumn.firstElementChild);
+        infoColumn.insertBefore(slideDescription, highlightCard);
+      }
+      slideLayout.classList.toggle("is-intro", showIntro);
+
+      // Cambia el lado del teléfono y del texto/círculos
+      slideLayout.classList.toggle("phone-on-left", item.phoneOnLeft);
+
+      const textContent = [
+        [slideKicker, item.kicker, 15, 0],
+        [slideTitle, item.title, 24, 100],
+        [slideDescription, item.description, 7, 180],
+        [slideHighlightTitle, item.highlightTitle, 18, 320],
+        [slideHighlightText, item.highlightText, 7, 390]
+      ];
+      if (shouldAnimate && !reduceMotion) {
+        textContent.forEach(([element, text, speed, delay]) => {
+          const introCopyDelay = introCopyStart && introCopyElements.some(copyElement => copyElement.contains(element))
+            ? 850
+            : 0;
+          if (introCopyDelay) {
+            typingTimers.push(setTimeout(() => {
+              showText(element, text, speed, delay, currentTypingRun);
+            }, introCopyDelay));
+          } else {
+            showText(element, text, speed, delay, currentTypingRun);
+          }
+        });
+      } else {
+        textContent.forEach(([element, text]) => {
+          element.textContent = text;
+          element.setAttribute("aria-label", text);
+        });
+      }
+      phoneTabLabel.textContent = item.phoneTab;
+
+      // Actualiza posición/rotación y pantalla interna del teléfono
+      phoneFrame.style.setProperty("--phone-shift-x", item.shiftX);
+      phoneFrame.style.setProperty("--phone-angle", item.angle);
+      phoneScreen.classList.toggle("is-inverted", item.invertScreen);
+      phoneScreen.classList.toggle("is-presentation-slide", presentationStarted);
+      updateCircleIndicators(currentIndex);
+
+      if (shouldAnimate && !reduceMotion) {
+        phoneTiltAnimation = phoneFrame.animate(
+          [
+            { rotate: "0deg" },
+            { rotate: "-1.8deg", offset: 0.35 },
+            { rotate: "1.8deg", offset: 0.7 },
+            { rotate: "0deg" }
+          ],
+          { duration: 1050, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+        );
+        phoneTiltAnimation.onfinish = () => {
+          phoneTiltAnimation?.cancel();
+          phoneTiltAnimation = null;
+        };
+      }
+
+      phonePanels.forEach((panel, idx) => {
+        panel.classList.toggle("active", idx === currentIndex);
+      });
+      if (presentationStarted && slideVideos.has(currentIndex)) {
+        startSlideVideo(currentIndex);
+      } else {
+        stopSlideVideos();
+      }
+
+      if (phoneStart && !reduceMotion) {
+        const phoneEnd = phoneColumn.getBoundingClientRect();
+        const offsetX = phoneStart.left - phoneEnd.left;
+        const offsetY = phoneStart.top - phoneEnd.top;
+        if (Math.abs(offsetX) > 1 || Math.abs(offsetY) > 1) {
+          const animation = phoneColumn.animate(
+            [
+              { transform: `translate(${offsetX}px, ${offsetY}px)` },
+              { transform: "translate(0, 0)" }
+            ],
+            { duration: 1050, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+          );
+          phoneMoveAnimation = animation;
+          animation.onfinish = () => {
+            animation.cancel();
+            if (phoneMoveAnimation === animation) phoneMoveAnimation = null;
+          };
+        }
+      }
+
+      if (introCopyStart && !reduceMotion) {
+        const introCopyEnd = introCopyElements.map(element => element.getBoundingClientRect());
+        introCopyElements.forEach((element, index) => {
+          const start = introCopyStart[index];
+          const end = introCopyEnd[index];
+          const offsetX = start.left - end.left;
+          const offsetY = start.top - end.top;
+          const scaleX = end.width ? start.width / end.width : 1;
+          const scaleY = end.height ? start.height / end.height : 1;
+          const animation = element.animate(
+            [
+              {
+                transform: `translate(${offsetX}px, ${offsetY}px) scale(${scaleX}, ${scaleY})`,
+                transformOrigin: "top left"
+              },
+              { transform: "translate(0, 0) scale(1, 1)", transformOrigin: "top left" }
+            ],
+            { duration: 850, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+          );
+          introCopyAnimations.push(animation);
+          animation.onfinish = () => {
+            animation.cancel();
+            introCopyAnimations = introCopyAnimations.filter(activeAnimation => activeAnimation !== animation);
+          };
+        });
+      }
+
+      hasRenderedSlide = true;
+    }
+
+    async function playPhoneGesture(slideIndex) {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      phoneGesture.classList.remove("is-active");
+      phoneGesture.dataset.gesture = gestureBySlide[slideIndex];
+      void phoneGesture.offsetWidth;
+      phoneGesture.classList.add("is-active");
+      const animation = phoneGestureHand.getAnimations()[0];
+      if (animation) await animation.finished.catch(() => {});
+    }
+
+    function waitForSlideTransition() {
+      return new Promise(resolve => setTimeout(resolve, 1100));
+    }
+
+    async function nextSlide() {
+      if (transitionInProgress) return;
+      if (!presentationStarted) {
+        await beginPresentation();
+        return;
+      }
+      if (slideVideos.has(currentIndex) && !completedVideoSlides.has(currentIndex)) return;
+
+      transitionInProgress = true;
+      try {
+        await playPhoneGesture(currentIndex);
+        setSlide((currentIndex + 1) % slideData.length, 1);
+        await waitForSlideTransition();
+      } finally {
+        transitionInProgress = false;
+      }
+    }
+
+    async function beginPresentation() {
+      if (presentationStarted || transitionInProgress) return;
+      transitionInProgress = true;
+      try {
+        presentationStarted = true;
+        setSlide(0, 1, true);
+        document.getElementById("slideStageCard").focus();
+        await waitForSlideTransition();
+      } finally {
+        transitionInProgress = false;
+      }
+    }
+
+    function handleOpeningCoverKeydown(event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        beginPresentation();
+      }
+    }
+
+    async function prevSlide() {
+      if (currentIndex === 0 || transitionInProgress) return;
+      transitionInProgress = true;
+      try {
+        await playPhoneGesture(currentIndex);
+        setSlide(currentIndex - 1, -1);
+        await waitForSlideTransition();
+      } finally {
+        transitionInProgress = false;
+      }
+    }
+
+    function handleStageClick(event) {
+      // Evita doble avance si se hace clic en botones o enlaces internos
+      if (event.target.closest("button, a, input")) return;
+      if (!presentationStarted) {
+        beginPresentation();
+      } else {
+        nextSlide();
+      }
+    }
+
+    function handleStageKeydown(event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        if (!presentationStarted) {
+          beginPresentation();
+        } else {
+          nextSlide();
+        }
+      }
+    }
+
+    document.addEventListener("keydown", event => {
+      if (event.defaultPrevented) return;
+      if (event.target.closest("input, textarea, select, [contenteditable='true']")) return;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown" || event.key === " ") {
+        event.preventDefault();
+        if (!presentationStarted) {
+          beginPresentation();
+        } else {
+          nextSlide();
+        }
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        event.preventDefault();
+        if (presentationStarted) prevSlide();
+      }
+    });
+
+
+    setSlide(0);
+    beginPresentation();
+  </script>
+</body>
+</html>

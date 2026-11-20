@@ -1,10 +1,11 @@
-const CACHE_NAME = 'learncpnb-v133';
+const CACHE_NAME = 'learncpnb-v145';
 const APP_SHELL = [
   'index.html?v=133',
   'page/news.html?v=103',
   'page/404.html',
   'page/offline.html',
   'page/promo.html?v=133',
+  'page/ilust.html',
   'page/art.html',
   'page/actas.html',
   'page/minuta.html',
@@ -14,6 +15,10 @@ const APP_SHELL = [
   'assets/app-preview-laws.png',
   'assets/app-preview-function.png',
   'assets/cpnb-emblem.png',
+  'assets/apk1.mp4',
+  'assets/apk2.mp4',
+  'assets/apk3.mp4',
+  'assets/apk4.mp4',
   'style/css.css?v=110',
   'style/desktop-notice.css?v=2',
   'interaction/inter.js?v=17',
