@@ -1,4 +1,4 @@
-const CACHE_NAME = 'learncpnb-v149';
+const CACHE_NAME = 'learncpnb-v150';
 const APP_SHELL = [
   'index.html?v=133',
   'page/news.html?v=103',
@@ -16,10 +16,6 @@ const APP_SHELL = [
   'file/news/new_index.json',
   'assets/document.svg',
   'assets/cpnb-emblem.png',
-  'assets/apk1.mp4',
-  'assets/apk2.mp4',
-  'assets/apk3.mp4',
-  'assets/apk4.mp4',
   'style/css.css?v=110',
   'style/desktop-notice.css?v=2',
   'interaction/inter.js?v=17',
@@ -90,7 +86,7 @@ self.addEventListener('fetch', event => {
 
   if (requestUrl.pathname.endsWith('.json')) {
     event.respondWith(
-      fetch(request, { cache: 'no-store' }).catch(() =>
+      fetch(request).catch(() =>
         new Response('El contenido requiere conexión a internet.', {
           status: 503,
           statusText: 'Service Unavailable',

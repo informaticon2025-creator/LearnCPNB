@@ -302,7 +302,7 @@ function openMainView(view) {
 document.querySelectorAll('.bottom-nav-button').forEach(button => {
   button.addEventListener('click', () => {
     openMainView(button.dataset.page);
-    if (button.dataset.page === 'function') loadFunctionResources();
+    loadViewContent(button.dataset.page);
   });
 });
 
@@ -340,8 +340,14 @@ appMain.addEventListener('touchend', event => {
 
   const nextPage = mainPages[nextIndex];
   openMainView(nextPage);
-  if (nextPage === 'function') loadFunctionResources();
+  loadViewContent(nextPage);
 }, { passive: true });
+
+function loadViewContent(view) {
+  if (view === 'home') loadNews();
+  else if (view === 'laws') loadLaws();
+  else if (view === 'function') loadFunctionResources();
+}
 
 function updateSearchPlaceholder() {
   const input = document.getElementById('searchInput');
@@ -684,7 +690,7 @@ function renderPromoCatalog(promotions) {
 async function fetchNumberedJson(folder, prefix, validate) {
   const entries = [];
 
-  const indexResponse = await fetch(`${folder}/${prefix}_index.json`, { cache: 'no-store' });
+  const indexResponse = await fetch(`${folder}/${prefix}_index.json`);
   if (indexResponse.ok) {
     let index;
     try {
@@ -701,17 +707,19 @@ async function fetchNumberedJson(folder, prefix, validate) {
       throw new Error(`El índice ${folder}/${prefix}_index.json no contiene una lista válida de identificadores.`);
     }
 
-    for (const number of [...index.ids].sort((first, second) => first - second)) {
-      const filename = `${prefix}_${String(number).padStart(2, '0')}.json`;
-      const response = await fetch(`${folder}/${filename}`);
-      if (!response.ok) {
-        throw new Error(`No se pudo cargar ${folder}/${filename} (${response.status}).`);
-      }
-      const entry = await response.json();
-      validate(entry, number);
-      entries.push(entry);
-    }
-    return entries;
+    const indexedEntries = await Promise.all([...index.ids]
+      .sort((first, second) => first - second)
+      .map(async number => {
+        const filename = `${prefix}_${String(number).padStart(2, '0')}.json`;
+        const response = await fetch(`${folder}/${filename}`);
+        if (!response.ok) {
+          throw new Error(`No se pudo cargar ${folder}/${filename} (${response.status}).`);
+        }
+        const entry = await response.json();
+        validate(entry, number);
+        return entry;
+      }));
+    return indexedEntries;
   }
 
   for (let number = 1; number <= 999; number += 1) {
@@ -783,7 +791,7 @@ function validatePromotion(item, number) {
 }
 
 async function fetchPromotionFiles() {
-  const indexResponse = await fetch('file/news/promo_index.json', { cache: 'no-store' });
+  const indexResponse = await fetch('file/news/promo_index.json');
   if (indexResponse.status === 404) {
     const entries = await fetchNumberedJson('file/news', 'promo', validatePromotion);
     return entries.map((item, index) => ({ ...item, promoId: index + 1 }));
@@ -805,7 +813,7 @@ async function fetchPromotionFiles() {
   }
   const ids = [...index.ids].sort((first, second) => first - second);
   return Promise.all(ids.map(async id => {
-    const response = await fetch(`file/news/promo_${String(id).padStart(2, '0')}.json`, { cache: 'no-store' });
+    const response = await fetch(`file/news/promo_${String(id).padStart(2, '0')}.json`);
     if (!response.ok) {
       throw new Error(`No se pudo cargar la actividad ${id} indicada en el índice (HTTP ${response.status}).`);
     }
@@ -2020,6 +2028,7 @@ openGuidesButton?.addEventListener('click', () => {
   document.getElementById('sectionMenu')?.classList.remove('open');
   document.getElementById('menuToggle')?.setAttribute('aria-expanded', 'false');
   guidesDialog?.showModal();
+  loadGuides();
 });
 
 guidesDialogClose?.addEventListener('click', () => guidesDialog.close());
@@ -2036,7 +2045,7 @@ async function loadGuides() {
 
   let guideIds = [];
   try {
-    const indexResponse = await fetch('file/guias/guia_index.json', { cache: 'no-store' });
+    const indexResponse = await fetch('file/guias/guia_index.json');
     if (indexResponse.ok) {
       const index = await indexResponse.json();
       if (
@@ -2057,7 +2066,7 @@ async function loadGuides() {
     const filename = `file/guias/guia_${String(index).padStart(2, '0')}.json`;
     let response;
     try {
-      response = await fetch(filename, { cache: 'no-cache' });
+      response = await fetch(filename);
     } catch (error) {
       console.error(`No se pudo cargar ${filename}.`, error);
       guideLinks.textContent = 'No se pudieron cargar las guías.';
@@ -2137,7 +2146,7 @@ async function loadGuides() {
   } else {
     for (const index of guideIds) {
       const filename = `file/guias/guia_${String(index).padStart(2, '0')}.json`;
-      const response = await fetch(filename, { cache: 'no-cache' });
+      const response = await fetch(filename);
       if (!response.ok) {
         console.error(`No se pudo cargar ${filename}: HTTP ${response.status}.`);
         guideLinks.textContent = 'No se pudieron cargar las guías.';
@@ -2450,52 +2459,11 @@ const requestedView = new URLSearchParams(window.location.search).get('view') ||
 const initialView = ['home', 'laws', 'function'].includes(requestedView) ? requestedView : 'function';
 currentPage = initialView;
 showView(initialView);
-if (initialView === 'function') loadFunctionResources();
 updateSearchPlaceholder();
 const initialSearch = new URLSearchParams(window.location.search).get('search');
 if (initialSearch) {
   document.getElementById('searchInput').value = initialSearch;
   handleGlobalSearch();
-}
-
-function collectImageUrls(value, urls) {
-  if (!value || typeof value !== 'object') return;
-
-  Object.entries(value).forEach(([key, entry]) => {
-    if (
-      typeof entry === 'string' &&
-      /^(?:img|image|imagen|src)/i.test(key) &&
-      entry.trim()
-    ) {
-      try {
-        urls.add(new URL(entry, document.baseURI).href);
-      } catch (error) {
-        console.error(`La imagen "${entry}" tiene una URL inválida.`, error);
-      }
-    } else {
-      collectImageUrls(entry, urls);
-    }
-  });
-}
-
-function preloadImage(url) {
-  return new Promise(resolve => {
-    const image = new Image();
-    let settled = false;
-    const timeout = window.setTimeout(() => settle(true), 12000);
-    const settle = failed => {
-      if (settled) return;
-      settled = true;
-      window.clearTimeout(timeout);
-      if (failed) console.warn(`No se pudo cargar la imagen: ${url}`);
-      resolve();
-    };
-
-    image.addEventListener('load', () => settle(false), { once: true });
-    image.addEventListener('error', () => settle(true), { once: true });
-    image.src = url;
-    if (image.complete) settle(!image.naturalWidth);
-  });
 }
 
 async function loadApplication() {
@@ -2505,20 +2473,7 @@ async function loadApplication() {
     throw new Error('No se encontró la ventana de carga o el contenido principal.');
   }
 
-  await Promise.all([
-    loadNews(),
-    loadLaws(),
-    loadFunctionResources(),
-    loadGuides()
-  ]);
-
-  const imageUrls = new Set(
-    Array.from(document.querySelectorAll('img:not([loading="lazy"])'))
-      .map(image => image.currentSrc || image.src)
-      .filter(Boolean)
-  );
-  collectImageUrls([newsItems, functionResources], imageUrls);
-  await Promise.all(Array.from(imageUrls, preloadImage));
+  await loadViewContent(initialView);
 
   loadingScreen.classList.add('is-hidden');
   loadingScreen.setAttribute('aria-hidden', 'true');
