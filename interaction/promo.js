@@ -89,6 +89,115 @@ function markPromoCompleted(promoId) {
   }
 }
 
+function createPracticeComments(practiceKey) {
+  const storageKey = `learncpnb-practice-comments-${practiceKey}`;
+  const readComments = () => {
+    const saved = localStorage.getItem(storageKey);
+    if (!saved) return [];
+    const comments = JSON.parse(saved);
+    if (!Array.isArray(comments) || comments.some(comment =>
+      !comment ||
+      typeof comment.id !== 'string' ||
+      typeof comment.name !== 'string' ||
+      typeof comment.text !== 'string' ||
+      typeof comment.createdAt !== 'string'
+    )) throw new Error('El formato de los comentarios de práctica no es válido.');
+    return comments;
+  };
+
+  const section = createPromoElement('section', 'practice-comments');
+  section.append(
+    createPromoElement('h2', 'practice-comments-title', 'Opinión sobre la práctica'),
+    createPromoElement('p', 'practice-comments-description', 'Comparte tu opinión sobre esta actividad.')
+  );
+
+  const list = createPromoElement('div', 'practice-comments-list');
+  list.setAttribute('aria-label', 'Comentarios de la práctica');
+  const status = createPromoElement('p', 'practice-comments-status');
+  status.setAttribute('role', 'status');
+
+  const render = () => {
+    const comments = readComments();
+    list.replaceChildren();
+    if (!comments.length) {
+      list.appendChild(createPromoElement('p', 'practice-comments-empty', 'Todavía no hay comentarios.'));
+      return;
+    }
+    comments.slice().reverse().forEach(comment => {
+      const item = createPromoElement('article', 'practice-comment');
+      const header = createPromoElement('div', 'practice-comment-header');
+      header.appendChild(createPromoElement('strong', '', comment.name || 'Anónimo'));
+      const date = createPromoElement('time', '', new Date(comment.createdAt).toLocaleString('es-VE'));
+      date.dateTime = comment.createdAt;
+      header.appendChild(date);
+      item.append(header, createPromoElement('p', 'practice-comment-text', comment.text));
+      list.appendChild(item);
+    });
+  };
+
+  const form = document.createElement('form');
+  form.className = 'practice-comments-form';
+  const nameLabel = createPromoElement('label', 'practice-comment-field');
+  nameLabel.append(document.createTextNode('Nombre'));
+  const nameInput = document.createElement('input');
+  nameInput.className = 'practice-comment-input';
+  nameInput.name = 'name';
+  nameInput.type = 'text';
+  nameInput.maxLength = 80;
+  nameInput.autocomplete = 'name';
+  nameInput.placeholder = 'Anónimo';
+  nameLabel.appendChild(nameInput);
+
+  const textLabel = createPromoElement('label', 'practice-comment-field');
+  textLabel.append(document.createTextNode('Comentario'));
+  const textInput = document.createElement('textarea');
+  textInput.className = 'practice-comment-input practice-comment-textarea';
+  textInput.name = 'comment';
+  textInput.rows = 3;
+  textInput.maxLength = 3000;
+  textInput.required = true;
+  textLabel.appendChild(textInput);
+
+  const submit = createPromoElement('button', 'practice-comment-submit');
+  submit.type = 'submit';
+  submit.setAttribute('aria-label', 'Enviar comentario');
+  submit.title = 'Enviar comentario';
+  submit.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22 2 9.8 14.2M22 2l-7.6 20-4.6-7.8L2 9.6 22 2Z"></path></svg>';
+
+  form.append(nameLabel, textLabel, submit);
+  form.onsubmit = event => {
+    event.preventDefault();
+    const text = textInput.value.trim();
+    if (!text) {
+      status.textContent = 'Escribe un comentario antes de enviarlo.';
+      textInput.focus();
+      return;
+    }
+    const comment = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      name: nameInput.value.trim(),
+      text,
+      createdAt: new Date().toISOString()
+    };
+    try {
+      const comments = readComments();
+      comments.push(comment);
+      localStorage.setItem(storageKey, JSON.stringify(comments));
+      nameInput.value = '';
+      textInput.value = '';
+      status.textContent = 'Comentario publicado.';
+      render();
+    } catch (error) {
+      console.error('No se pudo guardar el comentario de práctica.', error);
+      status.textContent = 'No se pudo guardar el comentario.';
+    }
+  };
+
+  section.append(status, list, form);
+  render();
+  return section;
+}
+
 function createPromoElement(tagName, className, text) {
   const element = document.createElement(tagName);
   if (className) element.className = className;
@@ -497,7 +606,11 @@ function renderPromo(promo, promoId) {
   const sections = (promo.contenido || []).map((block, index) =>
     renderContentBlock(block, index, nextPromoId, onQuizComplete, completionContext)
   );
-  promoContent.replaceChildren(heading, ...sections);
+  promoContent.replaceChildren(
+    heading,
+    ...sections,
+    createPracticeComments(`actividad-${promoId}`)
+  );
 }
 
 async function loadKeyPracticeEntries() {
@@ -712,7 +825,11 @@ function renderKeyPracticePage(entries) {
   });
 
   showQuestion();
-  promoContent.replaceChildren(heading, section);
+  promoContent.replaceChildren(
+    heading,
+    section,
+    createPracticeComments('claves')
+  );
 }
 
 async function loadPromo() {

@@ -271,6 +271,7 @@ function createFunctionResourceIcon(kind) {
 
 function showView(view) {
   const activePage = view === 'keys' || view === 'search' ? currentPage : view;
+  document.body.classList.toggle('function-view-active', view === 'function');
   document.getElementById('homeView').hidden = view !== 'home';
   document.getElementById('lawsView').hidden = view !== 'laws';
   document.getElementById('functionView').hidden = view !== 'function';
@@ -523,8 +524,6 @@ function renderPromoCatalog(promotions) {
   const progressPercent = practicePromotions.length
     ? Math.round((completedPracticeCount / practicePromotions.length) * 100)
     : 0;
-  document.getElementById('practiceProgressCount').textContent =
-    `${completedPracticeCount} de ${practicePromotions.length} actividades`;
   document.getElementById('practiceProgressTrack').setAttribute('aria-valuenow', String(progressPercent));
   document.getElementById('practiceProgressFill').style.width = `${progressPercent}%`;
 
@@ -1983,8 +1982,23 @@ document.getElementById('menuToggle').addEventListener('click', () => {
   document.getElementById('menuToggle').setAttribute('aria-expanded', String(isOpen));
 });
 
+const guidesDialog = document.getElementById('guidesDialog');
+const openGuidesButton = document.getElementById('openGuidesButton');
+const guidesDialogClose = document.getElementById('guidesDialogClose');
+
+openGuidesButton?.addEventListener('click', () => {
+  document.getElementById('sectionMenu')?.classList.remove('open');
+  document.getElementById('menuToggle')?.setAttribute('aria-expanded', 'false');
+  guidesDialog?.showModal();
+});
+
+guidesDialogClose?.addEventListener('click', () => guidesDialog.close());
+guidesDialog?.addEventListener('click', event => {
+  if (event.target === guidesDialog) guidesDialog.close();
+});
+
 async function loadGuides() {
-  const guideLinks = document.getElementById('guideLinks');
+  const guideLinks = document.getElementById('guidesDialogList');
   if (!guideLinks) return;
 
   guideLinks.replaceChildren();
@@ -2050,9 +2064,24 @@ async function loadGuides() {
     }
 
     const link = document.createElement('a');
-    link.className = 'menu-support-link';
+    link.className = 'guides-dialog-item';
     link.href = url.href;
-    link.textContent = guide.titulo.trim();
+    link.setAttribute('rel', 'noopener noreferrer');
+    if (url.origin === window.location.origin) {
+      const filename = url.pathname.split('/').pop() || 'guia.pdf';
+      link.setAttribute('download', filename);
+    } else {
+      link.target = '_blank';
+    }
+    const title = document.createElement('span');
+    title.className = 'guides-dialog-item-title';
+    title.textContent = guide.titulo.trim();
+    const downloadIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    downloadIcon.setAttribute('viewBox', '0 0 24 24');
+    downloadIcon.setAttribute('aria-hidden', 'true');
+    downloadIcon.setAttribute('focusable', 'false');
+    downloadIcon.innerHTML = '<path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"></path>';
+    link.append(title, downloadIcon);
     guideLinks.appendChild(link);
     guideCount += 1;
   }

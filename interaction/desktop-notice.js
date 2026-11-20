@@ -46,15 +46,15 @@ function createDesktopNotice() {
           </div>
           <div class="desktop-preview-grid">
             <figure class="desktop-preview">
-              <img class="desktop-preview-image" data-desktop-asset="assets/app-preview-news.png" alt="Captura real de la sección de noticias de LearnCPNB" loading="lazy">
-              <figcaption>Noticias</figcaption>
+              <video class="desktop-preview-image" src="./assets/apk1.mp4" muted autoplay loop playsinline preload="metadata" aria-label="Video demostrativo de inicio de LearnCPNB"></video>
+              <figcaption>Lo Actual</figcaption>
             </figure>
             <figure class="desktop-preview">
-              <img class="desktop-preview-image" data-desktop-asset="assets/app-preview-laws.png" alt="Captura real de la sección de leyes y gacetas oficiales" loading="lazy">
-              <figcaption>Leyes oficiales</figcaption>
+              <video class="desktop-preview-image" src="./assets/apk2.mp4" muted autoplay loop playsinline preload="metadata" aria-label="Video demostrativo de noticias de LearnCPNB"></video>
+              <figcaption>Leyes</figcaption>
             </figure>
             <figure class="desktop-preview">
-              <img class="desktop-preview-image" data-desktop-asset="assets/app-preview-function.png" alt="Captura real de la sección de función policial con su menú abierto" loading="lazy">
+              <video class="desktop-preview-image" src="./assets/apk3.mp4" muted autoplay loop playsinline preload="metadata" aria-label="Video demostrativo de función policial en LearnCPNB"></video>
               <figcaption>Función policial</figcaption>
             </figure>
           </div>

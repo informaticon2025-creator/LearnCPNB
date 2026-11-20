@@ -117,18 +117,24 @@
           <img src="icon.png" alt="LearnCPNB">
         </div>
         <div class="menu-section-label">Herramientas</div>
-        <button type="button" class="menu-support-link" id="openPinnedButton">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5v6l1 1 1-1v-6h5v-2l-2-2z"></path>
-          </svg>
-          <span>Guardados</span>
-        </button>
         <button type="button" class="menu-support-link" id="openSettingsButton">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"></path>
             <path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.5.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.5-.9l-1.7.7-1.4-2.4 1.4-1.1a7 7 0 0 1 0-1.8l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.5-.9l.3-1.8H16l.3 1.8a8 8 0 0 1 1.5.9l1.7-.7 1.4 2.4-1.4 1.1a7 7 0 0 1-.1 1.7Z" transform="translate(-1 -1)"></path>
           </svg>
           <span>Ajustes</span>
+        </button>
+        <button type="button" class="menu-support-link" id="openPinnedButton">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5v6l1 1 1-1v-6h5v-2l-2-2z"></path>
+          </svg>
+          <span>Guardados</span>
+        </button>
+        <button type="button" id="termsButton">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7 3h10l3 3v15H4V3h3Zm0 0v5h10V3M8 13h8M8 17h8"></path>
+          </svg>
+          <span>Protocolos y términos</span>
         </button>
         <div class="menu-section-label support-section-label">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -159,12 +165,6 @@
             </a>
           </div>
         </details>
-        <button type="button" id="termsButton">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M7 3h10l3 3v15H4V3h3Zm0 0v5h10V3M8 13h8M8 17h8"></path>
-          </svg>
-          <span>Protocolo y términos de esta herramienta</span>
-        </button>
         <div class="menu-section-label exterior-section-label">Exterior</div>
         <a class="menu-support-link" href="https://www.cpnb.com.ve/" target="_blank" rel="noopener noreferrer" aria-label="Extranet">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -180,17 +180,13 @@
           </svg>
           <span>CAPOLNAC</span>
         </a>
-        <details class="menu-group menu-guides">
-          <summary class="menu-section-toggle">
-            <span>Guías</span>
-            <svg class="icon submenu-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </summary>
-          <div class="menu-subsection" id="guideLinks" aria-live="polite">
-            <span class="menu-guides-status">Cargando guías...</span>
-          </div>
-        </details>
+        <button class="menu-support-link" id="openGuidesButton" type="button">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13Z"></path>
+            <path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20"></path>
+          </svg>
+          <span>Guías</span>
+        </button>
         <div class="menu-social-links" aria-label="Redes sociales">
           <a href="https://www.tiktok.com/@pnbvzla?lang=es-419" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -213,18 +209,6 @@
       </nav>
     </div>
   </header>
-  <div class="practice-lives-indicator" id="practiceLivesIndicator" role="status" aria-label="Vidas: 5 de 5">
-    <svg class="practice-lives-shield" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M12 2 20 6v5c0 5-3.5 8-8 11-4.5-2-8-6-8-11V6l8-4Z"></path>
-    </svg>
-    <span id="practiceLivesCount">5/5</span>
-    <svg class="practice-lives-dots" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <circle cx="5" cy="12" r="1.5"></circle>
-      <circle cx="12" cy="12" r="1.5"></circle>
-      <circle cx="19" cy="12" r="1.5"></circle>
-    </svg>
-  </div>
-
   <main class="app-main" aria-busy="true">
     <section class="home-view" id="homeView" aria-labelledby="homeHeading">
       <section class="news-section" aria-labelledby="homeHeading">
@@ -250,20 +234,28 @@
     </section>
 
     <section class="function-view" id="functionView" aria-labelledby="functionHeading" hidden>
+      <div class="learning-progress" aria-label="Progreso de actividades">
+        <div class="learning-progress-row">
+          <div class="practice-lives-indicator" id="practiceLivesIndicator" role="status" aria-label="Vidas: 5 de 5">
+            <svg class="practice-lives-shield" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 2 20 6v5c0 5-3.5 8-8 11-4.5-2-8-6-8-11V6l8-4Z"></path>
+            </svg>
+            <span id="practiceLivesCount">5/5</span>
+            <svg class="practice-lives-dots" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="5" cy="12" r="1.5"></circle>
+              <circle cx="12" cy="12" r="1.5"></circle>
+              <circle cx="19" cy="12" r="1.5"></circle>
+            </svg>
+          </div>
+          <div class="learning-progress-track" id="practiceProgressTrack" role="progressbar"
+            aria-label="Actividades completadas" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span id="practiceProgressFill"></span>
+          </div>
+        </div>
+      </div>
       <div class="view-heading">
         <p class="view-eyebrow">RUTA DE APRENDIZAJE</p>
         <h1 id="functionHeading">Función policial</h1>
-        <p>Recursos de consulta y herramientas para el servicio policial</p>
-      </div>
-      <div class="learning-progress" aria-label="Progreso de actividades">
-        <div class="learning-progress-copy">
-          <span>Tu progreso</span>
-          <strong id="practiceProgressCount">0 de 0 actividades</strong>
-        </div>
-        <div class="learning-progress-track" id="practiceProgressTrack" role="progressbar"
-          aria-label="Actividades completadas" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <span id="practiceProgressFill"></span>
-        </div>
       </div>
       <div class="function-panel-toggles" role="group" aria-label="Secciones de función policial">
         <button class="promo-catalog-trigger" id="functionMaterialOpen" type="button" aria-expanded="true" aria-controls="functionMaterialSection">
@@ -278,7 +270,6 @@
         <div class="promo-catalog-header">
           <div>
             <h2 class="section-heading" id="promoCatalogHeading" tabindex="-1">Actividades de práctica</h2>
-            <p class="promo-catalog-help">Completa cada actividad correctamente para continuar con la siguiente.</p>
           </div>
         </div>
         <div class="promo-catalog-list" id="promoCatalog" aria-live="polite"></div>
@@ -417,6 +408,25 @@
     </div>
   </dialog>
 
+  <dialog class="guides-dialog" id="guidesDialog" aria-labelledby="guidesDialogTitle">
+    <div class="guides-dialog-card">
+      <div class="guides-dialog-header">
+        <div>
+          <p class="guides-dialog-eyebrow">Recursos descargables</p>
+          <h2 id="guidesDialogTitle">Guías y libros</h2>
+        </div>
+        <button class="guides-dialog-close" id="guidesDialogClose" type="button" aria-label="Cerrar guías">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="guides-dialog-list" id="guidesDialogList" aria-live="polite">
+        <p class="guides-dialog-status">Cargando guías...</p>
+      </div>
+    </div>
+  </dialog>
+
   <dialog class="welcome-dialog" id="welcomeDialog" aria-labelledby="welcomeTitle" aria-describedby="welcomeDescription">
     <button class="welcome-close" id="welcomeClose" type="button" aria-label="Cerrar bienvenida">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -508,15 +518,15 @@ Tu espacio de entrenamiento y consulta técnica. Explora terminología clave, re
         </div>
         <div class="desktop-preview-grid">
           <figure class="desktop-preview">
-            <img class="desktop-preview-image" src="./assets/cpnb-emblem.png" alt="Inicio de LearnCPNB" loading="lazy">
+            <video class="desktop-preview-image" src="./assets/apk1.mp4" muted autoplay loop playsinline preload="metadata" aria-label="Video demostrativo de inicio de LearnCPNB"></video>
             <figcaption>Lo Actual</figcaption>
           </figure>
           <figure class="desktop-preview">
-            <img class="desktop-preview-image" src="./assets/92fs.webp" alt="Leyes de LearnCPNB" loading="lazy">
+            <video class="desktop-preview-image" src="./assets/apk2.mp4" muted autoplay loop playsinline preload="metadata" aria-label="Video demostrativo de noticias de LearnCPNB"></video>
             <figcaption>Leyes</figcaption>
           </figure>
           <figure class="desktop-preview">
-            <img class="desktop-preview-image" src="./assets/px4.png" alt="Función policial en LearnCPNB" loading="lazy">
+            <video class="desktop-preview-image" src="./assets/apk3.mp4" muted autoplay loop playsinline preload="metadata" aria-label="Video demostrativo de función policial en LearnCPNB"></video>
             <figcaption>Función policial</figcaption>
           </figure>
         </div>
