@@ -201,6 +201,8 @@ let showingAlphabet = false;
 let currentPage = 'home';
 let newsItems = [];
 let promoItems = [];
+let promoCatalogLoaded = false;
+let promoCatalogLoadPromise = null;
 let lawItems = [];
 let functionResources = [];
 const keyPracticeLaunch = document.getElementById('keyPracticeLaunch');
@@ -812,6 +814,26 @@ async function fetchPromotionFiles() {
     throw new Error('El índice de actividades no contiene una lista válida de identificadores.');
   }
   const ids = [...index.ids].sort((first, second) => first - second);
+  if (Array.isArray(index.activities)) {
+    if (
+      index.activities.length !== ids.length ||
+      index.activities.some(item =>
+        !item ||
+        !Number.isSafeInteger(item.id) ||
+        !ids.includes(item.id) ||
+        ['titulo', 'descripcion', 'enlace', 'textoBoton'].some(key => typeof item[key] !== 'string') ||
+        (item.categoria !== undefined && typeof item.categoria !== 'string') ||
+        (item.fecha !== undefined && typeof item.fecha !== 'string')
+      ) ||
+      new Set(index.activities.map(item => item.id)).size !== ids.length
+    ) {
+      throw new Error('El índice de actividades contiene resúmenes no válidos.');
+    }
+    return index.activities
+      .map(item => ({ ...item, promoId: item.id }))
+      .sort((first, second) => first.promoId - second.promoId);
+  }
+
   return Promise.all(ids.map(async id => {
     const response = await fetch(`file/news/promo_${String(id).padStart(2, '0')}.json`);
     if (!response.ok) {
@@ -825,24 +847,41 @@ async function fetchPromotionFiles() {
 
 async function loadNews() {
   const status = document.getElementById('newsStatus');
-  const promoStatus = document.getElementById('promoCatalogStatus');
   try {
-    const [entries, promotions] = await Promise.all([
-      fetchNumberedJson('file/news', 'new', validateNews),
-      fetchPromotionFiles()
-    ]);
+    const entries = await fetchNumberedJson('file/news', 'new', validateNews);
     newsItems = entries
       .map((item, index) => ({ ...item, id: index + 1 }))
       .reverse();
-    promoItems = promotions;
     renderNews(newsItems);
-    renderPromoCatalog(promoItems);
     refreshCurrentSearch();
   } catch (error) {
     console.error(error);
     status.textContent = error.message || 'No se pudieron cargar las noticias.';
-    promoStatus.textContent = error.message || 'No se pudieron cargar las promociones.';
   }
+}
+
+function loadPromoCatalog() {
+  const status = document.getElementById('promoCatalogStatus');
+  if (promoCatalogLoaded) {
+    renderPromoCatalog(promoItems);
+    return Promise.resolve();
+  }
+  if (promoCatalogLoadPromise) return promoCatalogLoadPromise;
+
+  status.textContent = 'Cargando actividades...';
+  promoCatalogLoadPromise = fetchPromotionFiles()
+    .then(promotions => {
+      promoItems = promotions;
+      promoCatalogLoaded = true;
+      renderPromoCatalog(promoItems);
+      refreshCurrentSearch();
+    })
+    .catch(error => {
+      console.error(error);
+      status.textContent = error.message || 'No se pudieron cargar las actividades.';
+      promoCatalogLoadPromise = null;
+    });
+  return promoCatalogLoadPromise;
 }
 
 function validateLaw(law, number) {
@@ -1961,7 +2000,9 @@ function showFunctionPanel(panel) {
 
 function toggleFunctionPanel(panel) {
   const activeButton = panel === 'promos' ? promoCatalogOpen : functionMaterialOpen;
-  showFunctionPanel(activeButton.getAttribute('aria-expanded') === 'true' ? null : panel);
+  const isOpening = activeButton.getAttribute('aria-expanded') !== 'true';
+  showFunctionPanel(isOpening ? panel : null);
+  if (isOpening && panel === 'promos') loadPromoCatalog();
 }
 
 function openPromoCatalog() {
@@ -1975,6 +2016,7 @@ function openPromoCatalog() {
   document.getElementById('menuToggle').setAttribute('aria-expanded', 'false');
   keyPracticeLaunch.hidden = true;
   showFunctionPanel('promos');
+  loadPromoCatalog();
   document.getElementById('promoCatalogHeading').focus();
 }
 

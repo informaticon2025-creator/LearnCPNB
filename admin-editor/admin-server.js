@@ -287,6 +287,18 @@ async function getLocalPromotionCategory(number) {
   return typeof item?.categoria === 'string' ? item.categoria.trim() : '';
 }
 
+function getPromotionSummary(id, item) {
+  return {
+    id,
+    titulo: item.titulo,
+    descripcion: item.descripcion,
+    categoria: item.categoria || '',
+    fecha: item.fecha || '',
+    enlace: item.enlace,
+    textoBoton: item.textoBoton
+  };
+}
+
 async function getPromotionIndex(files, ref = BRANCH) {
   const fileNumbers = files.map(file => file.number);
   let index;
@@ -307,6 +319,18 @@ async function getPromotionIndex(files, ref = BRANCH) {
     !Array.isArray(index.ids) ||
     index.ids.some(id => !Number.isSafeInteger(id) || id < 1 || id > 999) ||
     new Set(index.ids).size !== index.ids.length ||
+    (index.activities !== undefined &&
+      (!Array.isArray(index.activities) ||
+        index.activities.some(item =>
+          !item ||
+          !Number.isSafeInteger(item.id) ||
+          !index.ids.includes(item.id) ||
+          ['titulo', 'descripcion', 'enlace', 'textoBoton'].some(key => typeof item[key] !== 'string') ||
+          (item.categoria !== undefined && typeof item.categoria !== 'string') ||
+          (item.fecha !== undefined && typeof item.fecha !== 'string')
+        ) ||
+        new Set(index.activities.map(item => item.id)).size !== index.ids.length ||
+        index.activities.length !== index.ids.length)) ||
     (index.nextId !== undefined &&
       (!Number.isSafeInteger(index.nextId) || index.nextId < 1 || index.nextId > 1000))
   ) {
@@ -317,7 +341,7 @@ async function getPromotionIndex(files, ref = BRANCH) {
     ...fileNumbers.map(number => number + 1)
   );
   if (nextId > 1000) throw new HttpError(400, 'Se alcanzó el límite de 999 actividades.');
-  return { ids: fileNumbers, nextId };
+  return { ids: fileNumbers, nextId, activities: index.activities };
 }
 
 async function createBranchCommit(entries, message, parentSha = null) {
@@ -344,14 +368,15 @@ async function createBranchCommit(entries, message, parentSha = null) {
   return commit;
 }
 
-function promotionIndexEntry(ids, nextId) {
+function promotionIndexEntry(ids, nextId, activities) {
   return {
     path: PROMOTION_INDEX_PATH,
     mode: '100644',
     type: 'blob',
     content: `${JSON.stringify({
       ids: [...ids].sort((first, second) => first - second),
-      nextId
+      nextId,
+      activities: [...activities].sort((first, second) => first.id - second.id)
     }, null, 2)}\n`
   };
 }
@@ -360,6 +385,15 @@ async function savePromotionResource(body, parsed, files, existing, number, prom
   const ids = new Set(files.map(file => file.number));
   ids.add(number);
   const nextId = existing ? promotionIndex.nextId : number + 1;
+  const activities = promotionIndex.activities
+    ? [...promotionIndex.activities]
+    : (await getResources('promotions', files, parentSha)).map(resource =>
+      getPromotionSummary(resource.number, JSON.parse(resource.content))
+    );
+  const summaryIndex = activities.findIndex(item => item.id === number);
+  const summary = getPromotionSummary(number, parsed);
+  if (summaryIndex === -1) activities.push(summary);
+  else activities[summaryIndex] = summary;
   const content = `${JSON.stringify(parsed, null, 2)}\n`;
   const commit = await createBranchCommit([
     {
@@ -368,7 +402,7 @@ async function savePromotionResource(body, parsed, files, existing, number, prom
       type: 'blob',
       content
     },
-    promotionIndexEntry(ids, nextId)
+    promotionIndexEntry(ids, nextId, activities)
   ], typeof body.message === 'string' && body.message.trim()
     ? body.message.trim()
     : 'Editar promoción desde el editor local', parentSha);
@@ -452,6 +486,11 @@ async function deletePromotionCategory(body) {
   const remainingIds = promotionIndex.ids.filter(id =>
     !matchingResources.some(resource => resource.number === id)
   );
+  const remainingActivities = promotionIndex.activities
+    ? promotionIndex.activities.filter(item => remainingIds.includes(item.id))
+    : resources
+      .filter(resource => remainingIds.includes(resource.number))
+      .map(resource => getPromotionSummary(resource.number, JSON.parse(resource.content)));
   const commit = await createBranchCommit([
     ...matchingResources.map(resource => ({
       path: resource.path,
@@ -459,7 +498,7 @@ async function deletePromotionCategory(body) {
       type: 'blob',
       sha: null
     })),
-    promotionIndexEntry(remainingIds, promotionIndex.nextId)
+    promotionIndexEntry(remainingIds, promotionIndex.nextId, remainingActivities)
   ], `Eliminar sección ${category} y sus ${matchingResources.length} actividades`, commitBase);
   return {
     category,
@@ -472,6 +511,33 @@ async function deletePromotionCategory(body) {
 async function deleteLastResource(body) {
   const catalog = getCatalog(body.type);
   const number = getResourceNumber(body.path, catalog);
+  if (body.type === 'promotions') {
+    const commitBase = await githubRequest(
+      `/repos/${OWNER}/${REPO}/git/ref/heads/${encodeURIComponent(BRANCH)}`
+    ).then(reference => reference.object.sha);
+    const files = await listFiles(body.type, commitBase);
+    const last = files.at(-1);
+    if (!last || last.path !== body.path) {
+      throw new HttpError(400, 'Solo se permite eliminar el último archivo para no romper la numeración de la colección.');
+    }
+    if (typeof body.sha !== 'string' || body.sha !== last.sha) {
+      throw new HttpError(409, 'El archivo cambió en GitHub. Recarga el contenido antes de eliminarlo.');
+    }
+
+    const promotionIndex = await getPromotionIndex(files, commitBase);
+    const activities = promotionIndex.activities
+      ? promotionIndex.activities.filter(item => item.id !== number)
+      : (await getResources('promotions', files, commitBase))
+        .filter(resource => resource.number !== number)
+        .map(resource => getPromotionSummary(resource.number, JSON.parse(resource.content)));
+    const ids = promotionIndex.ids.filter(id => id !== number);
+    const commit = await createBranchCommit([
+      { path: body.path, mode: '100644', type: 'blob', sha: null },
+      promotionIndexEntry(ids, promotionIndex.nextId, activities)
+    ], `Eliminar promoción ${number} desde el editor local`, commitBase);
+    return { path: body.path, commit: commit.html_url };
+  }
+
   const files = await listFiles(body.type);
   const last = files.at(-1);
   if (!last || last.path !== body.path) {

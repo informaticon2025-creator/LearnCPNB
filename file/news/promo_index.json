@@ -32,5 +32,286 @@
     30,
     31
   ],
-  "nextId": 27
+  "nextId": 27,
+  "activities": [
+    {
+      "id": 1,
+      "titulo": "Retención de Vehículos",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Actuación operativa",
+      "fecha": "05/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 2,
+      "titulo": "Tu Arma de fuego",
+      "descripcion": "Beretta PX4 ",
+      "categoria": "Actuación operativa",
+      "fecha": "07/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 3,
+      "titulo": "Debido Proceso",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Fundamentos jurídicos",
+      "fecha": "06/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 4,
+      "titulo": "Identificación Criminalística",
+      "descripcion": "Preguntas de Procedimiento Policial",
+      "categoria": "Investigación y consulta policial",
+      "fecha": "10/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 5,
+      "titulo": "Redacción de Actas Policiales",
+      "descripcion": "Preguntas de Procedimiento Policial",
+      "categoria": "Actas y documentación policial",
+      "fecha": "10/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 6,
+      "titulo": "Acta Policial de Aprehensión",
+      "descripcion": "Preguntas de Procedimiento Policial",
+      "categoria": "Actas y documentación policial",
+      "fecha": "10/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 7,
+      "titulo": "Acta de Investigación Penal",
+      "descripcion": "Preguntas de Procedimiento Policial",
+      "categoria": "Actas y documentación policial",
+      "fecha": "10/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 8,
+      "titulo": "Actas Complementarias",
+      "descripcion": "Actas de diligencias y registros procesales",
+      "categoria": "Actas y documentación policial",
+      "fecha": "06/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 9,
+      "titulo": "El Oficio",
+      "descripcion": "Comunicación escrita formal hacia organismos externos",
+      "categoria": "Actas y documentación policial",
+      "fecha": "13/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 10,
+      "titulo": "El Memorando",
+      "descripcion": "Comunicación escrita breve y directa de uso interno",
+      "categoria": "Actas y documentación policial",
+      "fecha": "13/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 11,
+      "titulo": "La Pirámide de Kelsen",
+      "descripcion": "Jerarquía del ordenamiento jurídico y actuación policial",
+      "categoria": "Fundamentos jurídicos",
+      "fecha": "13/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 12,
+      "titulo": "Libro de Novedades del Servicio",
+      "descripcion": "Finalidad y estructura reglamentaria del registro diario de guardia en el PAC",
+      "categoria": "Actas y documentación policial",
+      "fecha": "13/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 13,
+      "titulo": "Uso Progresivo y Diferenciado de la Fuerza (UPDF)",
+      "descripcion": "Aplicación práctica y niveles de intervención policial en el CPNB",
+      "categoria": "Uso progresivo y control de la fuerza",
+      "fecha": "13/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 14,
+      "titulo": "Cuadrantes de Paz y Actuación Policial (CPNB)",
+      "descripcion": "Organización territorial, patrullaje preventivo y respuesta policial en el CPNB",
+      "categoria": "Actuación operativa",
+      "fecha": "13/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 15,
+      "titulo": "Pirámide Resistencia - Control (UPDFP)",
+      "descripcion": "Uso Progresivo y Diferenciado de la Fuerza Policial: niveles de resistencia ciudadana y niveles de control oficial",
+      "categoria": "Uso progresivo y control de la fuerza",
+      "fecha": "13/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 16,
+      "titulo": "¿Qué significa SIIPOL?",
+      "descripcion": "Evaluación operativa sobre el significado, alcance y protocolo de consulta del SIIPOL",
+      "categoria": "Investigación y consulta policial",
+      "fecha": "16/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 17,
+      "titulo": "Responsabilidad del Funcionario",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Fundamentos jurídicos",
+      "fecha": "18/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 18,
+      "titulo": "Seguridad Ciudadana y Carácter Civil",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Fundamentos jurídicos",
+      "fecha": "18/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 19,
+      "titulo": "Control de Manifestaciones",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Fundamentos jurídicos",
+      "fecha": "18/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 20,
+      "titulo": "Allanamiento y Recintos Privados",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Fundamentos jurídicos",
+      "fecha": "18/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 21,
+      "titulo": "Uso de la Fuerza Policial",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Fundamentos jurídicos",
+      "fecha": "18/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 22,
+      "titulo": "Jerarquías: Alta Dirección",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Jerarquías policiales",
+      "fecha": "18/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 23,
+      "titulo": "Jerarquías: Nivel Estratégico",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Jerarquías policiales",
+      "fecha": "18/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 24,
+      "titulo": "Jerarquías: Nivel Táctico",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Jerarquías policiales",
+      "fecha": "18/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 25,
+      "titulo": "Jerarquías: Nivel Operacional",
+      "descripcion": "Respuestas de un Funcionario",
+      "categoria": "Jerarquías policiales",
+      "fecha": "18/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responde"
+    },
+    {
+      "id": 26,
+      "titulo": "Hechos Punibles: Delitos y Faltas",
+      "descripcion": "Clasificación de los hechos punibles en delitos y faltas, gravedad de la conducta y sanciones en el derecho penal",
+      "categoria": "Actuación operativa",
+      "fecha": "19/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 27,
+      "titulo": "Principios y Derechos Disciplinarios",
+      "descripcion": "Legitimidad, defensa y garantías del procedimiento policial",
+      "categoria": "Régimen disciplinario policial",
+      "fecha": "20/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 28,
+      "titulo": "Prescripción y Concurso de Faltas",
+      "descripcion": "Lapsos de prescripción, acumulación y graduación",
+      "categoria": "Régimen disciplinario policial",
+      "fecha": "20/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 29,
+      "titulo": "Medidas Disciplinarias Correctivas",
+      "descripcion": "Diferencias entre llamado de atención y asistencias",
+      "categoria": "Régimen disciplinario policial",
+      "fecha": "20/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 30,
+      "titulo": "Averiguación Disciplinaria",
+      "descripcion": "Inicio, diligencias e instrucción del expediente",
+      "categoria": "Régimen disciplinario policial",
+      "fecha": "20/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    },
+    {
+      "id": 31,
+      "titulo": "Recusación, Inhibición y Destitución",
+      "descripcion": "Imparcialidad, sustitución y ejecución de la sanción",
+      "categoria": "Régimen disciplinario policial",
+      "fecha": "20/11/2026",
+      "enlace": "page/promo.html",
+      "textoBoton": "Responder"
+    }
+  ]
 }

@@ -33,23 +33,22 @@ function normalizeSearch(value) {
 function renderSections(query) {
   resultsContainer.replaceChildren();
 
-  if (!query) {
-    searchStatus.textContent = 'Escribe un tema o palabra para consultar el protocolo.';
-    return;
-  }
-
-  const terms = query.split(/\s+/);
-  const results = sections.filter(section => {
-    const content = normalizeSearch(`${section.title} ${section.text}`);
-    return terms.every(term => content.includes(term));
-  });
+  const terms = query ? query.split(/\s+/) : [];
+  const results = query
+    ? sections.filter(section => {
+      const content = normalizeSearch(`${section.title} ${section.text}`);
+      return terms.every(term => content.includes(term));
+    })
+    : sections;
 
   if (!results.length) {
     searchStatus.textContent = 'No se encontró información con esos términos.';
     return;
   }
 
-  searchStatus.textContent = `Se encontraron ${results.length} sección${results.length === 1 ? '' : 'es'}.`;
+  searchStatus.textContent = query
+    ? `Se encontraron ${results.length} artículo${results.length === 1 ? '' : 's'}.`
+    : `Se muestran los ${results.length} artículos del protocolo.`;
 
   const pinnedItems = getPinnedItems();
 
@@ -101,7 +100,7 @@ searchInput.addEventListener('input', () => {
   renderSections(normalizeSearch(searchInput.value));
 });
 
-fetch('file/funcion/fuc_02.json')
+fetch('file/funcion/fuc_01.json')
   .then(response => {
     if (!response.ok) {
       throw new Error(`No se pudo cargar el protocolo (${response.status}).`);
@@ -109,13 +108,47 @@ fetch('file/funcion/fuc_02.json')
     return response.json();
   })
   .then(data => {
-    if (!Array.isArray(data.secciones)) {
-      throw new Error('El archivo de Actas debe incluir la lista secciones.');
+    if (data?.tipo !== 'actas' || !Array.isArray(data.categoria)) {
+      throw new Error('El archivo de Actas debe incluir categorías con sus artículos.');
     }
-    sections = data.secciones.map(section => ({
-      title: section.titulo,
-      text: section.contenido
-    }));
+
+    sections = data.categoria.flatMap(category => {
+      if (
+        typeof category.nombre !== 'string' ||
+        !Array.isArray(category.subcategorias)
+      ) {
+        throw new Error('El archivo de Actas contiene una categoría con formato inválido.');
+      }
+
+      return category.subcategorias.flatMap(subcategory => {
+        if (
+          typeof subcategory.nombre !== 'string' ||
+          !Array.isArray(subcategory.articulos)
+        ) {
+          throw new Error('El archivo de Actas contiene una subcategoría con formato inválido.');
+        }
+
+        return subcategory.articulos.map(article => {
+          if (
+            typeof article.numART !== 'string' ||
+            typeof article.tituloART !== 'string' ||
+            typeof article.parrafoART !== 'string'
+          ) {
+            throw new Error('El archivo de Actas contiene un artículo con formato inválido.');
+          }
+
+          return {
+            title: `${category.nombre} · ${subcategory.nombre} · Artículo ${article.numART}: ${article.tituloART}`,
+            text: article.parrafoART
+          };
+        });
+      });
+    });
+
+    if (!sections.length) {
+      throw new Error('El archivo de Actas no contiene artículos para mostrar.');
+    }
+
     renderSections(normalizeSearch(searchInput.value));
   })
   .catch(error => {
