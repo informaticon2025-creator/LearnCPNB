@@ -217,6 +217,8 @@ const practiceLivesStorageKey = 'learncpnb-practice-lives';
 const maxPracticeLives = 5;
 let practiceLivesRefreshTimeout;
 let practiceRoutePromotions = [];
+const prefetchedPracticeIds = new Set();
+let initialPracticePrefetchStarted = false;
 const practiceActivityDialog = document.getElementById('practiceActivityDialog');
 const practiceActivityFrame = document.getElementById('practiceActivityFrame');
 let practiceActivityReturnFocus;
@@ -249,6 +251,10 @@ function openPracticeActivity(promoId, title, keyPractice = false) {
 
   const params = new URLSearchParams();
   params.set('embedded', '1');
+  sessionStorage.setItem(
+    'learncpnb-practice-route-v1',
+    JSON.stringify(practiceRoutePromotions.map(practice => practice.promoId))
+  );
   if (keyPractice) {
     params.set('practice', 'keys');
     params.set('routeIds', practiceRoutePromotions.map(practice => practice.promoId).join(','));
@@ -603,6 +609,10 @@ function renderPromoCatalog(promotions) {
   const firstIncompletePromoId = practicePromotions.find(
     item => !completedPromoIds.includes(item.promoId)
   )?.promoId;
+  if (!initialPracticePrefetchStarted && firstIncompletePromoId !== undefined) {
+    initialPracticePrefetchStarted = true;
+    prefetchPracticeActivity(firstIncompletePromoId);
+  }
   renderPracticeMap(
     practicePromotions.filter(item => !archivedPromoIds.includes(item.promoId)),
     completedPromoIds,
@@ -773,6 +783,23 @@ function renderPromoCatalog(promotions) {
   status.textContent = container.childElementCount
     ? ''
     : 'Aún no hay prácticas disponibles.';
+}
+
+function prefetchPracticeActivity(promoId) {
+  if (prefetchedPracticeIds.has(promoId)) return;
+  prefetchedPracticeIds.add(promoId);
+  fetch(`file/news/promo_${String(promoId).padStart(2, '0')}.json`)
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    })
+    .then(activity => {
+      sessionStorage.setItem(`learncpnb-practice-content-${promoId}`, JSON.stringify(activity));
+    })
+    .catch(error => {
+      prefetchedPracticeIds.delete(promoId);
+      console.warn(`No se pudo anticipar la actividad ${promoId}.`, error);
+    });
 }
 
 function renderPracticeMap(practices, completedPromoIds, firstIncompletePromoId) {

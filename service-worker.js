@@ -1,10 +1,10 @@
-const CACHE_NAME = 'learncpnb-v161';
+const CACHE_NAME = 'learncpnb-v163';
 const APP_SHELL = [
-  'index.html?v=133',
+  'index.html?v=134',
   'page/news.html?v=103',
   'page/404.html',
   'page/offline.html',
-  'page/promo.html?v=133',
+  'page/promo.html?v=134',
   'page/ilust.html',
   'page/art.html',
   'page/actas.html',
@@ -16,17 +16,17 @@ const APP_SHELL = [
   'file/news/new_index.json',
   'assets/document.svg',
   'assets/cpnb-emblem.png',
-  'style/css.css?v=117',
+  'style/css.css?v=118',
   'style/desktop-notice.css?v=2',
-  'interaction/inter.js?v=23',
+  'interaction/inter.js?v=24',
   'interaction/desktop-notice.js?v=2',
   'interaction/news-media.js?v=3',
   'interaction/news-detail.js?v=1',
-  'interaction/promo.js?v=15',
+  'interaction/promo.js?v=16',
   'interaction/art.js',
   'interaction/actas.js',
   'interaction/register-sw.js',
-  'interaction/ad-popup.js?v=1',
+  'interaction/ad-popup.js?v=2',
   'icon.png'
 ];
 

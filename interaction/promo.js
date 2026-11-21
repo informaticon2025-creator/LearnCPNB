@@ -4,6 +4,7 @@ let promoFeedbackTimeout;
 let promoFeedbackElement;
 const completedPromosStorageKey = 'learncpnb-completed-promos-v2';
 const practiceLivesStorageKey = 'learncpnb-practice-lives';
+const practiceRouteSessionKey = 'learncpnb-practice-route-v1';
 const maxPracticeLives = 5;
 const practiceCooldownMs = 24 * 60 * 60 * 1000;
 let practiceAudioContext;
@@ -131,6 +132,20 @@ function getCompletedPromoIds() {
 }
 
 async function getPracticeRouteIds() {
+  const cachedRoute = sessionStorage.getItem(practiceRouteSessionKey);
+  if (cachedRoute) {
+    const ids = JSON.parse(cachedRoute);
+    if (
+      !Array.isArray(ids) ||
+      !ids.length ||
+      ids.some(id => !Number.isSafeInteger(id) || id < 1 || id > 999) ||
+      new Set(ids).size !== ids.length
+    ) {
+      throw new Error('La ruta de prácticas guardada no es válida.');
+    }
+    return ids;
+  }
+
   const response = await fetch('file/news/promo_index.json');
   if (!response.ok) {
     throw new Error(`No se pudo validar la ruta de prácticas (HTTP ${response.status}).`);
@@ -156,7 +171,7 @@ async function getPracticeRouteIds() {
     ) {
       throw new Error('El índice de actividades no contiene una ruta válida.');
     }
-    return index.activities
+    const ids = index.activities
       .filter(item => {
         const destination = new URL(item.enlace, document.baseURI);
         return destination.origin === window.location.origin &&
@@ -164,9 +179,13 @@ async function getPracticeRouteIds() {
       })
       .map(item => item.id)
       .sort((first, second) => first - second);
+    sessionStorage.setItem(practiceRouteSessionKey, JSON.stringify(ids));
+    return ids;
   }
 
-  return [...index.ids].sort((first, second) => first - second);
+  const ids = [...index.ids].sort((first, second) => first - second);
+  sessionStorage.setItem(practiceRouteSessionKey, JSON.stringify(ids));
+  return ids;
 }
 
 function isEmbeddedPractice() {
@@ -189,6 +208,25 @@ function markPromoCompleted(promoId) {
   Object.keys(localStorage)
     .filter(key => key.startsWith(draftPrefix))
     .forEach(key => localStorage.removeItem(key));
+  sessionStorage.removeItem(`learncpnb-practice-content-${promoId}`);
+}
+
+async function loadPromoActivity(promoId) {
+  const storageKey = `learncpnb-practice-content-${promoId}`;
+  const prefetched = sessionStorage.getItem(storageKey);
+  if (prefetched) return JSON.parse(prefetched);
+
+  const filename = `file/news/promo_${String(promoId).padStart(2, '0')}.json`;
+  if ('caches' in window) {
+    const cachedResponse = await caches.match(new URL(filename, document.baseURI).href);
+    if (cachedResponse) return cachedResponse.json();
+  }
+
+  const response = await fetch(filename);
+  if (!response.ok) throw new Error(`No se pudo cargar la actividad (${response.status}).`);
+  const activity = await response.json();
+  sessionStorage.setItem(storageKey, JSON.stringify(activity));
+  return activity;
 }
 
 function promoQuizDraftKey(promoId, blockIndex) {
@@ -995,10 +1033,7 @@ async function loadPromo() {
   const routePromise = getPracticeRouteIds();
   const activityPromise = isKeyPractice
     ? loadKeyPracticeEntries()
-    : fetch(`file/news/promo_${String(id).padStart(2, '0')}.json`).then(response => {
-        if (!response.ok) throw new Error(`No se pudo cargar la actividad (${response.status}).`);
-        return response.json();
-      });
+    : loadPromoActivity(id);
   const settledActivityPromise = activityPromise.then(
     value => ({ value }),
     error => ({ error })
@@ -1053,34 +1088,48 @@ async function loadPromo() {
   const result = await settledActivityPromise;
   if (result.error) throw result.error;
   await renderPromo(result.value, id);
-  const nextId = routeIds[routeIds.indexOf(id) + 1];
-  if (nextId) {
-    const prefetchNext = () => {
-      fetch(`file/news/promo_${String(nextId).padStart(2, '0')}.json`)
-        .catch(error => console.warn(`No se pudo anticipar la siguiente actividad (${nextId}).`, error));
-    };
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(prefetchNext, { timeout: 2500 });
-    } else {
-      window.setTimeout(prefetchNext, 1200);
-    }
-  }
+  prefetchNextPracticeActivity(routeIds[routeIds.indexOf(id) + 1]);
+}
+
+function prefetchNextPracticeActivity(promoId) {
+  if (!promoId) return;
+  const prefetch = () => {
+    loadPromoActivity(promoId)
+      .catch(error => console.warn(`No se pudo anticipar la siguiente actividad (${promoId}).`, error));
+  };
+  prefetch();
 }
 
 async function loadNextPromo(nextPromoId) {
   if (nextPromoId === null) {
-    window.location.assign('index.html?view=function&promos=1');
+    if (isEmbeddedPractice()) {
+      const completedIds = getCompletedPromoIds();
+      notifyParentPractice('learncpnb-practice-finished', completedIds[completedIds.length - 1]);
+    } else {
+      window.location.assign('index.html?view=function&promos=1');
+    }
     return;
   }
 
   if (!Number.isSafeInteger(nextPromoId) || nextPromoId < 1 || nextPromoId > 999) {
     throw new Error('El enlace a la siguiente actividad no es válido.');
   }
-  const nextUrl = new URL('page/promo.html', document.baseURI);
+  const routeIds = await getPracticeRouteIds();
+  const firstIncompleteId = routeIds.find(id => !getCompletedPromoIds().includes(id));
+  if (firstIncompleteId !== nextPromoId) {
+    throw new Error('La siguiente actividad no está desbloqueada.');
+  }
+
   const params = new URLSearchParams(window.location.search);
   params.set('id', String(nextPromoId));
-  nextUrl.search = params.toString();
-  window.location.assign(nextUrl.href);
+  params.set('sectionIds', routeIds.join(','));
+  params.set('sectionName', 'Ruta de prácticas');
+  window.history.replaceState(null, '', `${window.location.pathname}?${params}`);
+  promoContent.replaceChildren(createPromoElement('p', 'content-status', 'Cargando actividad...'));
+
+  const activity = await loadPromoActivity(nextPromoId);
+  await renderPromo(activity, nextPromoId);
+  prefetchNextPracticeActivity(routeIds[routeIds.indexOf(nextPromoId) + 1]);
 }
 
 loadPromo().catch(error => {
