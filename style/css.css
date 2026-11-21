@@ -5236,12 +5236,14 @@ body.promo-page .site-header .topbar {
 
 .practice-map-route {
   width: 100%;
+  min-width: 0;
 }
 
 .practice-map-diagram {
   display: block;
   width: 100%;
-  min-width: 560px;
+  min-width: 0;
+  max-width: 100%;
   height: auto;
 }
 
@@ -5601,6 +5603,14 @@ body.promo-page .site-header .topbar {
   .practice-map-scroll {
     max-height: min(44vh, 340px);
     max-height: min(44dvh, 340px);
+    overflow-x: hidden;
+  }
+
+  .practice-map-route,
+  .practice-map-diagram {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .function-panel-toggles .promo-catalog-trigger {
