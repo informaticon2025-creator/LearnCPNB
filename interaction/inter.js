@@ -252,7 +252,7 @@ function openPracticeActivity(promoId, title, keyPractice = false) {
   const params = new URLSearchParams();
   params.set('embedded', '1');
   sessionStorage.setItem(
-    'learncpnb-practice-route-v1',
+    'learncpnb-practice-route-v2',
     JSON.stringify(practiceRoutePromotions.map(practice => practice.promoId))
   );
   if (keyPractice) {
@@ -598,13 +598,20 @@ function renderPromoCatalog(promotions) {
   ).sort((first, second) => first.promoId - second.promoId);
   const orderedPromotions = publishedPromotions;
 
-  const practicePromotions = publishedPromotions.filter(item => {
+  const practicePromotionsById = publishedPromotions.filter(item => {
     const url = safeHttpUrl(item.enlace.trim() || 'page/promo.html', document.baseURI);
     if (!url) return false;
     const destination = new URL(url);
     return destination.origin === window.location.origin &&
       destination.pathname === new URL('page/promo.html', document.baseURI).pathname;
   });
+  const practiceSections = new Map();
+  practicePromotionsById.forEach(item => {
+    const categoryName = item.categoria?.trim() || 'Otras actividades';
+    if (!practiceSections.has(categoryName)) practiceSections.set(categoryName, []);
+    practiceSections.get(categoryName).push(item);
+  });
+  const practicePromotions = [...practiceSections.values()].flat();
   practiceRoutePromotions = practicePromotions;
   const firstIncompletePromoId = practicePromotions.find(
     item => !completedPromoIds.includes(item.promoId)

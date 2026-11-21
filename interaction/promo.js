@@ -1,10 +1,14 @@
 const promoContent = document.getElementById('promoContent');
 document.body.classList.add('promo-page');
+document.body.classList.toggle(
+  'promo-page--embedded',
+  new URLSearchParams(window.location.search).get('embedded') === '1'
+);
 let promoFeedbackTimeout;
 let promoFeedbackElement;
 const completedPromosStorageKey = 'learncpnb-completed-promos-v2';
 const practiceLivesStorageKey = 'learncpnb-practice-lives';
-const practiceRouteSessionKey = 'learncpnb-practice-route-v1';
+const practiceRouteSessionKey = 'learncpnb-practice-route-v2';
 const maxPracticeLives = 5;
 const practiceCooldownMs = 24 * 60 * 60 * 1000;
 let practiceAudioContext;
@@ -171,14 +175,22 @@ async function getPracticeRouteIds() {
     ) {
       throw new Error('El índice de actividades no contiene una ruta válida.');
     }
-    const ids = index.activities
+    const activitiesById = index.activities
       .filter(item => {
         const destination = new URL(item.enlace, document.baseURI);
         return destination.origin === window.location.origin &&
           destination.pathname === new URL('page/promo.html', document.baseURI).pathname;
       })
-      .map(item => item.id)
-      .sort((first, second) => first - second);
+      .sort((first, second) => first.id - second.id);
+    const sections = new Map();
+    activitiesById.forEach(item => {
+      const sectionName = typeof item.categoria === 'string' && item.categoria.trim()
+        ? item.categoria.trim()
+        : 'Otras actividades';
+      if (!sections.has(sectionName)) sections.set(sectionName, []);
+      sections.get(sectionName).push(item.id);
+    });
+    const ids = [...sections.values()].flat();
     sessionStorage.setItem(practiceRouteSessionKey, JSON.stringify(ids));
     return ids;
   }
