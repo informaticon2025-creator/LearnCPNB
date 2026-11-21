@@ -708,22 +708,58 @@ html.color-inverted .practice-map-scroll {
   background: var(--card-bg);
 }
 
-html.color-inverted .practice-map-label rect {
-  fill: var(--card-bg);
-  stroke: var(--border-color);
-}
-
 html.color-inverted .practice-map-shield {
   fill: var(--accent-color);
   stroke: var(--accent-gold);
 }
 
-html.color-inverted .practice-map-label-title {
+html.color-inverted .practice-map-section--completed .practice-map-shield {
+  fill: #45a875;
+  stroke: #26734d;
+}
+
+html.color-inverted .practice-map-point {
+  fill: var(--card-bg);
+  stroke: var(--accent-gold);
+}
+
+html.color-inverted .practice-map-activity--locked .practice-map-point {
+  fill: #737d89;
+  stroke: #a4afbd;
+}
+
+html.color-inverted .practice-map-activity--completed .practice-map-point {
+  fill: #45a875;
+  stroke: #26734d;
+}
+
+html.color-inverted .practice-map-tooltip rect {
+  fill: var(--card-bg);
+  stroke: var(--border-color);
+}
+
+html.color-inverted .practice-map-tooltip text,
+html.color-inverted .practice-map-section-tooltip text + text {
   fill: var(--text-main);
 }
 
-html.color-inverted .practice-map-label-count {
-  fill: var(--text-muted);
+html.color-inverted .practice-activity-dialog {
+  border-color: var(--border-color);
+  background: var(--card-bg);
+}
+
+html.color-inverted .practice-catalog-dialog {
+  border-color: var(--border-color);
+  background: var(--card-bg);
+}
+
+html.color-inverted .practice-activity-dialog-header {
+  border-color: var(--border-color);
+}
+
+html.color-inverted .practice-activity-dialog-close {
+  background: var(--card-bg);
+  color: var(--text-main);
 }
 
 html.color-inverted .view-heading h1,
@@ -5194,6 +5230,16 @@ body.promo-page .site-header .topbar {
   background: #45a875;
 }
 
+.practice-map-legend .practice-map-dot--available {
+  border-color: #c59a48;
+  background: #123b70;
+}
+
+.practice-map-legend .practice-map-dot--locked {
+  border-color: #7d8997;
+  background: #cbd2dc;
+}
+
 .practice-map-scroll {
   max-height: min(42vh, 360px);
   max-height: min(42dvh, 360px);
@@ -5263,46 +5309,227 @@ body.promo-page .site-header .topbar {
   stroke-width: 3px;
 }
 
-.practice-map-node {
-  fill: #ffffff;
-  stroke: #41658c;
-  stroke-width: 3px;
-}
-
-.practice-map-node--completed {
-  fill: #45a875;
-  stroke: #26734d;
-}
-
-.practice-map-connector {
-  fill: none;
-  stroke: #a9bdd4;
-  stroke-dasharray: 3px 4px;
-  stroke-width: 1.5px;
-}
-
-.practice-map-label rect {
-  fill: #ffffff;
-  stroke: #dce5f0;
-  stroke-width: 1.5px;
-}
-
-.practice-map-label-title {
-  fill: #123b70;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.practice-map-label-count {
-  fill: #63748a;
-  font-size: 10px;
-}
-
 .practice-map-shield {
   fill: #123b70;
   stroke: #c59a48;
   stroke-linejoin: round;
   stroke-width: 2px;
+}
+
+.practice-map-section,
+.practice-map-activity {
+  cursor: pointer;
+  outline: none;
+}
+
+.practice-map-section--locked,
+.practice-map-activity--locked {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.practice-map-section--completed {
+  cursor: default;
+}
+
+.practice-map-section--completed .practice-map-shield {
+  fill: #45a875;
+  stroke: #26734d;
+}
+
+.practice-map-section:focus-visible .practice-map-shield {
+  stroke: #f0b52d;
+  stroke-width: 4px;
+}
+
+.practice-map-section--locked .practice-map-shield {
+  fill: #cbd2dc;
+  stroke: #7d8997;
+}
+
+.practice-map-activity--completed {
+  cursor: default;
+}
+
+.practice-map-point {
+  fill: #ffffff;
+  stroke: #41658c;
+  stroke-width: 3px;
+}
+
+.practice-map-activity--locked .practice-map-point {
+  fill: #cbd2dc;
+  stroke: #7d8997;
+}
+
+.practice-map-activity--completed .practice-map-point {
+  fill: #45a875;
+  stroke: #26734d;
+}
+
+.practice-map-activity:focus-visible .practice-map-point {
+  stroke: #f0b52d;
+  stroke-width: 4px;
+}
+
+.practice-map-tooltip {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease-out;
+}
+
+.practice-map-section:hover .practice-map-section-tooltip,
+.practice-map-section:focus-visible .practice-map-section-tooltip,
+.practice-map-activity:hover .practice-map-activity-tooltip,
+.practice-map-activity:focus-visible .practice-map-activity-tooltip {
+  opacity: 1;
+}
+
+.practice-map-tooltip rect {
+  fill: #ffffff;
+  stroke: #cbd7e5;
+  stroke-width: 1px;
+  filter: drop-shadow(0 3px 6px rgba(8, 24, 48, 0.18));
+}
+
+.practice-map-tooltip text {
+  fill: #123b70;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.practice-map-section-tooltip text + text {
+  fill: #63748a;
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.practice-activity-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(940px, calc(100vw - 32px));
+  height: min(88vh, 900px);
+  height: min(88dvh, 900px);
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #dce5f0;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(8, 24, 48, 0.35);
+}
+
+.practice-activity-dialog[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.practice-activity-dialog::backdrop {
+  background: rgba(8, 18, 34, 0.68);
+  backdrop-filter: blur(3px);
+}
+
+.practice-activity-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 58px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #dce5f0;
+  background: #f8fafd;
+}
+
+.practice-activity-dialog-header h2 {
+  overflow: hidden;
+  color: var(--accent-color);
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.practice-activity-dialog-close {
+  display: grid;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid #dce5f0;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--text-main);
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.practice-activity-dialog-close:hover,
+.practice-activity-dialog-close:focus-visible {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  outline: 3px solid rgba(36, 92, 158, 0.2);
+}
+
+.practice-activity-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 0;
+  background: #ffffff;
+}
+
+.practice-catalog-dialog,
+.function-material-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(760px, calc(100vw - 24px));
+  max-width: none;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  border: 1px solid #dce5f0;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(8, 24, 48, 0.35);
+}
+
+.practice-catalog-dialog::backdrop,
+.function-material-dialog::backdrop {
+  background: rgba(8, 18, 34, 0.68);
+  backdrop-filter: blur(3px);
+}
+
+.practice-catalog-dialog .promo-catalog-section,
+.function-material-dialog .function-section {
+  width: 100%;
+  border: 0;
+  border-radius: 20px;
+  box-shadow: none;
+}
+
+.practice-catalog-dialog .promo-catalog-section[hidden],
+.function-material-dialog .function-section[hidden] {
+  display: none;
+}
+
+.practice-catalog-dialog .promo-catalog-header {
+  align-items: center;
+}
+
+.function-material-dialog .function-section {
+  padding: 24px;
+}
+
+.function-material-dialog .promo-catalog-header {
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 .promo-catalog-trigger {
@@ -5604,13 +5831,50 @@ body.promo-page .site-header .topbar {
     max-height: min(44vh, 340px);
     max-height: min(44dvh, 340px);
     overflow-x: hidden;
+    overflow-y: auto;
   }
 
-  .practice-map-route,
   .practice-map-diagram {
     width: 100%;
     min-width: 0;
     max-width: 100%;
+  }
+
+  .practice-map-route {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .practice-activity-dialog {
+    width: calc(100vw - 16px);
+    height: calc(100vh - 16px);
+    height: calc(100dvh - 16px);
+    border-radius: 14px;
+  }
+
+  .practice-catalog-dialog,
+  .function-material-dialog {
+    width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    max-height: calc(100dvh - 16px);
+    border-radius: 14px;
+  }
+
+  .practice-catalog-dialog .promo-catalog-section,
+  .function-material-dialog .function-section {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .practice-catalog-dialog .promo-catalog-header,
+  .function-material-dialog .promo-catalog-header {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .practice-activity-dialog-header {
+    min-height: 52px;
+    padding: 7px 10px;
   }
 
   .function-panel-toggles .promo-catalog-trigger {

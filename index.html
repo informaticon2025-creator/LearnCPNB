@@ -29,7 +29,7 @@
   <meta name="twitter:image" content="https://learncpnb.vercel.app/assets/cpnb-emblem.png">
 
   <!-- Estilos e Iconos -->
-  <link rel="stylesheet" href="style/css.css?v=116">
+  <link rel="stylesheet" href="style/css.css?v=117">
   <link rel="icon" type="image/png" href="./icon.png">
 
   <!-- Scripts -->
@@ -272,36 +272,54 @@
             <h2 id="practiceMapTitle">Tu mapa de prácticas</h2>
           </div>
           <div class="practice-map-legend" aria-label="Leyenda del mapa">
+            <span><span class="practice-map-dot practice-map-dot--available" aria-hidden="true"></span>Disponible</span>
+            <span><span class="practice-map-dot practice-map-dot--locked" aria-hidden="true"></span>Bloqueada</span>
             <span><span class="practice-map-dot practice-map-dot--completed" aria-hidden="true"></span>Completada</span>
-            <span><span class="practice-map-dot" aria-hidden="true"></span>Pendiente</span>
           </div>
         </div>
         <div class="practice-map-scroll" id="practiceMapScroll" role="region" tabindex="0"
-          aria-label="Mapa de progreso de prácticas, solo lectura" aria-describedby="practiceMapHelp">
+          aria-label="Mapa de progreso de prácticas" aria-describedby="practiceMapHelp">
           <p class="practice-map-status" id="practiceMapStatus" role="status" aria-live="polite">Cargando mapa...</p>
           <div class="practice-map-route" id="practiceMapRoute"></div>
         </div>
-        <p class="practice-map-help" id="practiceMapHelp">Solo lectura: desplázate para recorrer las secciones y sus prácticas.</p>
+        <p class="practice-map-help" id="practiceMapHelp">Cada sección tiene un escudo y cada actividad un punto. Abre el punto disponible; los títulos aparecen al pasar el cursor sobre ellos.</p>
       </section>
       <p class="practice-cooldown-notice" id="practiceCooldownNotice" role="status" aria-live="polite" hidden></p>
-      <section class="promo-catalog-section" id="promoCatalogView" aria-labelledby="promoCatalogHeading" hidden>
-        <div class="promo-catalog-header">
-          <div>
-            <h2 class="section-heading" id="promoCatalogHeading" tabindex="-1">Actividades de práctica</h2>
+      <dialog class="practice-catalog-dialog" id="practiceCatalogDialog" aria-labelledby="promoCatalogHeading">
+        <section class="promo-catalog-section" id="promoCatalogView" aria-labelledby="promoCatalogHeading" hidden>
+          <div class="promo-catalog-header">
+            <div>
+              <h2 class="section-heading" id="promoCatalogHeading" tabindex="-1">Actividades de práctica</h2>
+            </div>
+            <button class="practice-activity-dialog-close" id="practiceCatalogClose" type="button" aria-label="Cerrar actividades">×</button>
           </div>
-        </div>
-        <div class="promo-catalog-list" id="promoCatalog" aria-live="polite"></div>
-        <p class="content-status" id="promoCatalogStatus" role="status" aria-live="polite">Cargando promociones...</p>
-      </section>
-      <section class="function-section" id="functionMaterialSection" aria-labelledby="functionKeysHeading" hidden>
-        <h2 class="section-heading" id="functionKeysHeading">Material de función policial</h2>
-        <p class="function-catalog-help">Selecciona un recurso para consultar su contenido.</p>
-        <div class="function-categories" id="functionCategories" aria-live="polite"></div>
-        <p class="content-status" id="functionStatus" role="status" aria-live="polite">Cargando material...</p>
-      </section>
+          <div class="promo-catalog-list" id="promoCatalog" aria-live="polite"></div>
+          <p class="content-status" id="promoCatalogStatus" role="status" aria-live="polite">Cargando promociones...</p>
+        </section>
+      </dialog>
+      <dialog class="practice-catalog-dialog function-material-dialog" id="functionMaterialDialog" aria-labelledby="functionKeysHeading">
+        <section class="function-section" id="functionMaterialSection" aria-labelledby="functionKeysHeading" hidden>
+          <div class="promo-catalog-header">
+            <div>
+              <h2 class="section-heading" id="functionKeysHeading" tabindex="-1">Material de función policial</h2>
+              <p class="function-catalog-help">Selecciona un recurso para consultar su contenido.</p>
+            </div>
+            <button class="practice-activity-dialog-close" id="functionMaterialClose" type="button" aria-label="Cerrar guías">×</button>
+          </div>
+          <div class="function-categories" id="functionCategories" aria-live="polite"></div>
+          <p class="content-status" id="functionStatus" role="status" aria-live="polite">Cargando material...</p>
+        </section>
+      </dialog>
     </section>
 
     <button class="key-practice-launch" id="keyPracticeLaunch" type="button" hidden>Practica</button>
+    <dialog class="practice-activity-dialog" id="practiceActivityDialog" aria-labelledby="practiceActivityDialogTitle">
+      <div class="practice-activity-dialog-header">
+        <h2 id="practiceActivityDialogTitle">Actividad de práctica</h2>
+        <button class="practice-activity-dialog-close" id="practiceActivityDialogClose" type="button" aria-label="Cerrar actividad">×</button>
+      </div>
+      <iframe class="practice-activity-frame" id="practiceActivityFrame" title="Actividad de práctica"></iframe>
+    </dialog>
     <section class="results-panel" id="resultsPanel" aria-live="polite" hidden>
       <h2 class="results-heading" id="resultsHeading"></h2>
       <div class="container" id="cardsContainer"></div>
@@ -571,7 +589,7 @@ Tu espacio de entrenamiento y consulta técnica. Explora terminología clave, re
   </dialog>
   <script src="interaction/register-sw.js"></script>
   <script src="interaction/news-media.js?v=3"></script>
-  <script src="interaction/inter.js?v=22"></script>
+  <script src="interaction/inter.js?v=23"></script>
   <script>
 (function(orrx){
 var d = document,

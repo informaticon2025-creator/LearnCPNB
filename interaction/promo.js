@@ -130,12 +130,100 @@ function getCompletedPromoIds() {
   return ids;
 }
 
+async function getPracticeRouteIds() {
+  const response = await fetch('file/news/promo_index.json');
+  if (!response.ok) {
+    throw new Error(`No se pudo validar la ruta de prácticas (HTTP ${response.status}).`);
+  }
+  const index = await response.json();
+  if (
+    !index ||
+    !Array.isArray(index.ids) ||
+    index.ids.some(id => !Number.isSafeInteger(id) || id < 1 || id > 999) ||
+    new Set(index.ids).size !== index.ids.length
+  ) {
+    throw new Error('El índice de actividades no contiene una ruta válida.');
+  }
+  if (Array.isArray(index.activities)) {
+    if (
+      index.activities.length !== index.ids.length ||
+      index.activities.some(item =>
+        !item ||
+        !Number.isSafeInteger(item.id) ||
+        !index.ids.includes(item.id) ||
+        typeof item.enlace !== 'string'
+      )
+    ) {
+      throw new Error('El índice de actividades no contiene una ruta válida.');
+    }
+    return index.activities
+      .filter(item => {
+        const destination = new URL(item.enlace, document.baseURI);
+        return destination.origin === window.location.origin &&
+          destination.pathname === new URL('page/promo.html', document.baseURI).pathname;
+      })
+      .map(item => item.id)
+      .sort((first, second) => first - second);
+  }
+
+  return [...index.ids].sort((first, second) => first - second);
+}
+
+function isEmbeddedPractice() {
+  return new URLSearchParams(window.location.search).get('embedded') === '1' &&
+    window.parent !== window;
+}
+
+function notifyParentPractice(type, promoId) {
+  if (!isEmbeddedPractice()) return;
+  window.parent.postMessage({ type, promoId }, window.location.origin);
+}
+
 function markPromoCompleted(promoId) {
   const completedIds = getCompletedPromoIds();
   if (!completedIds.includes(promoId)) {
     completedIds.push(promoId);
     localStorage.setItem(completedPromosStorageKey, JSON.stringify(completedIds));
   }
+  const draftPrefix = `learncpnb-promo-progress-${promoId}-`;
+  Object.keys(localStorage)
+    .filter(key => key.startsWith(draftPrefix))
+    .forEach(key => localStorage.removeItem(key));
+}
+
+function promoQuizDraftKey(promoId, blockIndex) {
+  return `learncpnb-promo-progress-${promoId}-${blockIndex}`;
+}
+
+function readPromoQuizDraft(promoId, blockIndex, questions) {
+  const saved = localStorage.getItem(promoQuizDraftKey(promoId, blockIndex));
+  if (!saved) return [];
+  const answers = JSON.parse(saved);
+  if (
+    !Array.isArray(answers) ||
+    answers.length !== questions.length ||
+    answers.some((selected, questionIndex) =>
+      !Array.isArray(selected) ||
+      selected.some(optionIndex =>
+        !Number.isSafeInteger(optionIndex) ||
+        optionIndex < 0 ||
+        optionIndex >= questions[questionIndex].opciones.length
+      ) ||
+      new Set(selected).size !== selected.length ||
+      (questions[questionIndex].opciones.filter(option => option.correcta).length === 1 &&
+        selected.length > 1)
+    )
+  ) {
+    throw new Error('El avance guardado de la actividad no es válido.');
+  }
+  return answers;
+}
+
+function savePromoQuizDraft(promoId, blockIndex, form) {
+  const answers = [...form.querySelectorAll('.promo-question')].map(fieldset =>
+    [...fieldset.querySelectorAll('input:checked')].map(input => Number(input.value))
+  );
+  localStorage.setItem(promoQuizDraftKey(promoId, blockIndex), JSON.stringify(answers));
 }
 
 function createPracticeComments(practiceKey, onFinish) {
@@ -383,7 +471,7 @@ function renderOfferBlock(block, section) {
   appendExternalLink(section, block.url, 'la promoción', block.textoBoton || 'Ver promoción');
 }
 
-function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete, completionContext) {
+function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete, completionContext, promoId) {
   if (!Array.isArray(block.preguntas) || !block.preguntas.length) {
     throw new Error(`El cuestionario ${blockIndex + 1} debe tener al menos una pregunta.`);
   }
@@ -438,6 +526,16 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete, co
     });
     form.appendChild(fieldset);
   });
+  const savedAnswers = readPromoQuizDraft(promoId, blockIndex, block.preguntas);
+  savedAnswers.forEach((selectedOptions, questionIndex) => {
+    const fieldset = form.querySelectorAll('.promo-question')[questionIndex];
+    selectedOptions.forEach(optionIndex => {
+      fieldset.querySelector(`input[value="${optionIndex}"]`).checked = true;
+    });
+    fieldset.querySelectorAll('.promo-option').forEach(label => {
+      label.classList.toggle('is-selected', label.querySelector('input').checked);
+    });
+  });
 
   const progress = createPromoElement('div', 'promo-lesson-progress');
   const progressLabel = createPromoElement(
@@ -462,7 +560,11 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete, co
     progressTrack.setAttribute('aria-valuenow', String(answered));
     progressFill.style.width = `${(answered / block.preguntas.length) * 100}%`;
   };
-  form.addEventListener('change', updateProgress);
+  form.addEventListener('change', () => {
+    updateProgress();
+    savePromoQuizDraft(promoId, blockIndex, form);
+  });
+  updateProgress();
 
   const submit = createPromoElement('button', 'promo-action promo-action--icon-only');
   submit.type = 'submit';
@@ -516,11 +618,11 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete, co
                 optionLabel.classList.remove('is-selected', 'is-incorrect', 'is-correct');
               });
             });
+            savePromoQuizDraft(promoId, blockIndex, form);
           };
       showQuizFeedback(false, onDismiss, getLifeLossMessage(state));
       return;
     }
-
     selectedAnswers.forEach(({ label }) => label.classList.add('is-correct'));
     submit.disabled = true;
     const activityCompleted = onComplete();
@@ -528,8 +630,13 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete, co
     playPracticeSound(sectionCompleted ? 'section-victory' : 'victory');
     showQuizFeedback(true, () => {
       if (activityCompleted) {
+        notifyParentPractice('learncpnb-practice-completed', promoId);
         if (sectionCompleted) {
           const returnToCatalog = () => {
+            if (isEmbeddedPractice()) {
+              notifyParentPractice('learncpnb-practice-finished', promoId);
+              return;
+            }
             const catalogUrl = new URL('index.html', document.baseURI);
             catalogUrl.searchParams.set('view', 'function');
             catalogUrl.searchParams.set('promos', '1');
@@ -552,7 +659,7 @@ function renderQuizBlock(block, section, blockIndex, nextPromoId, onComplete, co
   section.appendChild(form);
 }
 
-function renderContentBlock(block, index, nextPromoId, onQuizComplete, completionContext) {
+function renderContentBlock(block, index, nextPromoId, onQuizComplete, completionContext, promoId) {
   const supportedTypes = ['texto', 'imagen', 'video', 'enlace', 'promocion', 'quiz'];
   if (!block || !supportedTypes.includes(block.tipo)) {
     throw new Error(`El bloque ${index + 1} tiene un tipo no compatible.`);
@@ -578,7 +685,7 @@ function renderContentBlock(block, index, nextPromoId, onQuizComplete, completio
       renderOfferBlock(block, section);
       break;
     case 'quiz':
-      renderQuizBlock(block, section, index, nextPromoId, onQuizComplete, completionContext);
+      renderQuizBlock(block, section, index, nextPromoId, onQuizComplete, completionContext, promoId);
       break;
   }
 
@@ -640,7 +747,7 @@ function renderPromo(promo, promoId) {
     return true;
   };
   const sections = (promo.contenido || []).map((block, index) =>
-    renderContentBlock(block, index, nextPromoId, onQuizComplete, completionContext)
+    renderContentBlock(block, index, nextPromoId, onQuizComplete, completionContext, promoId)
   );
   promoContent.replaceChildren(
     heading,
@@ -879,62 +986,85 @@ async function loadPromo() {
   });
 
   const params = new URLSearchParams(window.location.search);
-  if (params.get('practice') === 'keys') {
-    renderKeyPracticePage(await loadKeyPracticeEntries());
-    return;
-  }
-
-  const id = Number(params.get('id') || 1);
-  if (!Number.isSafeInteger(id) || id < 1 || id > 999) {
+  const isKeyPractice = params.get('practice') === 'keys';
+  const id = isKeyPractice ? null : Number(params.get('id') || 1);
+  if (!isKeyPractice && (!Number.isSafeInteger(id) || id < 1 || id > 999)) {
     throw new Error('El enlace de la actividad no es válido.');
   }
-  if (getCompletedPromoIds().includes(id)) {
-    window.location.replace('index.html?view=function&promos=1');
+  const completedPromoIds = getCompletedPromoIds();
+  const routePromise = getPracticeRouteIds();
+  const activityPromise = isKeyPractice
+    ? loadKeyPracticeEntries()
+    : fetch(`file/news/promo_${String(id).padStart(2, '0')}.json`).then(response => {
+        if (!response.ok) throw new Error(`No se pudo cargar la actividad (${response.status}).`);
+        return response.json();
+      });
+  const settledActivityPromise = activityPromise.then(
+    value => ({ value }),
+    error => ({ error })
+  );
+  const routeIds = await routePromise;
+  const firstIncompleteId = routeIds.find(id => !completedPromoIds.includes(id));
+  const sectionName = 'Ruta de prácticas';
+
+  const redirectToAvailableActivity = id => {
+    const nextUrl = new URL('page/promo.html', document.baseURI);
+    const nextParams = new URLSearchParams();
+    nextParams.set('id', String(id));
+    nextParams.set('sectionIds', routeIds.join(','));
+    nextParams.set('sectionName', sectionName);
+    if (isEmbeddedPractice()) nextParams.set('embedded', '1');
+    nextUrl.search = nextParams.toString();
+    window.location.replace(nextUrl.href);
+  };
+
+  if (isKeyPractice) {
+    if (firstIncompleteId !== undefined) {
+      redirectToAvailableActivity(firstIncompleteId);
+      return;
+    }
+    const result = await settledActivityPromise;
+    if (result.error) throw result.error;
+    renderKeyPracticePage(result.value);
     return;
   }
-  const sectionIdsValue = params.get('sectionIds');
-  if (sectionIdsValue !== null) {
-    const sectionIds = sectionIdsValue.split(',').map(value => Number(value));
-    const sectionName = params.get('sectionName');
-    if (
-      !sectionName ||
-      !sectionName.trim() ||
-      sectionName.length > 80 ||
-      !sectionIds.length ||
-      sectionIds.some(sectionId => !Number.isSafeInteger(sectionId) || sectionId < 1 || sectionId > 999) ||
-      new Set(sectionIds).size !== sectionIds.length ||
-      !sectionIds.includes(id)
-    ) {
-      throw new Error('El orden de actividades de esta sección no es válido.');
-    }
 
-    const completedPromoIds = getCompletedPromoIds();
-    const firstIncompleteId = sectionIds.find(sectionId => !completedPromoIds.includes(sectionId));
-    if (firstIncompleteId !== undefined && firstIncompleteId !== id) {
-      const nextUrl = new URL('page/promo.html', document.baseURI);
-      nextUrl.searchParams.set('id', String(firstIncompleteId));
-      nextUrl.searchParams.set('sectionIds', sectionIds.join(','));
-      nextUrl.searchParams.set('sectionName', sectionName);
-      window.location.replace(nextUrl.href);
-      return;
+  if (!routeIds.includes(id)) {
+    throw new Error('La actividad no pertenece a la ruta de prácticas.');
+  }
+  if (completedPromoIds.includes(id)) {
+    if (firstIncompleteId !== undefined) {
+      redirectToAvailableActivity(firstIncompleteId);
+    } else if (isEmbeddedPractice()) {
+      notifyParentPractice('learncpnb-practice-finished', id);
+    } else {
+      window.location.replace('index.html?view=function&promos=1');
     }
-    if (firstIncompleteId === undefined) {
-      const catalogUrl = new URL('index.html', document.baseURI);
-      catalogUrl.searchParams.set('view', 'function');
-      catalogUrl.searchParams.set('promos', '1');
-      catalogUrl.searchParams.set('section', sectionName);
-      window.location.replace(catalogUrl.href);
-      return;
-    }
+    return;
+  }
+  if (firstIncompleteId !== id) {
+    redirectToAvailableActivity(firstIncompleteId);
+    return;
   }
 
-  const filename = new URL(
-    `file/news/promo_${String(id).padStart(2, '0')}.json`,
-    document.baseURI
-  );
-  const response = await fetch(filename);
-  if (!response.ok) throw new Error(`No se pudo cargar la actividad (${response.status}).`);
-  await renderPromo(await response.json(), id);
+  params.set('sectionIds', routeIds.join(','));
+  params.set('sectionName', sectionName);
+  window.history.replaceState(null, '', `${window.location.pathname}?${params}`);
+  const result = await settledActivityPromise;
+  if (result.error) throw result.error;
+  await renderPromo(result.value, id);
+  const nextId = routeIds[routeIds.indexOf(id) + 1];
+  if (nextId) {
+    const prefetchNext = () => {
+      fetch(`file/news/promo_${String(nextId).padStart(2, '0')}.json`)
+        .catch(error => console.warn(`No se pudo anticipar la siguiente actividad (${nextId}).`, error));
+    };
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(prefetchNext, { timeout: 2500 });
+    } else {
+      window.setTimeout(prefetchNext, 1200);
+    }
+  }
 }
 
 async function loadNextPromo(nextPromoId) {

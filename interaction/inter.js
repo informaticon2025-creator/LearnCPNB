@@ -205,11 +205,89 @@ let promoCatalogLoaded = false;
 let promoCatalogLoadPromise = null;
 let lawItems = [];
 let functionResources = [];
+let newsItemsLoaded = false;
+let lawItemsLoaded = false;
+let functionResourcesLoaded = false;
+let newsLoadPromise = null;
+let lawsLoadPromise = null;
+let functionResourcesLoadPromise = null;
 const keyPracticeLaunch = document.getElementById('keyPracticeLaunch');
 const normalizeText = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 const practiceLivesStorageKey = 'learncpnb-practice-lives';
 const maxPracticeLives = 5;
 let practiceLivesRefreshTimeout;
+let practiceRoutePromotions = [];
+const practiceActivityDialog = document.getElementById('practiceActivityDialog');
+const practiceActivityFrame = document.getElementById('practiceActivityFrame');
+let practiceActivityReturnFocus;
+
+function openPracticeActivity(promoId, title, keyPractice = false) {
+  const savedCompletedPromos = localStorage.getItem('learncpnb-completed-promos-v2');
+  const completedPromoIds = savedCompletedPromos ? JSON.parse(savedCompletedPromos) : [];
+  if (
+    !Array.isArray(completedPromoIds) ||
+    completedPromoIds.some(id => !Number.isSafeInteger(id) || id < 1 || id > 999)
+  ) {
+    throw new Error('El registro de actividades completadas no es válido.');
+  }
+
+  const firstIncomplete = practiceRoutePromotions.find(
+    practice => !completedPromoIds.includes(practice.promoId)
+  );
+  if (
+    (keyPractice && firstIncomplete) ||
+    (!keyPractice && (
+      !Number.isSafeInteger(promoId) ||
+      firstIncomplete?.promoId !== promoId ||
+      completedPromoIds.includes(promoId)
+    ))
+  ) {
+    document.getElementById('practiceMapStatus').textContent =
+      'Completa el escudo disponible para desbloquear la siguiente actividad.';
+    return;
+  }
+
+  const params = new URLSearchParams();
+  params.set('embedded', '1');
+  if (keyPractice) {
+    params.set('practice', 'keys');
+    params.set('routeIds', practiceRoutePromotions.map(practice => practice.promoId).join(','));
+  } else {
+    params.set('id', String(promoId));
+    params.set('sectionIds', practiceRoutePromotions.map(practice => practice.promoId).join(','));
+    params.set('sectionName', 'Ruta de prácticas');
+  }
+  const src = `page/promo.html?${params}`;
+  if (practiceActivityFrame.dataset.src !== src) {
+    practiceActivityFrame.src = src;
+    practiceActivityFrame.dataset.src = src;
+  }
+  document.getElementById('practiceActivityDialogTitle').textContent = title;
+  practiceActivityFrame.title = title;
+  practiceActivityReturnFocus = document.activeElement;
+  if (!practiceActivityDialog.open) practiceActivityDialog.showModal();
+}
+
+document.getElementById('practiceActivityDialogClose').addEventListener('click', () => {
+  practiceActivityDialog.close();
+});
+practiceActivityDialog.addEventListener('click', event => {
+  if (event.target === practiceActivityDialog) practiceActivityDialog.close();
+});
+practiceActivityDialog.addEventListener('close', () => {
+  practiceActivityReturnFocus?.focus();
+});
+window.addEventListener('message', event => {
+  if (
+    event.origin !== window.location.origin ||
+    event.source !== practiceActivityFrame.contentWindow ||
+    !event.data ||
+    !['learncpnb-practice-completed', 'learncpnb-practice-finished'].includes(event.data.type)
+  ) return;
+
+  if (promoCatalogLoaded) renderPromoCatalog(promoItems);
+  if (event.data.type === 'learncpnb-practice-finished') practiceActivityDialog.close();
+});
 
 function updatePracticeLivesIndicator() {
   const indicator = document.getElementById('practiceLivesIndicator');
@@ -521,18 +599,15 @@ function renderPromoCatalog(promotions) {
     return destination.origin === window.location.origin &&
       destination.pathname === new URL('page/promo.html', document.baseURI).pathname;
   });
+  practiceRoutePromotions = practicePromotions;
+  const firstIncompletePromoId = practicePromotions.find(
+    item => !completedPromoIds.includes(item.promoId)
+  )?.promoId;
   renderPracticeMap(
     practicePromotions.filter(item => !archivedPromoIds.includes(item.promoId)),
-    completedPromoIds
+    completedPromoIds,
+    firstIncompletePromoId
   );
-  const sectionIdsByCategory = new Map();
-  practicePromotions
-    .filter(item => !archivedPromoIds.includes(item.promoId))
-    .forEach(item => {
-      const categoryName = item.categoria?.trim() || 'Otras actividades';
-      if (!sectionIdsByCategory.has(categoryName)) sectionIdsByCategory.set(categoryName, []);
-      sectionIdsByCategory.get(categoryName).push(item.promoId);
-    });
   const completedPracticeCount = practicePromotions.filter(item =>
     completedPromoIds.includes(item.promoId) && !archivedPromoIds.includes(item.promoId)
   ).length;
@@ -546,8 +621,6 @@ function renderPromoCatalog(promotions) {
     const promoId = item.promoId;
     if (archivedPromoIds.includes(promoId)) return;
     const categoryName = item.categoria?.trim() || 'Otras actividades';
-    const sectionIds = sectionIdsByCategory.get(categoryName) || [];
-    const firstIncompletePromoId = sectionIds.find(id => !completedPromoIds.includes(id));
 
     const destinationUrl = safeHttpUrl(item.enlace.trim() || 'page/promo.html', document.baseURI);
     if (!destinationUrl) {
@@ -560,21 +633,18 @@ function renderPromoCatalog(promotions) {
     if (isPromoActivity) destination.searchParams.set('id', String(promoId));
 
     const isCompleted = isPromoActivity && completedPromoIds.includes(promoId);
-    const isLocked = isPromoActivity &&
-      !isCompleted &&
-      firstIncompletePromoId !== undefined &&
-      promoId !== firstIncompletePromoId;
-    if (isPromoActivity) {
-      destination.searchParams.set('sectionIds', sectionIds.join(','));
-      destination.searchParams.set('sectionName', categoryName);
-    }
+    const isLocked = isPromoActivity && !isCompleted &&
+      firstIncompletePromoId !== undefined && promoId !== firstIncompletePromoId;
     const card = document.createElement('article');
     card.className = `promo-catalog-card${isCompleted ? ' promo-catalog-card--completed' : ''}${isLocked ? ' promo-catalog-card--locked' : ''}`;
-    const action = document.createElement(isCompleted || isLocked ? 'button' : 'a');
+    const action = document.createElement(isPromoActivity || isCompleted || isLocked ? 'button' : 'a');
     action.className = 'promo-catalog-button';
-    if (isCompleted || isLocked) {
+    if (isPromoActivity || isCompleted || isLocked) {
       action.type = 'button';
-      action.disabled = true;
+      action.disabled = isCompleted || isLocked;
+      if (isPromoActivity && !action.disabled) {
+        action.addEventListener('click', () => openPracticeActivity(promoId, item.titulo));
+      }
     } else {
       action.href = destination.href;
       if (destination.origin !== window.location.origin) {
@@ -637,17 +707,26 @@ function renderPromoCatalog(promotions) {
 
   const keyCategory = 'Claves y códigos policiales';
   const keyPracticeCard = document.createElement('article');
-  keyPracticeCard.className = 'promo-catalog-card promo-catalog-card--keys';
-  const keyPracticeLink = document.createElement('a');
+  const keyPracticeUnlocked = firstIncompletePromoId === undefined;
+  keyPracticeCard.className = `promo-catalog-card promo-catalog-card--keys${keyPracticeUnlocked ? '' : ' promo-catalog-card--locked'}`;
+  const keyPracticeLink = document.createElement('button');
   keyPracticeLink.className = 'promo-catalog-button';
-  keyPracticeLink.href = 'page/promo.html?practice=keys';
+  keyPracticeLink.type = 'button';
+  keyPracticeLink.disabled = !keyPracticeUnlocked;
+  if (keyPracticeUnlocked) {
+    keyPracticeLink.addEventListener('click', () =>
+      openPracticeActivity(null, 'Práctica de claves policiales', true)
+    );
+  }
   const keyPracticeTitle = document.createElement('strong');
   keyPracticeTitle.textContent = 'Práctica de claves policiales';
   const keyPracticeDescription = document.createElement('span');
   keyPracticeDescription.textContent = 'Pon a prueba tu memoria con preguntas aleatorias sobre claves, códigos y significados.';
   const keyPracticeAction = document.createElement('span');
   keyPracticeAction.className = 'promo-catalog-action';
-  keyPracticeAction.textContent = 'Practicar';
+  keyPracticeAction.textContent = keyPracticeUnlocked
+    ? 'Practicar'
+    : 'Completa todas las anteriores';
   keyPracticeLink.append(keyPracticeTitle, keyPracticeDescription, keyPracticeAction);
   keyPracticeCard.appendChild(keyPracticeLink);
   if (!cardsByCategory.has(keyCategory)) {
@@ -696,10 +775,22 @@ function renderPromoCatalog(promotions) {
     : 'Aún no hay prácticas disponibles.';
 }
 
-function renderPracticeMap(practices, completedPromoIds) {
+function renderPracticeMap(practices, completedPromoIds, firstIncompletePromoId) {
   const route = document.getElementById('practiceMapRoute');
   const status = document.getElementById('practiceMapStatus');
   if (!route || !status) return;
+  const wrapTooltipText = (text, maxLength) => {
+    const lines = [];
+    text.split(/\s+/).forEach(word => {
+      const lastLine = lines[lines.length - 1];
+      if (lastLine && `${lastLine} ${word}`.length <= maxLength) {
+        lines[lines.length - 1] += ` ${word}`;
+      } else {
+        lines.push(word);
+      }
+    });
+    return lines;
+  };
 
   const sections = new Map();
   practices.forEach(practice => {
@@ -707,48 +798,65 @@ function renderPracticeMap(practices, completedPromoIds) {
     if (!sections.has(name)) sections.set(name, []);
     sections.get(name).push({
       id: practice.promoId,
-      completed: completedPromoIds.includes(practice.promoId)
+      title: practice.titulo,
+      completed: completedPromoIds.includes(practice.promoId),
+      keyPractice: false
     });
   });
   const keyCategory = 'Claves y códigos policiales';
-  if (sections.has(keyCategory)) sections.get(keyCategory).push({ id: null, completed: false });
-  else sections.set(keyCategory, [{ id: null, completed: false }]);
+  const keyPractice = {
+    id: null,
+    title: 'Práctica de claves policiales',
+    completed: false,
+    keyPractice: true
+  };
+  if (sections.has(keyCategory)) sections.get(keyCategory).push(keyPractice);
+  else sections.set(keyCategory, [keyPractice]);
 
   route.replaceChildren();
   const namespace = 'http://www.w3.org/2000/svg';
   const width = 500;
-  const rowHeight = 155;
-  const top = 72;
-  const height = top + sections.size * rowHeight + 48;
+  const top = 68;
+  const sectionEntries = [...sections.entries()];
+  const rowHeights = sectionEntries.map(([, sectionPractices]) =>
+    Math.max(150, Math.ceil(sectionPractices.length / 2) * 50 + 70)
+  );
+  const height = top + rowHeights.reduce((total, rowHeight) => total + rowHeight, 0) + 32;
   const shieldPositions = [260, 400, 260, 400, 260, 400, 260, 400];
   const svg = document.createElementNS(namespace, 'svg');
   svg.classList.add('practice-map-diagram');
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-  svg.setAttribute('role', 'img');
+  svg.setAttribute('role', 'group');
   svg.setAttribute('aria-labelledby', 'practiceMapSvgTitle practiceMapSvgDescription');
   const svgTitle = document.createElementNS(namespace, 'title');
   svgTitle.id = 'practiceMapSvgTitle';
   svgTitle.textContent = 'Recorrido de prácticas por secciones';
   const svgDescription = document.createElementNS(namespace, 'desc');
   svgDescription.id = 'practiceMapSvgDescription';
-  svgDescription.textContent = 'Diagrama de solo lectura: escudos para las secciones y puntos para cada práctica. Los puntos verdes representan prácticas completadas.';
+  svgDescription.textContent = 'Cada escudo representa una sección y cada punto una actividad. Los puntos verdes son actividades completadas.';
   svg.append(svgTitle, svgDescription);
 
-  const points = [...sections.entries()].map(([name, sectionPractices], index) => ({
-    name,
-    practices: sectionPractices,
-    x: shieldPositions[index % shieldPositions.length],
-    y: top + index * rowHeight
-  }));
+  let nextY = top;
+  const points = sectionEntries.map(([name, sectionPractices], index) => {
+    const point = {
+      name,
+      practices: sectionPractices,
+      x: shieldPositions[index % shieldPositions.length],
+      y: nextY,
+      rowHeight: rowHeights[index]
+    };
+    nextY += rowHeights[index];
+    return point;
+  });
   const roadPath = document.createElementNS(namespace, 'path');
   roadPath.classList.add('practice-map-road');
   const roadCenterPath = document.createElementNS(namespace, 'path');
   roadCenterPath.classList.add('practice-map-road-center');
   let pathData = `M ${points[0].x} ${points[0].y}`;
   points.forEach((point, index) => {
-    const nextPoint = points[index + 1] || { x: width / 2, y: point.y + rowHeight };
-    const controlY = point.y + rowHeight / 2;
-    pathData += ` C ${point.x} ${controlY}, ${nextPoint.x} ${controlY}, ${nextPoint.x} ${nextPoint.y}`;
+    const nextPoint = points[index + 1] || { x: width / 2, y: point.y + point.rowHeight };
+    const controlY = point.rowHeight / 2;
+    pathData += ` C ${point.x} ${point.y + controlY}, ${nextPoint.x} ${nextPoint.y - controlY}, ${nextPoint.x} ${nextPoint.y}`;
   });
   roadPath.setAttribute('d', pathData);
   roadCenterPath.setAttribute('d', pathData);
@@ -761,13 +869,85 @@ function renderPracticeMap(practices, completedPromoIds) {
     practiceCount += sectionPractices.length;
     completedCount += sectionPractices.filter(practice => practice.completed).length;
 
-    const nextPoint = points[index + 1] || { x: width / 2, y: point.y + rowHeight };
-    const markers = document.createElementNS(namespace, 'g');
-    markers.setAttribute('aria-label', `${name}: ${sectionPractices.length} prácticas`);
+    const nextPoint = points[index + 1] || { x: width / 2, y: point.y + point.rowHeight };
+    const controlY = point.rowHeight / 2;
+    const completedInSection = sectionPractices.filter(practice => practice.completed).length;
+    const sectionActivity = sectionPractices.find(practice =>
+      practice.keyPractice ? firstIncompletePromoId === undefined : practice.id === firstIncompletePromoId
+    );
+    const sectionUnlocked = Boolean(sectionActivity);
+    const sectionCompleted = sectionPractices.every(practice => practice.completed);
+    const sectionShield = document.createElementNS(namespace, 'g');
+    sectionShield.classList.add('practice-map-section');
+    if (sectionCompleted) sectionShield.classList.add('practice-map-section--completed');
+    else if (!sectionUnlocked) sectionShield.classList.add('practice-map-section--locked');
+    sectionShield.setAttribute('transform', `translate(${point.x} ${point.y})`);
+    sectionShield.setAttribute(
+      'aria-label',
+      sectionCompleted
+        ? `${name}: sección completada`
+        : `${name}: ${completedInSection} de ${sectionPractices.length} actividades completadas${sectionUnlocked ? ', disponible' : ', bloqueada'}`
+    );
+    sectionShield.setAttribute('role', 'button');
+    sectionShield.setAttribute('tabindex', '0');
+    sectionShield.setAttribute('aria-disabled', String(!sectionUnlocked));
+    const openSection = () => {
+      if (!sectionUnlocked) {
+        status.textContent = 'Completa el punto disponible para desbloquear la siguiente actividad.';
+        return;
+      }
+      openPracticeActivity(
+        sectionActivity.id,
+        sectionActivity.title,
+        sectionActivity.keyPractice
+      );
+    };
+    sectionShield.addEventListener('click', openSection);
+    sectionShield.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openSection();
+      }
+    });
+    const sectionTooltip = document.createElementNS(namespace, 'g');
+    sectionTooltip.classList.add('practice-map-tooltip', 'practice-map-section-tooltip');
+    const sectionTitleLines = wrapTooltipText(name, 29);
+    const sectionTooltipHeight = sectionTitleLines.length * 13 + 20;
+    sectionTooltip.setAttribute('transform', `translate(${point.x < 330 ? point.x + 24 : point.x - 224} ${point.y - sectionTooltipHeight - 8})`);
+    const sectionTooltipRect = document.createElementNS(namespace, 'rect');
+    sectionTooltipRect.setAttribute('width', '200');
+    sectionTooltipRect.setAttribute('height', String(sectionTooltipHeight));
+    sectionTooltipRect.setAttribute('rx', '8');
+    const sectionTooltipTitle = document.createElementNS(namespace, 'text');
+    sectionTooltipTitle.setAttribute('x', '9');
+    sectionTooltipTitle.setAttribute('y', '15');
+    sectionTitleLines.forEach((line, lineIndex) => {
+      const lineElement = document.createElementNS(namespace, 'tspan');
+      lineElement.setAttribute('x', '9');
+      lineElement.setAttribute('dy', lineIndex ? '12' : '0');
+      lineElement.textContent = line;
+      sectionTooltipTitle.appendChild(lineElement);
+    });
+    const sectionTooltipCount = document.createElementNS(namespace, 'text');
+    sectionTooltipCount.setAttribute('x', '9');
+    sectionTooltipCount.setAttribute('y', String(sectionTooltipHeight - 6));
+    sectionTooltipCount.textContent = `${completedInSection}/${sectionPractices.length} completadas`;
+    sectionTooltip.append(sectionTooltipRect, sectionTooltipTitle, sectionTooltipCount);
+    sectionShield.appendChild(sectionTooltip);
+    const shieldHitArea = document.createElementNS(namespace, 'circle');
+    shieldHitArea.setAttribute('r', '29');
+    shieldHitArea.setAttribute('fill', 'transparent');
+    sectionShield.appendChild(shieldHitArea);
+    const shieldPath = document.createElementNS(namespace, 'path');
+    shieldPath.classList.add('practice-map-shield');
+    shieldPath.setAttribute('d', 'M 0 -21 l 17 8 v 10 c 0 11 -7 18 -17 23 -10 -5 -17 -12 -17 -23 v -10 Z');
+    shieldPath.setAttribute('transform', 'scale(0.9)');
+    sectionShield.appendChild(shieldPath);
+    svg.appendChild(sectionShield);
+
     sectionPractices.forEach((practice, markerIndex) => {
       const progress = (markerIndex + 1) / (sectionPractices.length + 1);
       const inverse = 1 - progress;
-      const controlY = rowHeight / 2;
       const x = inverse ** 3 * point.x
         + 3 * inverse ** 2 * progress * point.x
         + 3 * inverse * progress ** 2 * nextPoint.x
@@ -776,71 +956,70 @@ function renderPracticeMap(practices, completedPromoIds) {
         + 3 * inverse ** 2 * progress * (point.y + controlY)
         + 3 * inverse * progress ** 2 * (nextPoint.y - controlY)
         + progress ** 3 * nextPoint.y;
-      const marker = document.createElementNS(namespace, 'circle');
-      marker.classList.add('practice-map-node');
-      if (practice.completed) marker.classList.add('practice-map-node--completed');
-      marker.setAttribute('cx', String(x));
-      marker.setAttribute('cy', String(y));
-      marker.setAttribute('r', '8');
-      markers.appendChild(marker);
+      const unlocked = practice.keyPractice ? firstIncompletePromoId === undefined : practice.id === firstIncompletePromoId;
+      const marker = document.createElementNS(namespace, 'g');
+      marker.classList.add('practice-map-activity');
+      if (practice.completed) marker.classList.add('practice-map-activity--completed');
+      else if (!unlocked) marker.classList.add('practice-map-activity--locked');
+      marker.setAttribute('transform', `translate(${x} ${y})`);
+      marker.setAttribute(
+        'aria-label',
+        practice.completed
+          ? `Completada: ${practice.title}`
+          : unlocked
+            ? `Continuar actividad: ${practice.title}`
+            : `Bloqueada: ${practice.title}. Completa las actividades anteriores.`
+      );
+      marker.setAttribute('role', practice.completed ? 'img' : 'button');
+      if (!practice.completed) {
+        marker.setAttribute('tabindex', '0');
+        marker.setAttribute('aria-disabled', String(!unlocked));
+        const open = () => {
+          if (!unlocked) {
+            status.textContent = 'Completa el punto disponible para desbloquear la siguiente actividad.';
+            return;
+          }
+          openPracticeActivity(practice.id, practice.title, practice.keyPractice);
+        };
+        marker.addEventListener('click', open);
+        marker.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            open();
+          }
+        });
+      }
+      const markerTooltip = document.createElementNS(namespace, 'g');
+      markerTooltip.classList.add('practice-map-tooltip', 'practice-map-activity-tooltip');
+      const titleLines = wrapTooltipText(practice.title, 29);
+      const markerTooltipHeight = titleLines.length * 13 + 12;
+      markerTooltip.setAttribute('transform', `translate(${x < 285 ? x + 14 : x - 214} ${y - markerTooltipHeight - 8})`);
+      const markerTooltipRect = document.createElementNS(namespace, 'rect');
+      markerTooltipRect.setAttribute('width', '200');
+      markerTooltipRect.setAttribute('height', String(markerTooltipHeight));
+      markerTooltipRect.setAttribute('rx', '8');
+      const markerTooltipText = document.createElementNS(namespace, 'text');
+      markerTooltipText.setAttribute('x', '9');
+      markerTooltipText.setAttribute('y', '15');
+      titleLines.forEach((line, lineIndex) => {
+        const lineElement = document.createElementNS(namespace, 'tspan');
+        lineElement.setAttribute('x', '9');
+        lineElement.setAttribute('dy', lineIndex ? '13' : '0');
+        lineElement.textContent = line;
+        markerTooltipText.appendChild(lineElement);
+      });
+      markerTooltip.append(markerTooltipRect, markerTooltipText);
+      marker.appendChild(markerTooltip);
+      const hitArea = document.createElementNS(namespace, 'circle');
+      hitArea.setAttribute('r', '16');
+      hitArea.setAttribute('fill', 'transparent');
+      marker.appendChild(hitArea);
+      const activityPoint = document.createElementNS(namespace, 'circle');
+      activityPoint.classList.add('practice-map-point');
+      activityPoint.setAttribute('r', '7');
+      marker.appendChild(activityPoint);
+      svg.appendChild(marker);
     });
-    svg.appendChild(markers);
-
-    const labelX = 16;
-    const labelTextX = labelX + 12;
-    const connector = document.createElementNS(namespace, 'path');
-    connector.classList.add('practice-map-connector');
-    connector.setAttribute(
-      'd',
-      `M ${point.x - 19} ${point.y} H ${labelX + 214}`
-    );
-    svg.appendChild(connector);
-
-    const labelLines = [];
-    name.split(/\s+/).forEach(word => {
-      const lastLine = labelLines[labelLines.length - 1];
-      if (lastLine && `${lastLine} ${word}`.length <= 25) labelLines[labelLines.length - 1] += ` ${word}`;
-      else labelLines.push(word);
-    });
-    const labelHeight = labelLines.length > 1 ? 56 : 46;
-    const label = document.createElementNS(namespace, 'g');
-    label.classList.add('practice-map-label');
-    const labelCard = document.createElementNS(namespace, 'rect');
-    labelCard.setAttribute('x', String(labelX));
-    labelCard.setAttribute('y', String(point.y - labelHeight / 2));
-    labelCard.setAttribute('width', '214');
-    labelCard.setAttribute('height', String(labelHeight));
-    labelCard.setAttribute('rx', '12');
-    label.appendChild(labelCard);
-
-    const labelTitle = document.createElementNS(namespace, 'text');
-    labelTitle.classList.add('practice-map-label-title');
-    labelTitle.setAttribute('x', String(labelTextX));
-    labelTitle.setAttribute('y', String(point.y + (labelLines.length > 1 ? -9 : -3)));
-    labelLines.forEach((line, lineIndex) => {
-      const lineElement = document.createElementNS(namespace, 'tspan');
-      lineElement.setAttribute('x', String(labelTextX));
-      lineElement.setAttribute('dy', lineIndex ? '13' : '0');
-      lineElement.textContent = line;
-      labelTitle.appendChild(lineElement);
-    });
-    label.appendChild(labelTitle);
-    const labelCount = document.createElementNS(namespace, 'text');
-    labelCount.classList.add('practice-map-label-count');
-    labelCount.setAttribute('x', String(labelTextX));
-    labelCount.setAttribute('y', String(point.y + (labelLines.length > 1 ? 21 : 13)));
-    const completedInSection = sectionPractices.filter(practice => practice.completed).length;
-    labelCount.textContent = `${sectionPractices.length} ${sectionPractices.length === 1 ? 'práctica' : 'prácticas'} · ${completedInSection} completadas`;
-    label.appendChild(labelCount);
-    svg.appendChild(label);
-
-    const shield = document.createElementNS(namespace, 'path');
-    shield.classList.add('practice-map-shield');
-    shield.setAttribute(
-      'd',
-      `M ${point.x} ${point.y - 21} l 17 8 v 10 c 0 11 -7 18 -17 23 -10 -5 -17 -12 -17 -23 v -10 Z`
-    );
-    svg.appendChild(shield);
   });
   route.appendChild(svg);
 
@@ -1005,19 +1184,26 @@ async function fetchPromotionFiles() {
   }));
 }
 
-async function loadNews() {
+function loadNews() {
+  if (newsItemsLoaded) return Promise.resolve();
+  if (newsLoadPromise) return newsLoadPromise;
+
   const status = document.getElementById('newsStatus');
-  try {
-    const entries = await fetchNumberedJson('file/news', 'new', validateNews);
-    newsItems = entries
-      .map((item, index) => ({ ...item, id: index + 1 }))
-      .reverse();
-    renderNews(newsItems);
-    refreshCurrentSearch();
-  } catch (error) {
-    console.error(error);
-    status.textContent = error.message || 'No se pudieron cargar las noticias.';
-  }
+  newsLoadPromise = fetchNumberedJson('file/news', 'new', validateNews)
+    .then(entries => {
+      newsItems = entries
+        .map((item, index) => ({ ...item, id: index + 1 }))
+        .reverse();
+      newsItemsLoaded = true;
+      renderNews(newsItems);
+      refreshCurrentSearch();
+    })
+    .catch(error => {
+      console.error(error);
+      status.textContent = error.message || 'No se pudieron cargar las noticias.';
+      newsLoadPromise = null;
+    });
+  return newsLoadPromise;
 }
 
 function loadPromoCatalog() {
@@ -1099,32 +1285,46 @@ function renderLaws(laws) {
   status.textContent = '';
 }
 
-async function loadLaws() {
+function loadLaws() {
+  if (lawItemsLoaded) return Promise.resolve();
+  if (lawsLoadPromise) return lawsLoadPromise;
+
   const status = document.getElementById('lawsStatus');
-  try {
-    lawItems = await fetchNumberedJson('file/gacetas', 'ley', validateLaw);
-    renderLaws(lawItems);
-    refreshCurrentSearch();
-  } catch (error) {
-    console.error(error);
-    status.textContent = error.message || 'No se pudieron cargar las leyes.';
-  }
+  lawsLoadPromise = fetchNumberedJson('file/gacetas', 'ley', validateLaw)
+    .then(laws => {
+      lawItems = laws;
+      lawItemsLoaded = true;
+      renderLaws(lawItems);
+      refreshCurrentSearch();
+    })
+    .catch(error => {
+      console.error(error);
+      status.textContent = error.message || 'No se pudieron cargar las leyes.';
+      lawsLoadPromise = null;
+    });
+  return lawsLoadPromise;
 }
 
-async function loadFunctionResources() {
+function loadFunctionResources() {
   const container = document.getElementById('functionCategories');
   const status = document.getElementById('functionStatus');
+  if (functionResourcesLoaded) return Promise.resolve();
+  if (functionResourcesLoadPromise) return functionResourcesLoadPromise;
 
-  try {
-    const resources = await fetchNumberedJson('file/funcion', 'fuc', validateFunctionResource);
-    functionResources = resources;
-    renderFunctionResources(resources);
-    refreshCurrentSearch();
-  } catch (error) {
-    console.error(error);
-    container.replaceChildren();
-    status.textContent = `No se pudo cargar el material: ${error.message}`;
-  }
+  functionResourcesLoadPromise = fetchNumberedJson('file/funcion', 'fuc', validateFunctionResource)
+    .then(resources => {
+      functionResources = resources;
+      functionResourcesLoaded = true;
+      renderFunctionResources(resources);
+      refreshCurrentSearch();
+    })
+    .catch(error => {
+      console.error(error);
+      container.replaceChildren();
+      status.textContent = `No se pudo cargar el material: ${error.message}`;
+      functionResourcesLoadPromise = null;
+    });
+  return functionResourcesLoadPromise;
 }
 
 function validateFunctionResource(resource, number) {
@@ -2149,7 +2349,9 @@ document.getElementById('functionView').addEventListener('click', event => {
 const promoCatalogOpen = document.getElementById('promoCatalogOpen');
 const functionMaterialOpen = document.getElementById('functionMaterialOpen');
 const promoCatalogView = document.getElementById('promoCatalogView');
+const practiceCatalogDialog = document.getElementById('practiceCatalogDialog');
 const functionMaterialSection = document.getElementById('functionMaterialSection');
+const functionMaterialDialog = document.getElementById('functionMaterialDialog');
 const functionPanelAnimations = new WeakMap();
 
 function setFunctionPanelVisibility(panel, visible) {
@@ -2164,7 +2366,10 @@ function setFunctionPanelVisibility(panel, visible) {
     panel.style.removeProperty('overflow');
     return;
   }
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (
+    panel === promoCatalogView ||
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) return;
 
   panel.style.overflow = 'hidden';
   const animation = panel.animate([
@@ -2184,6 +2389,10 @@ function showFunctionPanel(panel) {
   const showMaterial = panel === 'material';
   setFunctionPanelVisibility(promoCatalogView, showPromos);
   setFunctionPanelVisibility(functionMaterialSection, showMaterial);
+  if (showPromos && !practiceCatalogDialog.open) practiceCatalogDialog.showModal();
+  else if (!showPromos && practiceCatalogDialog.open) practiceCatalogDialog.close();
+  if (showMaterial && !functionMaterialDialog.open) functionMaterialDialog.showModal();
+  else if (!showMaterial && functionMaterialDialog.open) functionMaterialDialog.close();
   promoCatalogOpen.setAttribute('aria-expanded', String(showPromos));
   functionMaterialOpen.setAttribute('aria-expanded', String(showMaterial));
 }
@@ -2217,6 +2426,18 @@ promoCatalogOpen.addEventListener('click', () => {
   else toggleFunctionPanel('promos');
 });
 functionMaterialOpen.addEventListener('click', () => toggleFunctionPanel('material'));
+document.getElementById('functionMaterialClose').addEventListener('click', () => {
+  showFunctionPanel(null);
+});
+document.getElementById('practiceCatalogClose').addEventListener('click', () => {
+  showFunctionPanel(null);
+});
+practiceCatalogDialog.addEventListener('close', () => {
+  if (promoCatalogOpen.getAttribute('aria-expanded') === 'true') showFunctionPanel(null);
+});
+functionMaterialDialog.addEventListener('close', () => {
+  if (functionMaterialOpen.getAttribute('aria-expanded') === 'true') showFunctionPanel(null);
+});
 
 const initialParams = new URLSearchParams(window.location.search);
 if (initialParams.get('material') === '1') {
@@ -2243,7 +2464,10 @@ if (initialParams.get('material') === '1') {
       window.setInterval(updateCooldownNotice, 1000);
     };
   }
-  window.setTimeout(() => functionMaterialSection.scrollIntoView({ behavior: 'smooth' }), 100);
+  window.setTimeout(() => {
+    document.getElementById('functionKeysHeading').focus();
+    functionMaterialDialog.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 100);
 } else if (initialParams.get('promos') === '1') {
   openPromoCatalog();
 }
