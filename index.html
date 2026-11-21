@@ -29,7 +29,7 @@
   <meta name="twitter:image" content="https://learncpnb.vercel.app/assets/cpnb-emblem.png">
 
   <!-- Estilos e Iconos -->
-  <link rel="stylesheet" href="style/css.css?v=114">
+  <link rel="stylesheet" href="style/css.css?v=116">
   <link rel="icon" type="image/png" href="./icon.png">
 
   <!-- Scripts -->
@@ -259,12 +259,30 @@
       </div>
       <div class="function-panel-toggles" role="group" aria-label="Secciones de función policial">
         <button class="promo-catalog-trigger" id="functionMaterialOpen" type="button" aria-expanded="false" aria-controls="functionMaterialSection">
-          Material de función policial
+          Lee tus Guias
         </button>
         <button class="promo-catalog-trigger" id="promoCatalogOpen" type="button" aria-expanded="false" aria-controls="promoCatalogView">
-          Responder y practicar
+          Practicar
         </button>
       </div>
+      <section class="practice-map-card" aria-labelledby="practiceMapTitle">
+        <div class="practice-map-header">
+          <div>
+            <p class="practice-map-eyebrow">RECORRIDO ILUSTRATIVO</p>
+            <h2 id="practiceMapTitle">Tu mapa de prácticas</h2>
+          </div>
+          <div class="practice-map-legend" aria-label="Leyenda del mapa">
+            <span><span class="practice-map-dot practice-map-dot--completed" aria-hidden="true"></span>Completada</span>
+            <span><span class="practice-map-dot" aria-hidden="true"></span>Pendiente</span>
+          </div>
+        </div>
+        <div class="practice-map-scroll" id="practiceMapScroll" role="region" tabindex="0"
+          aria-label="Mapa de progreso de prácticas, solo lectura" aria-describedby="practiceMapHelp">
+          <p class="practice-map-status" id="practiceMapStatus" role="status" aria-live="polite">Cargando mapa...</p>
+          <div class="practice-map-route" id="practiceMapRoute"></div>
+        </div>
+        <p class="practice-map-help" id="practiceMapHelp">Solo lectura: desplázate para recorrer las secciones y sus prácticas.</p>
+      </section>
       <p class="practice-cooldown-notice" id="practiceCooldownNotice" role="status" aria-live="polite" hidden></p>
       <section class="promo-catalog-section" id="promoCatalogView" aria-labelledby="promoCatalogHeading" hidden>
         <div class="promo-catalog-header">
@@ -553,7 +571,7 @@ Tu espacio de entrenamiento y consulta técnica. Explora terminología clave, re
   </dialog>
   <script src="interaction/register-sw.js"></script>
   <script src="interaction/news-media.js?v=3"></script>
-  <script src="interaction/inter.js?v=20"></script>
+  <script src="interaction/inter.js?v=22"></script>
   <script>
 (function(orrx){
 var d = document,

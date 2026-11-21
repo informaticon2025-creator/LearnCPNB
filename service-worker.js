@@ -1,4 +1,4 @@
-const CACHE_NAME = 'learncpnb-v157';
+const CACHE_NAME = 'learncpnb-v160';
 const APP_SHELL = [
   'index.html?v=133',
   'page/news.html?v=103',
@@ -16,9 +16,9 @@ const APP_SHELL = [
   'file/news/new_index.json',
   'assets/document.svg',
   'assets/cpnb-emblem.png',
-  'style/css.css?v=114',
+  'style/css.css?v=116',
   'style/desktop-notice.css?v=2',
-  'interaction/inter.js?v=20',
+  'interaction/inter.js?v=22',
   'interaction/desktop-notice.js?v=2',
   'interaction/news-media.js?v=3',
   'interaction/news-detail.js?v=1',

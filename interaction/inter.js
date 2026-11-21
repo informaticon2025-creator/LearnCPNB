@@ -348,7 +348,10 @@ appMain.addEventListener('touchend', event => {
 function loadViewContent(view) {
   if (view === 'home') loadNews();
   else if (view === 'laws') loadLaws();
-  else if (view === 'function') loadFunctionResources();
+  else if (view === 'function') {
+    loadFunctionResources();
+    loadPromoCatalog();
+  }
 }
 
 function updateSearchPlaceholder() {
@@ -518,6 +521,10 @@ function renderPromoCatalog(promotions) {
     return destination.origin === window.location.origin &&
       destination.pathname === new URL('page/promo.html', document.baseURI).pathname;
   });
+  renderPracticeMap(
+    practicePromotions.filter(item => !archivedPromoIds.includes(item.promoId)),
+    completedPromoIds
+  );
   const sectionIdsByCategory = new Map();
   practicePromotions
     .filter(item => !archivedPromoIds.includes(item.promoId))
@@ -686,6 +693,159 @@ function renderPromoCatalog(promotions) {
 
   status.textContent = container.childElementCount
     ? ''
+    : 'Aún no hay prácticas disponibles.';
+}
+
+function renderPracticeMap(practices, completedPromoIds) {
+  const route = document.getElementById('practiceMapRoute');
+  const status = document.getElementById('practiceMapStatus');
+  if (!route || !status) return;
+
+  const sections = new Map();
+  practices.forEach(practice => {
+    const name = practice.categoria?.trim() || 'Otras actividades';
+    if (!sections.has(name)) sections.set(name, []);
+    sections.get(name).push({
+      id: practice.promoId,
+      completed: completedPromoIds.includes(practice.promoId)
+    });
+  });
+  const keyCategory = 'Claves y códigos policiales';
+  if (sections.has(keyCategory)) sections.get(keyCategory).push({ id: null, completed: false });
+  else sections.set(keyCategory, [{ id: null, completed: false }]);
+
+  route.replaceChildren();
+  const namespace = 'http://www.w3.org/2000/svg';
+  const width = 500;
+  const rowHeight = 155;
+  const top = 72;
+  const height = top + sections.size * rowHeight + 48;
+  const shieldPositions = [260, 400, 260, 400, 260, 400, 260, 400];
+  const svg = document.createElementNS(namespace, 'svg');
+  svg.classList.add('practice-map-diagram');
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-labelledby', 'practiceMapSvgTitle practiceMapSvgDescription');
+  const svgTitle = document.createElementNS(namespace, 'title');
+  svgTitle.id = 'practiceMapSvgTitle';
+  svgTitle.textContent = 'Recorrido de prácticas por secciones';
+  const svgDescription = document.createElementNS(namespace, 'desc');
+  svgDescription.id = 'practiceMapSvgDescription';
+  svgDescription.textContent = 'Diagrama de solo lectura: escudos para las secciones y puntos para cada práctica. Los puntos verdes representan prácticas completadas.';
+  svg.append(svgTitle, svgDescription);
+
+  const points = [...sections.entries()].map(([name, sectionPractices], index) => ({
+    name,
+    practices: sectionPractices,
+    x: shieldPositions[index % shieldPositions.length],
+    y: top + index * rowHeight
+  }));
+  const roadPath = document.createElementNS(namespace, 'path');
+  roadPath.classList.add('practice-map-road');
+  const roadCenterPath = document.createElementNS(namespace, 'path');
+  roadCenterPath.classList.add('practice-map-road-center');
+  let pathData = `M ${points[0].x} ${points[0].y}`;
+  points.forEach((point, index) => {
+    const nextPoint = points[index + 1] || { x: width / 2, y: point.y + rowHeight };
+    const controlY = point.y + rowHeight / 2;
+    pathData += ` C ${point.x} ${controlY}, ${nextPoint.x} ${controlY}, ${nextPoint.x} ${nextPoint.y}`;
+  });
+  roadPath.setAttribute('d', pathData);
+  roadCenterPath.setAttribute('d', pathData);
+  svg.append(roadPath, roadCenterPath);
+
+  let practiceCount = 0;
+  let completedCount = 0;
+  points.forEach((point, index) => {
+    const { name, practices: sectionPractices } = point;
+    practiceCount += sectionPractices.length;
+    completedCount += sectionPractices.filter(practice => practice.completed).length;
+
+    const nextPoint = points[index + 1] || { x: width / 2, y: point.y + rowHeight };
+    const markers = document.createElementNS(namespace, 'g');
+    markers.setAttribute('aria-label', `${name}: ${sectionPractices.length} prácticas`);
+    sectionPractices.forEach((practice, markerIndex) => {
+      const progress = (markerIndex + 1) / (sectionPractices.length + 1);
+      const inverse = 1 - progress;
+      const controlY = rowHeight / 2;
+      const x = inverse ** 3 * point.x
+        + 3 * inverse ** 2 * progress * point.x
+        + 3 * inverse * progress ** 2 * nextPoint.x
+        + progress ** 3 * nextPoint.x;
+      const y = inverse ** 3 * point.y
+        + 3 * inverse ** 2 * progress * (point.y + controlY)
+        + 3 * inverse * progress ** 2 * (nextPoint.y - controlY)
+        + progress ** 3 * nextPoint.y;
+      const marker = document.createElementNS(namespace, 'circle');
+      marker.classList.add('practice-map-node');
+      if (practice.completed) marker.classList.add('practice-map-node--completed');
+      marker.setAttribute('cx', String(x));
+      marker.setAttribute('cy', String(y));
+      marker.setAttribute('r', '8');
+      markers.appendChild(marker);
+    });
+    svg.appendChild(markers);
+
+    const labelX = 16;
+    const labelTextX = labelX + 12;
+    const connector = document.createElementNS(namespace, 'path');
+    connector.classList.add('practice-map-connector');
+    connector.setAttribute(
+      'd',
+      `M ${point.x - 19} ${point.y} H ${labelX + 214}`
+    );
+    svg.appendChild(connector);
+
+    const labelLines = [];
+    name.split(/\s+/).forEach(word => {
+      const lastLine = labelLines[labelLines.length - 1];
+      if (lastLine && `${lastLine} ${word}`.length <= 25) labelLines[labelLines.length - 1] += ` ${word}`;
+      else labelLines.push(word);
+    });
+    const labelHeight = labelLines.length > 1 ? 56 : 46;
+    const label = document.createElementNS(namespace, 'g');
+    label.classList.add('practice-map-label');
+    const labelCard = document.createElementNS(namespace, 'rect');
+    labelCard.setAttribute('x', String(labelX));
+    labelCard.setAttribute('y', String(point.y - labelHeight / 2));
+    labelCard.setAttribute('width', '214');
+    labelCard.setAttribute('height', String(labelHeight));
+    labelCard.setAttribute('rx', '12');
+    label.appendChild(labelCard);
+
+    const labelTitle = document.createElementNS(namespace, 'text');
+    labelTitle.classList.add('practice-map-label-title');
+    labelTitle.setAttribute('x', String(labelTextX));
+    labelTitle.setAttribute('y', String(point.y + (labelLines.length > 1 ? -9 : -3)));
+    labelLines.forEach((line, lineIndex) => {
+      const lineElement = document.createElementNS(namespace, 'tspan');
+      lineElement.setAttribute('x', String(labelTextX));
+      lineElement.setAttribute('dy', lineIndex ? '13' : '0');
+      lineElement.textContent = line;
+      labelTitle.appendChild(lineElement);
+    });
+    label.appendChild(labelTitle);
+    const labelCount = document.createElementNS(namespace, 'text');
+    labelCount.classList.add('practice-map-label-count');
+    labelCount.setAttribute('x', String(labelTextX));
+    labelCount.setAttribute('y', String(point.y + (labelLines.length > 1 ? 21 : 13)));
+    const completedInSection = sectionPractices.filter(practice => practice.completed).length;
+    labelCount.textContent = `${sectionPractices.length} ${sectionPractices.length === 1 ? 'práctica' : 'prácticas'} · ${completedInSection} completadas`;
+    label.appendChild(labelCount);
+    svg.appendChild(label);
+
+    const shield = document.createElementNS(namespace, 'path');
+    shield.classList.add('practice-map-shield');
+    shield.setAttribute(
+      'd',
+      `M ${point.x} ${point.y - 21} l 17 8 v 10 c 0 11 -7 18 -17 23 -10 -5 -17 -12 -17 -23 v -10 Z`
+    );
+    svg.appendChild(shield);
+  });
+  route.appendChild(svg);
+
+  status.textContent = practiceCount
+    ? `${sections.size} secciones · ${practiceCount} prácticas · ${completedCount} completadas`
     : 'Aún no hay prácticas disponibles.';
 }
 
@@ -879,6 +1039,8 @@ function loadPromoCatalog() {
     .catch(error => {
       console.error(error);
       status.textContent = error.message || 'No se pudieron cargar las actividades.';
+      const mapStatus = document.getElementById('practiceMapStatus');
+      if (mapStatus) mapStatus.textContent = 'No se pudo cargar el mapa de prácticas.';
       promoCatalogLoadPromise = null;
     });
   return promoCatalogLoadPromise;
