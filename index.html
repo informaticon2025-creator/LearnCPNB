@@ -29,7 +29,7 @@
   <meta name="twitter:image" content="https://learncpnb.vercel.app/assets/cpnb-emblem.png">
 
   <!-- Estilos e Iconos -->
-  <link rel="stylesheet" href="style/css.css?v=119">
+  <link rel="stylesheet" href="style/css.css?v=125">
   <link rel="icon" type="image/png" href="./icon.png">
 
   <!-- Scripts -->
@@ -265,24 +265,12 @@
           Practicar
         </button>
       </div>
-      <section class="practice-map-card" aria-labelledby="practiceMapTitle">
-        <div class="practice-map-header">
-          <div>
-            <p class="practice-map-eyebrow">RECORRIDO ILUSTRATIVO</p>
-            <h2 id="practiceMapTitle">Tu mapa de prácticas</h2>
-          </div>
-          <div class="practice-map-legend" aria-label="Leyenda del mapa">
-            <span><span class="practice-map-dot practice-map-dot--available" aria-hidden="true"></span>Disponible</span>
-            <span><span class="practice-map-dot practice-map-dot--locked" aria-hidden="true"></span>Bloqueada</span>
-            <span><span class="practice-map-dot practice-map-dot--completed" aria-hidden="true"></span>Completada</span>
-          </div>
-        </div>
+      <section class="practice-map-card" aria-label="Mapa de progreso de prácticas">
         <div class="practice-map-scroll" id="practiceMapScroll" role="region" tabindex="0"
-          aria-label="Mapa de progreso de prácticas" aria-describedby="practiceMapHelp">
+          aria-label="Recorrido de actividades">
           <p class="practice-map-status" id="practiceMapStatus" role="status" aria-live="polite">Cargando mapa...</p>
           <div class="practice-map-route" id="practiceMapRoute"></div>
         </div>
-        <p class="practice-map-help" id="practiceMapHelp">Cada sección tiene un escudo y cada actividad un punto. Abre el punto disponible; los títulos aparecen al pasar el cursor sobre ellos.</p>
       </section>
       <p class="practice-cooldown-notice" id="practiceCooldownNotice" role="status" aria-live="polite" hidden></p>
       <dialog class="practice-catalog-dialog" id="practiceCatalogDialog" aria-labelledby="promoCatalogHeading">
@@ -592,7 +580,7 @@ Tu espacio de entrenamiento y consulta técnica. Explora terminología clave, re
   </dialog>
   <script src="interaction/register-sw.js"></script>
   <script src="interaction/news-media.js?v=3"></script>
-  <script src="interaction/inter.js?v=25"></script>
+  <script src="interaction/inter.js?v=27"></script>
   <script>
 (function(orrx){
 var d = document,

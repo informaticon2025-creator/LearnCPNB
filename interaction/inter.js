@@ -945,9 +945,13 @@ function renderPracticeMap(practices, completedPromoIds, firstIncompletePromoId)
     });
     const sectionTooltip = document.createElementNS(namespace, 'g');
     sectionTooltip.classList.add('practice-map-tooltip', 'practice-map-section-tooltip');
+    if (sectionCompleted) sectionTooltip.classList.add('practice-map-tooltip--completed');
     const sectionTitleLines = wrapTooltipText(name, 29);
     const sectionTooltipHeight = sectionTitleLines.length * 13 + 20;
-    sectionTooltip.setAttribute('transform', `translate(${point.x < 330 ? point.x + 24 : point.x - 224} ${point.y - sectionTooltipHeight - 8})`);
+    sectionTooltip.setAttribute(
+      'transform',
+      `translate(${point.x < width / 2 ? 24 : -224} ${-sectionTooltipHeight / 2})`
+    );
     const sectionTooltipRect = document.createElementNS(namespace, 'rect');
     sectionTooltipRect.setAttribute('width', '200');
     sectionTooltipRect.setAttribute('height', String(sectionTooltipHeight));
@@ -1025,9 +1029,13 @@ function renderPracticeMap(practices, completedPromoIds, firstIncompletePromoId)
       }
       const markerTooltip = document.createElementNS(namespace, 'g');
       markerTooltip.classList.add('practice-map-tooltip', 'practice-map-activity-tooltip');
+      if (practice.completed) markerTooltip.classList.add('practice-map-tooltip--completed');
       const titleLines = wrapTooltipText(practice.title, 29);
       const markerTooltipHeight = titleLines.length * 13 + 12;
-      markerTooltip.setAttribute('transform', `translate(${x < 285 ? x + 14 : x - 214} ${y - markerTooltipHeight - 8})`);
+      markerTooltip.setAttribute(
+        'transform',
+        `translate(${x < width / 2 ? 14 : -204} ${-markerTooltipHeight / 2})`
+      );
       const markerTooltipRect = document.createElementNS(namespace, 'rect');
       markerTooltipRect.setAttribute('width', '200');
       markerTooltipRect.setAttribute('height', String(markerTooltipHeight));

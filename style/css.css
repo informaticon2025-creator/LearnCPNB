@@ -702,12 +702,6 @@ html.color-inverted .function-section {
   background: var(--card-bg);
 }
 
-html.color-inverted .practice-map-card,
-html.color-inverted .practice-map-scroll {
-  border-color: var(--border-color);
-  background: var(--card-bg);
-}
-
 html.color-inverted .practice-map-shield {
   fill: var(--accent-color);
   stroke: var(--accent-gold);
@@ -5172,88 +5166,38 @@ body.promo-page .site-header .topbar {
 }
 
 .practice-map-card {
+  position: relative;
+  isolation: isolate;
   width: min(100%, 760px);
-  padding: 18px;
-  border: 1px solid var(--border-color);
-  border-radius: 18px;
-  background: linear-gradient(145deg, #ffffff, #f3f7fc);
-  box-shadow: 0 12px 30px rgba(25, 53, 89, 0.08);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
-.practice-map-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.practice-map-eyebrow {
-  margin-bottom: 4px;
-  color: #92702e;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-}
-
-.practice-map-header h2 {
-  color: var(--accent-color);
-  font-size: 1.05rem;
-}
-
-.practice-map-legend {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 8px 12px;
-  color: var(--text-muted);
-  font-size: 0.72rem;
-}
-
-.practice-map-legend > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.practice-map-legend .practice-map-dot {
-  display: block;
-  width: 10px;
-  height: 10px;
-  border: 2px solid #6f87a4;
+.practice-map-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 4% 8%;
   border-radius: 50%;
-  background: #ffffff;
-}
-
-.practice-map-legend .practice-map-dot--completed {
-  border-color: #26734d;
-  background: #45a875;
-}
-
-.practice-map-legend .practice-map-dot--available {
-  border-color: #c59a48;
-  background: #123b70;
-}
-
-.practice-map-legend .practice-map-dot--locked {
-  border-color: #7d8997;
-  background: #cbd2dc;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(197, 154, 72, 0.065), transparent 68%),
+    radial-gradient(ellipse at 50% 50%, rgba(18, 59, 112, 0.035), transparent 82%);
+  content: "";
+  pointer-events: none;
 }
 
 .practice-map-scroll {
+  position: relative;
   max-height: min(42vh, 360px);
   max-height: min(42dvh, 360px);
   overflow-x: auto;
   overflow-y: auto;
-  padding: 10px 8px;
-  border: 1px solid #dce5f0;
-  border-radius: 14px;
-  background:
-    linear-gradient(rgba(18, 59, 112, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(18, 59, 112, 0.035) 1px, transparent 1px),
-    radial-gradient(ellipse at 12% 18%, rgba(197, 154, 72, 0.1), transparent 34%),
-    #f8fafd;
-  background-size: 24px 24px, 24px 24px, auto, auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   overscroll-behavior: contain;
   scrollbar-color: #9db1cb transparent;
   scrollbar-width: thin;
@@ -5265,19 +5209,17 @@ body.promo-page .site-header .topbar {
   outline-offset: 2px;
 }
 
-.practice-map-status,
-.practice-map-help {
+.practice-map-status {
   color: var(--text-muted);
   font-size: 0.78rem;
   line-height: 1.45;
-}
-
-.practice-map-status {
+  width: fit-content;
+  max-width: 100%;
   margin: 0 0 8px 46px;
-}
-
-.practice-map-help {
-  margin-top: 9px;
+  padding: 5px 9px;
+  border: 1px solid rgba(18, 59, 112, 0.09);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.48);
 }
 
 .practice-map-route {
@@ -5295,7 +5237,7 @@ body.promo-page .site-header .topbar {
 
 .practice-map-road {
   fill: none;
-  stroke: #c8d8e9;
+  stroke: #d7e1ed;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 18px;
@@ -5303,7 +5245,7 @@ body.promo-page .site-header .topbar {
 
 .practice-map-road-center {
   fill: none;
-  stroke: #ffffff;
+  stroke: #f5e9c9;
   stroke-dasharray: 3px 11px;
   stroke-linecap: round;
   stroke-width: 3px;
@@ -5375,7 +5317,7 @@ body.promo-page .site-header .topbar {
 .practice-map-tooltip {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 120ms ease-out;
+  transition: opacity 140ms ease-out;
 }
 
 .practice-map-section:hover .practice-map-section-tooltip,
@@ -5387,19 +5329,28 @@ body.promo-page .site-header .topbar {
 
 .practice-map-tooltip rect {
   fill: #ffffff;
-  stroke: #cbd7e5;
+  stroke: #d9e1eb;
   stroke-width: 1px;
-  filter: drop-shadow(0 3px 6px rgba(8, 24, 48, 0.18));
+  filter: drop-shadow(0 3px 6px rgba(8, 24, 48, 0.14));
+}
+
+.practice-map-tooltip--completed rect {
+  fill: #f2f8f3;
+  stroke: #c8ddce;
 }
 
 .practice-map-tooltip text {
-  fill: #123b70;
+  fill: #294766;
   font-size: 10px;
   font-weight: 700;
 }
 
+.practice-map-tooltip--completed text {
+  fill: #38664a;
+}
+
 .practice-map-section-tooltip text + text {
-  fill: #63748a;
+  fill: #718096;
   font-size: 9px;
   font-weight: 500;
 }
@@ -5814,19 +5765,6 @@ body.promo-page .site-header .topbar {
 }
 
 @media (max-width: 480px) {
-  .practice-map-card {
-    padding: 14px;
-  }
-
-  .practice-map-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .practice-map-legend {
-    justify-content: flex-start;
-  }
-
   .practice-map-scroll {
     max-height: min(44vh, 340px);
     max-height: min(44dvh, 340px);
